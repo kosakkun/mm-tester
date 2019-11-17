@@ -1,0 +1,8 @@
+.DS_Store
+*.txt
+*.class
+*.out
+.gradle
+MANIFEST.MF
+Tester.jar
+

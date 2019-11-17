@@ -1,0 +1,10 @@
+include 'TravelingSalesman',
+        'VehicleRouting',
+        'RectanglePacking',
+        'GraphColoring',
+        'Clustering',
+        'SlidingPuzzle',
+        'RectilinearSteinerTree',
+        'DiskCovering',
+        'LongestPath',
+        'EuclideanSteinerTree'
