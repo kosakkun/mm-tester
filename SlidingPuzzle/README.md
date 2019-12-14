@@ -61,6 +61,5 @@ $ java -jar Tester.jar -exec "[command]" -seed [seed]
 <pre>
 -vis       : ビジュアライズ
 -delay [d] : 1操作の時間(ms),デフォルト100ms
--json      : 結果をJSON形式で表示
 -debug     : 実行コマンドの入出力を保存
 </pre>

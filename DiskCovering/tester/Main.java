@@ -8,7 +8,6 @@ public class Main
     static String exec = "";
     static boolean save = false;
     static boolean vis  = false;
-    static boolean json = false;
     static boolean debug = false;
 
     private String getJsonString (Tester tester)
@@ -50,14 +49,10 @@ public class Main
                 saveText( "input-" + seed + ".txt", tester.getInputString());
                 saveText("output-" + seed + ".txt", tester.getOutputString());
             }
-            if (json) {
-                System.out.println(getJsonString(tester));
-            } else {
-                System.out.println("Score = " + tester.getScore());
-            }
+            System.out.println(getJsonString(tester));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Score = -1");
+            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
             System.err.println("Failed to get result from your answer.");
         }
     }
@@ -73,8 +68,6 @@ public class Main
                 vis = true;
             } else if (args[i].equals("-save")) {
                 save = true;
-            } else if (args[i].equals("-json")) {
-                json = true;
             } else if (args[i].equals("-debug")) {
                 debug = true;
             }

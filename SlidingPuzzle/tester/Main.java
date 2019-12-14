@@ -8,7 +8,6 @@ public class Main
     static String exec = "";
     static long delay = 100;
     static boolean vis  = false;
-    static boolean json = false;
     static boolean debug = false;
 
     private String getJsonString (Tester tester)
@@ -58,14 +57,10 @@ public class Main
                 tester.initPuzzle();
                 while (tester.nextPuzzle());
             }
-            if (json) {
-                System.out.println(getJsonString(tester));
-            } else {
-                System.out.println("Score = " + tester.getScore());
-            }
+            System.out.println(getJsonString(tester));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Score = -1");
+            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
             System.err.println("Failed to get result from your answer.");
         }
     }
@@ -79,8 +74,6 @@ public class Main
                 exec = args[++i];
             } else if (args[i].equals("-vis")) {
                 vis = true;
-            } else if (args[i].equals("-json")) {
-                json = true;
             } else if (args[i].equals("-debug")) {
                 debug = true;
             } else if (args[i].equals("-delay")) {
