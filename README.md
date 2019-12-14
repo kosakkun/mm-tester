@@ -1,4 +1,4 @@
-# MM-Tester 
+# mm-tester 
 
 ## 環境
 
@@ -6,7 +6,7 @@
 1. apt
 ```
 $ sudo apt update
-$ sudo apt install default-jre default-jdk build-essential git curl
+$ sudo apt install default-jre default-jdk build-essential git curl python3
 ```
 2. sdkman
 ```
@@ -24,22 +24,22 @@ $ xcode-select --install
 ```
 $ brew update
 $ brew cask install java
-$ brew install git gradle
+$ brew install git gradle python3
 ```
 
 ## 使い方
 
 ### テスタのビルド
 ```
-$ git clone --depth 1 https://github.com/kosakkun/MM-Tester.git
-$ cd MM-Tester
+$ git clone --depth 1 https://github.com/kosakkun/mm-tester.git
+$ cd mm-tester
 $ gradle build
 ```
 
 ### サンプル
 例）Traveling Salesmanのjavaのサンプルを実行する場合．
 ```
-$ cd TravelingSalesman/solver/java
+$ cd TravelingSalesman/sample/java
 $ sh run.sh
 ```
 
@@ -56,7 +56,7 @@ $ sh run.sh
 │       └── Tester.jar
 ├── tester
 │   └── Tester.java
-└── solver
+└── sample
     ├── cpp
     │   ├── run.sh
     │   └── main.cpp
