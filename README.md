@@ -27,6 +27,14 @@ $ brew cask install java
 $ brew install git gradle python3
 ```
 
+### Docker
+```
+$ git clone --depth 1 https://github.com/kosakkun/mm-tester.git
+$ cd mm-tester
+$ docker build . -t mm-env
+$ docker run --rm -v $(pwd):/mnt/workdir -w /mnt/workdir -it mm-env /bin/bash
+```
+
 ## 使い方
 
 ### テスタのビルド
@@ -40,7 +48,8 @@ $ gradle build
 例）Traveling Salesmanのjavaのサンプルを実行する場合．
 ```
 $ cd TravelingSalesman/sample/java
-$ sh run.sh
+$ chmod +x run.sh
+$ ./run.sh
 ```
 
 ### 問題文が読めない時
