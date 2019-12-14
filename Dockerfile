@@ -7,10 +7,11 @@ RUN apt-get update && \
         build-essential \
         curl \
         zip \
-        unzip
+        unzip \
+        python3
 
 SHELL ["/bin/bash", "-c"]
 
-RUN curl -s "https://get.sdkman.io" | bash && \
-    source "/root/.sdkman/bin/sdkman-init.sh" && \
+RUN curl -s https://get.sdkman.io | bash && \
+    source ~/.sdkman/bin/sdkman-init.sh && \
     sdk install gradle
