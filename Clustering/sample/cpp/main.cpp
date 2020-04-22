@@ -5,13 +5,20 @@ using namespace std;
 class Clustering
 {
 public:
-    vector<vector<int>> solve (int N, int K, vector<int> x, vector<int> y)
+    auto solve (
+        const int N,
+        const int K,
+        const vector<int> x,
+        const vector<int> y)
     {
-        vector<vector<int>> ret;
+        vector<int> cx(K);
+        vector<int> cy(K);
+
         for (int i = 0; i < K; i++) {
-            ret.push_back({(i / 4) * 200 + 100, (i % 4) * 250 + 100});
+            cx[i] = (i / 4) * 200 + 100;
+            cy[i] = (i % 4) * 250 + 100;
         }
-        return ret;
+        return make_tuple(cx, cy);
     }
 };
 
@@ -26,9 +33,9 @@ int main ()
     }
 
     Clustering c;
-    vector<vector<int>> ret = c.solve(N, K, x, y);
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [cx, cy] = c.solve(N, K, x, y);
+    for (int i = 0; i < cx.size(); i++) {
+        cout << cx[i] << " " << cy[i] << endl;
     }
 
     cout.flush();

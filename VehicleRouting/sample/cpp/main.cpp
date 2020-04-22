@@ -6,22 +6,33 @@ using namespace std;
 class VehicleRouting
 {
 public:
-    vector<vector<int>> solve (int N, int M, int depotX, int depotY,
-        vector<int> x, vector<int> y, vector<int> cap, vector<int> speed)
+    auto solve (
+        const int N,
+        const int M,
+        const int depotX,
+        const int depotY,
+        const vector<int> x,
+        const vector<int> y,
+        const vector<int> cap,
+        const vector<int> speed)
     {
-        vector<vector<int>> ret;
-        while (N > 0) {
-            int T = 0;
-            int L = min(N, cap[T]);
-            vector<int> truck = {T, L};
-            vector<int> D;
-            for (int i = 0; i < L; i++) {
-                D.push_back(--N);
+        int K = 0;
+        vector<int> T;
+        vector<int> L;
+        vector<vector<int>> D;
+        
+        int rm = N;
+        while (rm > 0) {
+            K++;
+            T.push_back(0);
+            L.push_back(min(rm, cap[T.back()]));
+            vector<int> Di;
+            for (int i = 0; i < L.back(); i++) {
+                Di.push_back(--rm);
             }
-            ret.push_back(truck);
-            ret.push_back(D);
+            D.push_back(Di);
         }
-        return ret;
+        return make_tuple(K, T, L, D);
     }
 };
 
@@ -31,23 +42,25 @@ int main ()
     cin >> N >> M;
 
     int depotX, depotY;
-    vector < int > x(N), y(N);
-    vector < int > cap(M), speed(M);
-
     cin >> depotX >> depotY;
+
+    vector<int> x(N), y(N);
     for (int i = 0; i < N; i++) {
         cin >> x[i] >> y[i];
     }
+
+    vector<int> cap(M), speed(M);
     for (int i = 0; i < M; i++) {
         cin >> cap[i] >> speed[i];
     }
 
     VehicleRouting vr;
-    vector<vector<int>> ret = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
-    cout << ret.size() / 2 << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        for (int j = 0; j < ret[i].size(); j++) {
-            cout << ret[i][j] << (j < (int)ret[i].size() - 1 ? ' ' : '\n');
+    auto [K, T, L, D] = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
+    cout << K << '\n';
+    for (int i = 0; i < K; i++) {
+        cout << T[i] << ' ' << L[i] << '\n';
+        for (int j = 0; j < L[i]; j++) {
+            cout << D[i][j] << (j < L[i] - 1 ? ' ' : '\n');
         }
     }
 

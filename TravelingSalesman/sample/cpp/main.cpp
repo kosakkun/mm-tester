@@ -5,13 +5,18 @@ using namespace std;
 class TravelingSalesman
 {
 public:
-    vector<int> solve (int N, vector<int> x, vector<int> y)
+    auto solve (
+        const int N, 
+        const vector<int> x,
+        const vector<int> y)
     {
-        vector<int> ret(N);
+        vector<int> v(N);
+        
         for (int i = 0; i < N; i++) {
-            ret[i] = i;
+            v[i] = i;
         }
-        return ret;
+         
+        return v;
     }
 };
 
@@ -26,9 +31,9 @@ int main ()
     }
 
     TravelingSalesman ts;
-    vector<int> ret = ts.solve(N, x, y);
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i] << endl;
+    auto v = ts.solve(N, x, y);
+    for (auto vt: v) {
+        cout << vt << endl;
     }
 
     cout.flush();

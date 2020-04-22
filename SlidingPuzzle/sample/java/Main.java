@@ -2,13 +2,25 @@ import java.util.Scanner;
 
 class SlidingPuzzle
 {
-    public int[][] solve (int N, int[][] B)
+    class Result
     {
-        int[][] ret = new int[N * N][2];
+        int M;
+        int[] r;
+        int[] c;
+    }
+
+    public Result solve (
+        final int N,
+        final int[][] B)
+    {
+        Result ret = new Result();
+        ret.M = N * N;
+        ret.r = new int[ret.M];
+        ret.c = new int[ret.M];
         for (int x = 0; x < N; x++) {
             for (int y = 0; y < N; y++) {
-                ret[x * N + y][0] = x;
-                ret[x * N + y][1] = y;
+                ret.r[x * N + y] = x;
+                ret.c[x * N + y] = y;
             }
         }
         return ret;
@@ -28,11 +40,12 @@ public class Main
                     B[x][y] = sc.nextInt();
                 }
             }
+
             SlidingPuzzle sp = new SlidingPuzzle();
-            int[][] ret = sp.solve(N, B);
-            System.out.println(ret.length);
-            for (int i = 0; i < ret.length; i++) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            SlidingPuzzle.Result ret = sp.solve(N, B);
+            System.out.println(ret.M);
+            for (int i = 0; i < ret.M; i++) {
+                System.out.println(ret.r[i] + " " + ret.c[i]);
             }
             System.out.flush();
         }

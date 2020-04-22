@@ -2,9 +2,22 @@ import java.util.Scanner;
 
 class EuclideanSteinerTree
 {
-    public int[][] solve (int N, int[] x, int[] y)
+    class Result
     {
-        int[][] ret = {{500, 500}};
+        int M;
+        int[] ax;
+        int[] ay;
+    }
+
+    public Result solve (
+        final int N,
+        final int[] x,
+        final int[] y)
+    {
+        Result ret = new Result();
+        ret.M = 1;
+        ret.ax = new int[]{500};
+        ret.ay = new int[]{500};
         return ret;
     }
 }
@@ -23,10 +36,10 @@ public class Main
                 y[i] = sc.nextInt();
             }
             EuclideanSteinerTree est = new EuclideanSteinerTree();
-            int[][] ret = est.solve(N, x, y);
-            System.out.println(ret.length);
-            for (int i = 0; i < ret.length; i++) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            EuclideanSteinerTree.Result ret = est.solve(N, x, y);
+            System.out.println(ret.M);
+            for (int i = 0; i < ret.M; i++) {
+                System.out.println(ret.ax[i] + " " + ret.ay[i]);
             }
             System.out.flush();
         }

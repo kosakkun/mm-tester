@@ -4,10 +4,6 @@ JAVAC="javac"
 TESTER="../../build/libs/Tester.jar"
 TESTNUM=10
 
-if [ -e *.class ]; then
-    rm *.class
-fi
-
 $JAVAC Main.java
 if [ $? -ne 0 ]; then
     echo "Compilation failed."

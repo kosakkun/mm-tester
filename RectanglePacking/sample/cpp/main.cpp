@@ -5,14 +5,18 @@ using namespace std;
 class RectanglePacking
 {
 public:
-    vector<vector<int>> solve (int N, vector<int> w, vector<int> h)
+    auto solve (
+        const int N,
+        const vector<int> w,
+        const vector<int> h)
     {
-        vector<vector<int>> ret(N);
+        vector<int> x(N);
+        vector<int> y(N);
         for (int i = 0; i < N; i++) {
-            ret[i].push_back(100 * (i % 10));
-            ret[i].push_back(100 * (i / 10));
+            x[i] = 100 * (i % 10);
+            y[i] = 100 * (i / 10);
         }
-        return ret;
+        return make_tuple(x, y);
     }
 };
 
@@ -27,9 +31,9 @@ int main ()
     }
 
     RectanglePacking rp;
-    vector<vector<int>> ret = rp.solve(N, w, h);
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [x, y] = rp.solve(N, w, h);
+    for (int i = 0; i < x.size(); i++) {
+        cout << x[i] << " " << y[i] << endl;
     }
 
     cout.flush();

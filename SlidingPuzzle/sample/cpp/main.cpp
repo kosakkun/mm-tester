@@ -6,15 +6,20 @@ using namespace std;
 class SlidingPuzzle
 {
 public:
-    vector<vector<int>> solve (int N, vector<vector<int>> B)
+    auto solve (
+        const int N,
+        const vector<vector<int>> B)
     {
-        vector<vector<int>> ret;
+        int M = N * N;
+        vector<int> r(N);
+        vector<int> c(N);
         for (int x = 0; x < N; x++) {
             for (int y = 0; y < N; y++) {
-                ret.push_back({x, y});
+                r[x * N + y] = x;
+                c[x * N + y] = y;
             }
         }
-        return ret;
+        return make_tuple(M, r, c);
     }
 };
 
@@ -23,7 +28,7 @@ int main ()
     int N;
     cin >> N;
 
-    vector<vector<int>> B = vector<vector<int>>(N, vector<int>(N));
+    vector<vector<int>> B(N, vector<int>(N));
     for (int x = 0; x < N; x++) {
         for (int y = 0; y < N; y++) {
             cin >> B[x][y];
@@ -31,10 +36,10 @@ int main ()
     }
 
     SlidingPuzzle sp;
-    vector<vector<int>> ret = sp.solve(N, B);
-    cout << ret.size() << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [M, r, c] = sp.solve(N, B);
+    cout << M << endl;
+    for (int i = 0; i < M; i++) {
+        cout << r[i] << " " << c[i] << endl;
     }
 
     cout.flush();

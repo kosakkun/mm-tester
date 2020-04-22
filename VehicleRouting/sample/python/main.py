@@ -2,22 +2,24 @@ import sys
 
 class VehicleRouting:
     def solve (self, N, M, depotX, depotY, x, y, cap, speed):
-        ret = []
+        K = 0
+        T = []
+        L = []
+        D = []
         while N > 0:
-            T = 0
-            L = min(N, cap[T])
-            truck = [T, L]
-            D = []
-            for i in range(L):
+            K = K + 1
+            T.append(0)
+            L.append(min(N, cap[0]))
+            Dt = []
+            for i in range(L[-1]):
                 N = N - 1
-                D.append(N)
-            ret.append(truck)
-            ret.append(D)
-        return ret
+                Dt.append(N)
+            D.append(Dt)
+        return K, T, L, D
 
 def main():
-    N,M = map(int,input().split())
-    depotX,depotY = map(int,input().split())
+    N, M = map(int,input().split())
+    depotX, depotY = map(int,input().split())
     x = []
     y = []
     for i in range(N):
@@ -30,11 +32,13 @@ def main():
         c,s = map(int,input().split())
         cap.append(c)
         speed.append(s)
+    
     vr = VehicleRouting()
-    ret = vr.solve(N, M, depotX, depotY, x, y, cap, speed)
-    print(len(ret) // 2)
-    for l in ret:
-        print(' '.join(map(str, l)))
+    K, T, L, D = vr.solve(N, M, depotX, depotY, x, y, cap, speed)
+    print(K)
+    for i in range(K):
+        print(str(T[i]) + ' ' + str(L[i]))
+        print(' '.join(map(str, D[i])))
     sys.stdout.flush()
 
 if __name__ == '__main__':

@@ -2,12 +2,12 @@ import sys
 
 class Clustering:
     def solve (self, N, K, x, y):
-        ret = []
+        cx = []
+        cy = []
         for i in range(K):
-            rx = i // 4 * 200 + 100
-            ry = i % 4 * 250 + 100
-            ret.append([rx, ry])
-        return ret
+            cx.append(i // 4 * 200 + 100)
+            cy.append(i % 4 * 250 + 100)
+        return cx, cy
 
 def main():
     N,K = map(int, input().split())
@@ -17,10 +17,11 @@ def main():
         xt,yt = map(int,input().split())
         x.append(xt)
         y.append(yt)
+
     c = Clustering()
-    ret = c.solve(N, K, x, y)
-    for p in ret:
-        print(' '.join(map(str, p)))
+    cx, cy = c.solve(N, K, x, y)
+    for i in range(len(cx)):
+        print(str(cx[i]) + ' ' + str(cy[i]))
     sys.stdout.flush()
 
 if __name__ == '__main__':

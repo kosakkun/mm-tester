@@ -5,11 +5,15 @@ using namespace std;
 class EuclideanSteinerTree
 {
 public:
-    vector<vector<int>> solve (int N, vector<int> x, vector<int> y)
+    auto solve (
+        const int N,
+        const vector<int> x,
+        const vector<int> y)
     {
-        vector<vector<int>> ret;
-        ret.push_back({500, 500});
-        return ret;
+        int M = 1;
+        vector<int> ax = {500};
+        vector<int> ay = {500};
+        return make_tuple(M, ax, ay);
     }
 };
 
@@ -24,10 +28,10 @@ int main ()
     }
     
     EuclideanSteinerTree est;
-    vector<vector<int>> ret = est.solve(N, x, y);
-    cout << ret.size() << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [M, ax, ay] = est.solve(N, x, y);
+    cout << M << endl;
+    for (int i = 0; i < M; i++) {
+        cout << ax[i] << " " << ay[i] << endl;
     }
     
     cout.flush();

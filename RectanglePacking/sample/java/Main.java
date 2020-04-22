@@ -2,12 +2,23 @@ import java.util.Scanner;
 
 class RectanglePacking
 {
-    public int[][] solve (int N, int[] w, int[] h)
+    class Result
     {
-        int[][] ret = new int[N][2];
+        int[] x;
+        int[] y;
+    }
+
+    public Result solve (
+        final int N,
+        final int[] w,
+        final int[] h)
+    {
+        Result ret = new Result();
+        ret.x = new int[N];
+        ret.y = new int[N];
         for (int i = 0; i < N; i++) {
-            ret[i][0] = 100 * (i % 10);
-            ret[i][1] = 100 * (i / 10);
+            ret.x[i] = 100 * (i % 10);
+            ret.y[i] = 100 * (i / 10);
         }
         return ret;
     }
@@ -26,10 +37,11 @@ public class Main
                 w[i] = sc.nextInt();
                 h[i] = sc.nextInt();
             }
+
             RectanglePacking rp = new RectanglePacking();
-            int[][] ret = rp.solve(N, w, h);
-            for (int i = 0; i < ret.length; ++i) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            RectanglePacking.Result ret = rp.solve(N, w, h);
+            for (int i = 0; i < ret.x.length; ++i) {
+                System.out.println(ret.x[i] + " " + ret.y[i]);
             }
             System.out.flush();
         }

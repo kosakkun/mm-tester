@@ -5,13 +5,16 @@ using namespace std;
 class DiskCovering
 {
 public:
-    vector<vector<int>> solve (int N, int R, vector<int> x, vector<int> y)
+    auto solve (
+        const int N,
+        const int R,
+        const vector<int> x,
+        const vector<int> y)
     {
-        vector<vector<int>> ret(N);
-        for (int i = 0; i < N; i++) {
-            ret[i] = {x[i], y[i]};
-        }
-        return ret;
+        int M = N;
+        vector<int> rx = x;
+        vector<int> ry = y;
+        return make_tuple(M, rx, ry);
     }
 };
 
@@ -26,10 +29,10 @@ int main ()
     }
 
     DiskCovering dc;
-    vector<vector<int>> ret = dc.solve(N, R, x, y);
-    cout << ret.size() << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [M, rx, ry] = dc.solve(N, R, x, y);
+    cout << M << endl;
+    for (int i = 0; i < M; i++) {
+        cout << rx[i] << " " << ry[i] << endl;
     }
 
     cout.flush();

@@ -2,8 +2,9 @@ import sys
 
 class LongestPath:
     def solve (self, N, M, x, y, a, b):
-        ret = [a[0], b[0]]
-        return ret
+        K = 2
+        v = [a[0], b[0]]
+        return K, v
 
 def main():
     N,M = map(int, input().split())
@@ -19,11 +20,12 @@ def main():
         at,bt = map(int,input().split())
         a.append(at)
         b.append(bt)
+
     lp = LongestPath()
-    ret = lp.solve(N, M, x, y, a, b)
-    print(len(ret))
-    for v in ret:
-        print(v)
+    K, v = lp.solve(N, M, x, y, a, b)
+    print(K)
+    for i in v:
+        print(i)
     sys.stdout.flush()
 
 if __name__ == '__main__':

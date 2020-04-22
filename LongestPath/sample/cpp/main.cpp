@@ -5,12 +5,17 @@ using namespace std;
 class LongestPath
 {
 public:
-    vector<int> solve (int N, int M, vector<int> x, vector<int> y, vector<int> a, vector<int> b)
+    auto solve (
+        const int N,
+        const int M,
+        const vector<int> x,
+        const vector<int> y,
+        const vector<int> a,
+        const vector<int> b)
     {
-        vector<int> ret;
-        ret.push_back(a[0]);
-        ret.push_back(b[0]);
-        return ret;
+        int K = 2;
+        vector<int> v = {a[0], b[0]};
+        return make_tuple(K, v);
     }
 };
 
@@ -30,10 +35,10 @@ int main ()
     }
 
     LongestPath lp;
-    vector<int> ret = lp.solve(N, M, x, y, a, b);
-    cout << ret.size() << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i] << endl;
+    auto [K, v] = lp.solve(N, M, x, y, a, b);
+    cout << K << endl;
+    for (int i = 0; i < K; i++) {
+        cout << v[i] << endl;
     }
 
     cout.flush();

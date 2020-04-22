@@ -2,13 +2,23 @@ import java.util.Scanner;
 
 class DiskCovering
 {
-    public int[][] solve (int N, int R, int[] x, int[] y)
+    class Result
     {
-        int[][] ret = new int[N][2];
-        for (int i = 0; i < N; i++) {
-            ret[i][0] = x[i];
-            ret[i][1] = y[i];
-        }
+        int M;
+        int[] x;
+        int[] y;
+    }
+
+    public Result solve (
+        final int N,
+        final int R,
+        final int[] x,
+        final int[] y)
+    {
+        Result ret = new Result();
+        ret.M = N;
+        ret.x = x;
+        ret.y = y;
         return ret;
     }
 }
@@ -28,11 +38,12 @@ public class Main
                 x[i] = sc.nextInt();
                 y[i] = sc.nextInt();
             }
+
             DiskCovering dc = new DiskCovering();
-            int[][] ret = dc.solve(N, R, x, y);
-            System.out.println(ret.length);
-            for (int i = 0; i < ret.length; i++) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            DiskCovering.Result ret = dc.solve(N, R, x, y);
+            System.out.println(ret.M);
+            for (int i = 0; i < ret.M; i++) {
+                System.out.println(ret.x[i] + " " + ret.y[i]);
             }
             System.out.flush();
         }

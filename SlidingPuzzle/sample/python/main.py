@@ -2,23 +2,27 @@ import sys
 
 class SlidingPuzzle:
     def solve (self, N, B):
-        ret = []
+        M = N * N
+        r = []
+        c = []
         for x in range(N):
             for y in range(N):
-                ret.append([x, y])
-        return ret
+                r.append(x)
+                c.append(y)
+        return M, r, c
 
 def main():
     N = int(input())
     B = []
     for i in range(N):
         l = map(int, input().split())
-        B.append(l);
+        B.append(l)
+
     sp = SlidingPuzzle()
-    ret = sp.solve(N, B)
-    print(len(ret))
-    for p in ret:
-        print(' '.join(map(str, p)))
+    M, r, c = sp.solve(N, B)
+    print(M)
+    for i in range(M):
+        print(str(r[i]) + ' ' + str(c[i]))
     sys.stdout.flush()
 
 if __name__ == '__main__':

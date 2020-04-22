@@ -2,20 +2,34 @@ import java.util.Scanner;
 
 class RectilinearSteinerTree
 {
-    public int[][] solve (int N, int[] x, int[] y)
+    class Result
+    {
+        int M;
+        int[] ax;
+        int[] ay;
+    }
+
+    public Result solve (
+        final int N,
+        final int[] x,
+        final int[] y)
     {
         final int size = 100;
         boolean[][] used = new boolean[size][size];
         for (int i = 0; i < N; i++) {
             used[x[i]][y[i]] = true;
         }
+
+        Result ret = new Result();
+        ret.M = size * size - N;
+        ret.ax = new int[ret.M];
+        ret.ay = new int[ret.M];
         int idx = 0;
-        int[][] ret = new int[size * size - N][2];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (!used[i][j]) {
-                    ret[idx][0] = i;
-                    ret[idx][1] = j;
+                    ret.ax[idx] = i;
+                    ret.ay[idx] = j;
                     idx++;
                 }
             }
@@ -39,10 +53,10 @@ public class Main
                 y[i] = sc.nextInt();
             }
             RectilinearSteinerTree rst = new RectilinearSteinerTree();
-            int[][] ret = rst.solve(N, x, y);
-            System.out.println(ret.length);
-            for (int i = 0; i < ret.length; i++) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            RectilinearSteinerTree.Result ret = rst.solve(N, x, y);
+            System.out.println(ret.M);
+            for (int i = 0; i < ret.M; i++) {
+                System.out.println(ret.ax[i] + " " + ret.ay[i]);
             }
             System.out.flush();
         }

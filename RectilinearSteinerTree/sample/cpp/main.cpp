@@ -6,23 +6,28 @@ using namespace std;
 class RectilinearSteinerTree
 {
 public:
-    vector<vector<int>> solve (int N, vector<int> x, vector<int> y)
+    auto solve (
+        const int N,
+        const vector<int> x,
+        const vector<int> y)
     {
-        set<vector<int>> used;
+        set<pair<int,int>> used;
         for (int i = 0; i < N; i++) {
-            used.insert({x[i], y[i]});
+            used.insert(make_pair(x[i], y[i]));
         }
         const int size = 100;
-        vector<vector<int>> ret;
+        int M = size * size - N;
+        vector<int> ax;
+        vector<int> ay;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                vector<int> p = {i, j};
-                if (used.find(p) == used.end()) {
-                    ret.push_back(p);
+                if (used.find(make_pair(i, j)) == used.end()) {
+                    ax.push_back(i);
+                    ay.push_back(j);
                 }
             }
         }
-        return ret;
+        return make_tuple(M, ax, ay);
     }
 };
 
@@ -37,10 +42,10 @@ int main ()
     }
 
     RectilinearSteinerTree rst;
-    vector<vector<int>> ret = rst.solve(N, x, y);
-    cout << ret.size() << endl;
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i][0] << " " << ret[i][1] << endl;
+    auto [M, ax, ay] = rst.solve(N, x, y);
+    cout << M << endl;
+    for (int i = 0; i < M; i++) {
+        cout << ax[i] << " " << ay[i] << endl;
     }
 
     cout.flush();

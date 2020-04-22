@@ -2,13 +2,16 @@ import java.util.Scanner;
 
 class TravelingSalesman
 {
-    public int[] solve (int N, int[] x, int[] y)
+    public int[] solve (
+        final int N,
+        final int[] x,
+        final int[] y)
     {
-        int[] ret = new int[N];
+        int[] v = new int[N];
         for (int i = 0; i < N; i++) {
-            ret[i] = i;
+            v[i] = i;
         }
-        return ret;
+        return v;
     }
 }
 
@@ -26,9 +29,9 @@ public class Main
                 y[i] = sc.nextInt();
             }
             TravelingSalesman ts = new TravelingSalesman();
-            int[] ret = ts.solve(N, x, y);
-            for (int i = 0; i < ret.length; ++i) {
-                System.out.println(ret[i]);
+            int[] v = ts.solve(N, x, y);
+            for (int i = 0; i < v.length; ++i) {
+                System.out.println(v[i]);
             }
             System.out.flush();
         }

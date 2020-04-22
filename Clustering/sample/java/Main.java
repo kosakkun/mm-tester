@@ -2,12 +2,24 @@ import java.util.Scanner;
 
 class Clustering
 {
-    public int[][] solve (int N, int K, int[] x, int[] y)
+    class Result
     {
-        int[][] ret = new int[K][2];
+        int[] cx;
+        int[] cy;
+    }
+
+    public Result solve (
+        final int N,
+        final int K,
+        final int[] x,
+        final int[] y)
+    {
+        Result ret = new Result();
+        ret.cx = new int[K];
+        ret.cy = new int[K];
         for (int i = 0; i < K; i++) {
-            ret[i][0] = (i / 4) * 200 + 100;
-            ret[i][1] = (i % 4) * 250 + 100;
+            ret.cx[i] = (i / 4) * 200 + 100;
+            ret.cy[i] = (i % 4) * 250 + 100;
         }
         return ret;
     }
@@ -27,10 +39,11 @@ public class Main
                 x[i] = sc.nextInt();
                 y[i] = sc.nextInt();
             }
+
             Clustering c = new Clustering();
-            int[][] ret = c.solve(N, K, x, y);
-            for (int i = 0; i < ret.length; ++i) {
-                System.out.println(ret[i][0] + " " + ret[i][1]);
+            Clustering.Result ret = c.solve(N, K, x, y);
+            for (int i = 0; i < ret.cx.length; ++i) {
+                System.out.println(ret.cx[i] + " " + ret.cy[i]);
             }
             System.out.flush();
         }

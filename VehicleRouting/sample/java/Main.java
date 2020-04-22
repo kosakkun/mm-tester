@@ -2,23 +2,40 @@ import java.util.Scanner;
 
 class VehicleRouting
 {
-    public int[][] solve (int N, int M, int depotX, int depotY,
-                          int[] x, int[] y, int[] cap, int[] speed)
+    class Result
     {
-        int T = 0;
-        int K = N / cap[T] + (N % cap[T] > 0 ? 1 : 0);
-        int[][] ret = new int[K * 2][];
-        int idx = 0;
-        while (N > 0) {
-            int L = Math.min(N, cap[T]);
-            int[] truck = {T, L};
-            int[] D = new int[L];
-            for (int i = 0; i < L; i++) {
-                D[i] = --N;
+        int K;
+        int[] T;
+        int[] L;
+        int[][] D;
+    }
+
+    public Result solve (
+        final int N,
+        final int M,
+        final int depotX,
+        final int depotY,
+        final int[] x,
+        final int[] y,
+        final int[] cap,
+        final int[] speed)
+    {
+        Result ret = new Result();
+        ret.K = (N + cap[0] - 1) / cap[0];
+        ret.T = new int[ret.K];
+        ret.L = new int[ret.K];
+        ret.D = new int[ret.K][];
+
+        int rm = N;
+        for (int i = 0; i < ret.K; i++) {
+            ret.T[i] = 0;
+            ret.L[i] = Math.min(rm, cap[0]);
+            ret.D[i] = new int[ret.L[i]];
+            for (int j = 0; j < ret.L[i]; j++) {
+                ret.D[i][j] = --rm;
             }
-            ret[idx++] = truck;
-            ret[idx++] = D;
         }
+
         return ret;
     }
 }
@@ -45,13 +62,15 @@ public class Main
                 cap[i] = sc.nextInt();
                 speed[i] = sc.nextInt();
             }
+
             VehicleRouting vr = new VehicleRouting();
-            int[][] ret = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
-            System.out.println(ret.length / 2);
-            for (int i = 0; i < ret.length; i++) {
-                for (int j = 0; j < ret[i].length; j++) {
-                    System.out.print(ret[i][j]);
-                    System.out.print((j < ret[i].length - 1 ? " " : "\n"));
+            VehicleRouting.Result ret = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
+            System.out.println(ret.K);
+            for (int i = 0; i < ret.K; i++) {
+                System.out.println(ret.T[i] + " " + ret.L[i]);
+                for (int j = 0; j < ret.L[i]; j++) {
+                    System.out.print(ret.D[i][j]);
+                    System.out.print((j < ret.L[i] - 1 ? " " : "\n"));
                 }
             }
             System.out.flush();

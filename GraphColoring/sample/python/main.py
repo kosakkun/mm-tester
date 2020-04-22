@@ -2,10 +2,10 @@ import sys
 
 class GraphColoring:
     def solve (self, N, M, a, b):
-        ret = []
+        c = []
         for i in range(N):
-            ret.append(i)
-        return ret
+            c.append(i)
+        return c
 
 def main():
     N,M = map(int,input().split())
@@ -15,9 +15,10 @@ def main():
         at,bt = map(int,input().split())
         a.append(at)
         b.append(bt)
+
     gc = GraphColoring()
-    ret = gc.solve(N, M, a, b)
-    for col in ret:
+    c = gc.solve(N, M, a, b)
+    for col in c:
         print(col)
     sys.stdout.flush()
 

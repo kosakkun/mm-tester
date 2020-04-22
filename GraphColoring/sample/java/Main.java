@@ -2,11 +2,21 @@ import java.util.Scanner;
 
 class GraphColoring
 {
-    public int[] solve (int N, int M, int[] a, int[] b)
+    class Result
     {
-        int[] ret = new int[N];
+        int[] c;
+    }
+
+    public Result solve (
+        final int N,
+        final int M,
+        final int[] a,
+        final int[] b)
+    {
+        Result ret = new Result();
+        ret.c = new int[N];
         for (int i = 0; i < N; i++) {
-            ret[i] = i;
+            ret.c[i] = i;
         }
         return ret;
     }
@@ -26,10 +36,11 @@ public class Main
                 a[i] = sc.nextInt();
                 b[i] = sc.nextInt();
             }
+
             GraphColoring gc = new GraphColoring();
-            int[] ret = gc.solve(N, M, a, b);
-            for (int i = 0; i < ret.length; ++i) {
-                System.out.println(ret[i]);
+            GraphColoring.Result ret = gc.solve(N, M, a, b);
+            for (int i = 0; i < ret.c.length; ++i) {
+                System.out.println(ret.c[i]);
             }
             System.out.flush();
         }

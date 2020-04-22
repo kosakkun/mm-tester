@@ -2,9 +2,23 @@ import java.util.Scanner;
 
 class LongestPath
 {
-    public int[] solve (int N, int M, int[] x, int[] y, int[] a, int[] b)
+    class Result
     {
-        int[] ret = {a[0], b[0]};
+        int K;
+        int[] v;
+    }
+
+    public Result solve (
+        final int N,
+        final int M,
+        final int[] x,
+        final int[] y,
+        final int[] a,
+        final int[] b)
+    {
+        Result ret = new Result();
+        ret.K = 2;
+        ret.v = new int[]{a[0], b[0]};
         return ret;
     }
 }
@@ -29,11 +43,12 @@ public class Main
                 a[i] = sc.nextInt();
                 b[i] = sc.nextInt();
             }
+
             LongestPath lp = new LongestPath();
-            int[] ret = lp.solve(N, M, x, y, a, b);
-            System.out.println(ret.length);
-            for (int i = 0; i < ret.length; i++) {
-                System.out.println(ret[i]);
+            LongestPath.Result ret = lp.solve(N, M, x, y, a, b);
+            System.out.println(ret.K);
+            for (int i = 0; i < ret.K; i++) {
+                System.out.println(ret.v[i]);
             }
             System.out.flush();
         }

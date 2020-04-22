@@ -5,7 +5,11 @@ using namespace std;
 class GraphColoring
 {
 public:
-    vector<int> solve (int N, int M, vector<int> a, vector<int> b)
+    auto solve (
+        const int N,
+        const int M,
+        const vector<int> a,
+        const vector<int> b)
     {
         vector<int> ret(N);
         for (int i = 0; i < N; i++) {
@@ -26,9 +30,9 @@ int main ()
     }
 
     GraphColoring gc;
-    vector<int> ret = gc.solve(N, M, a, b);
-    for (int i = 0; i < ret.size(); i++) {
-        cout << ret[i] << endl;
+    auto ret = gc.solve(N, M, a, b);
+    for (auto c: ret) {
+        cout << c << endl;
     }
 
     cout.flush();
