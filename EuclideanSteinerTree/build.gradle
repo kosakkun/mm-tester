@@ -1,10 +1,8 @@
 plugins {
+    id 'java'
     // https://plugins.gradle.org/plugin/org.springframework.boot
-    id "org.springframework.boot" version "2.1.8.RELEASE"
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
 }
-
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
 
 repositories {
     mavenCentral()
@@ -13,6 +11,8 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0.pr1'
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
 }
 
 sourceSets {

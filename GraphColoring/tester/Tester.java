@@ -14,8 +14,7 @@ public class Tester
     @JsonIgnore private int score_t = -2;
 
     @JsonIgnore
-    public String getInputString ()
-    {
+    public String getInputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(N).append(' ');
         sb.append(M).append('\n');
@@ -27,8 +26,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public String getOutputString ()
-    {
+    public String getOutputString () {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < col.length; ++i) {
             sb.append(col[i]).append('\n');
@@ -36,8 +34,8 @@ public class Tester
         return sb.toString();
     }
    
-    public int getScore ()
-    {
+    public int getScore () {
+
         if (score_t >= -1) {
             return score_t;
         }
@@ -78,8 +76,8 @@ public class Tester
         return score_t = cnum;
     }
 
-    public Tester (final long _seed, final String exec) throws Exception
-    {
+    public Tester (final long _seed, final String exec) throws Exception {
+
         this.seed = _seed;
         Process proc = Runtime.getRuntime().exec(exec);
         new ErrorReader(proc.getErrorStream()).start();

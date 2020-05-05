@@ -23,8 +23,7 @@ public class Tester
     @JsonIgnore private long score_t = -2;
 
     @JsonIgnore
-    public String getInputString ()
-    {
+    public String getInputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(N).append('\n');
         for (int x = 0; x < N; x++) {
@@ -37,8 +36,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public String getOutputString ()
-    {
+    public String getOutputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(M).append('\n');
         for (int i = 0; i < M; ++i) {
@@ -48,8 +46,8 @@ public class Tester
         return sb.toString();
     }
 
-    private boolean move_pannel (int x, int y)
-    {
+    private boolean move_pannel (int x, int y) {
+
         if (bposX < 0 || bposX >= N) return false;
         if (bposY < 0 || bposY >= N) return false;
         if (x == bposX && y != bposY) {
@@ -85,16 +83,14 @@ public class Tester
         return false;
     }
 
-    public void initPuzzle ()
-    {
+    public void initPuzzle () {
         turn = 0;
         bposX = initBposX;
         bposY = initBposY;
         curBoard = initBoard;
     }
 
-    public boolean nextPuzzle ()
-    {
+    public boolean nextPuzzle () {
         if (turn >= M) {
             return false;
         }
@@ -103,8 +99,8 @@ public class Tester
         return true;
     }
 
-    public long getScore ()
-    {
+    public long getScore () {
+
         if (score_t >= -1) {
             return score_t;
         }
@@ -129,8 +125,8 @@ public class Tester
         return score_t = score;
     }
 
-    public Tester (final long _seed, final String exec) throws Exception
-    {
+    public Tester (final long _seed, final String exec) throws Exception {
+
         this.seed = _seed;
         Process proc = Runtime.getRuntime().exec(exec);
         new ErrorReader(proc.getErrorStream()).start();

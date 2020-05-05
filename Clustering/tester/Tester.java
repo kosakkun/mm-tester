@@ -22,8 +22,7 @@ public class Tester
     @JsonIgnore private double score_t = -2.0;
 
     @JsonIgnore
-    public String getInputString ()
-    {
+    public String getInputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(N).append(' ');
         sb.append(K).append('\n');
@@ -35,8 +34,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public String getOutputString ()
-    {
+    public String getOutputString () {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < cx.length; ++i) {
             sb.append(cx[i]).append(' ');
@@ -45,8 +43,8 @@ public class Tester
         return sb.toString();
     }
    
-    public double getScore ()
-    {
+    public double getScore () {
+
         if (score_t >= -1.0) {
             return score_t;
         }
@@ -86,8 +84,8 @@ public class Tester
         return score_t = sum;
     }
 
-    public Tester (final long _seed, final String exec) throws Exception
-    {
+    public Tester (final long _seed, final String exec) throws Exception {
+
         this.seed = _seed;
         Process proc = Runtime.getRuntime().exec(exec);
         new ErrorReader(proc.getErrorStream()).start();

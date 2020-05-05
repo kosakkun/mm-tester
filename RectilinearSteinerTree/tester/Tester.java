@@ -23,8 +23,7 @@ public class Tester
     @JsonIgnore private int score_t = -2;
 
     @JsonIgnore
-    public String getInputString ()
-    {
+    public String getInputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(N).append('\n');
         for (int i = 0; i < N; ++i) {
@@ -35,8 +34,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public String getOutputString ()
-    {
+    public String getOutputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(M).append('\n');
         for (int i = 0; i < M; ++i) {
@@ -46,8 +44,7 @@ public class Tester
         return sb.toString();
     }
    
-    private void dfs (int xt, int yt, int wl, int hl)
-    {
+    private void dfs (int xt, int yt, int wl, int hl) {
         if (connect[xt][yt]) return;
         connect[xt][yt] = true;
         for (int i = 0; i < 4; i++) {
@@ -60,8 +57,8 @@ public class Tester
         }
     }
 
-    public int getScore ()
-    {
+    public int getScore () {
+
         if (score_t >= -1) {
             return score_t;
         }
@@ -96,8 +93,8 @@ public class Tester
         return score_t = M;
     }
 
-    public Tester (final long _seed, final String exec) throws Exception
-    {
+    public Tester (final long _seed, final String exec) throws Exception {
+
         this.seed = _seed;
         Process proc = Runtime.getRuntime().exec(exec);
         new ErrorReader(proc.getErrorStream()).start();

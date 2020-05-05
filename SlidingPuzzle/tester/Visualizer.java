@@ -4,62 +4,41 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.BasicStroke;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
+import java.awt.Dimension;
+import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JFrame
+public class Visualizer extends JPanel
 {
     final int PANNEL_SIZE = 40;
-    final int PADDING = 10;
-    final int FIELD_WIDTH;
-    final int FIELD_HEIGHT;
+    final int PADDING     = 10;
+    final int FIELD_SIZE_X;
+    final int FIELD_SIZE_Y;
     final int VIS_SIZE_X;
     final int VIS_SIZE_Y;
     final Tester tester;
 
-    public Visualizer (final Tester _tester)
-    {
+    public Visualizer (final Tester _tester) {
         this.tester = _tester;
-        FIELD_WIDTH  = PANNEL_SIZE * tester.N;
-        FIELD_HEIGHT = PANNEL_SIZE * tester.N;
-        VIS_SIZE_X = FIELD_WIDTH  + PADDING * 2;
-        VIS_SIZE_Y = FIELD_HEIGHT + PADDING * 2;
+        FIELD_SIZE_X = PANNEL_SIZE * _tester.N;
+        FIELD_SIZE_Y = PANNEL_SIZE * _tester.N;
+        VIS_SIZE_X = FIELD_SIZE_X + PADDING * 2;
+        VIS_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
     }
 
-    public void saveImage (String fileName)
-    {
-        try {
-            BufferedImage bi = drawImage();
-            ImageIO.write(bi, "png", new File(fileName +".png"));
-        } catch (Exception e) {
-            System.err.println("Visualizer failed to save the image.");
-            e.printStackTrace();
-        }
-    }
-
-    public void visualize ()
-    {
-        this.setVisible(true);
-        Insets insets = getInsets();
-        final int width  = VIS_SIZE_X + insets.left + insets.right;
-        final int height = VIS_SIZE_Y + insets.top + insets.bottom;
-        this.setSize(width, height);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setVisible(true);
+    public Dimension getDimension () {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
     }
 
     @Override
-    public void paint (Graphics g)
-    {
+    public void paint (Graphics g) {
         try {
             BufferedImage bi = drawImage();
-            g.drawImage(bi, getInsets().left, getInsets().top, VIS_SIZE_X, VIS_SIZE_Y, null);
-        } catch (Exception e) {
+            g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
+        }
+        catch (Exception e) {
             System.err.println("Visualizer failed to draw.");
             e.printStackTrace();
         }
@@ -71,8 +50,8 @@ public class Visualizer extends JFrame
      * 
      * @see Tester
      */
-    private BufferedImage drawImage ()
-    {
+    private BufferedImage drawImage () {
+
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -81,7 +60,7 @@ public class Visualizer extends JFrame
         g2.setColor(new Color(0xD3D3D3));
         g2.fillRect(0, 0, VIS_SIZE_X, VIS_SIZE_Y);
         g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(PADDING, PADDING, FIELD_WIDTH, FIELD_HEIGHT);
+        g2.fillRect(PADDING, PADDING, FIELD_SIZE_X, FIELD_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system.*/

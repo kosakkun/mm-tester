@@ -22,8 +22,7 @@ public class Tester
     @JsonIgnore private double score_t = -2.0;
 
     @JsonIgnore
-    public String getInputString ()
-    {
+    public String getInputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(N).append('\n');
         for (int i = 0; i < N; ++i) {
@@ -34,8 +33,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public String getOutputString ()
-    {
+    public String getOutputString () {
         StringBuffer sb = new StringBuffer();
         sb.append(M).append('\n');
         for (int i = 0; i < M; ++i) {
@@ -46,8 +44,7 @@ public class Tester
     }
 
     @JsonIgnore
-    public LineSegment getLineSegment (int idx1, int idx2)
-    {
+    public LineSegment getLineSegment (int idx1, int idx2) {
         int x1 = idx1 < N ? x[idx1] : ax[idx1 - N];
         int y1 = idx1 < N ? y[idx1] : ay[idx1 - N];
         int x2 = idx2 < N ? x[idx2] : ax[idx2 - N];
@@ -55,8 +52,8 @@ public class Tester
         return new LineSegment(x1, y1, x2, y2);
     }
 
-    public double getScore ()
-    {
+    public double getScore () {
+
         if (score_t >= -1.0) {
             return score_t;
         }
@@ -149,8 +146,8 @@ public class Tester
         return score_t = cost;
     }
 
-    public Tester (final long _seed, final String exec) throws Exception
-    {
+    public Tester (final long _seed, final String exec) throws Exception {
+
         this.seed = _seed;
         Process proc = Runtime.getRuntime().exec(exec);
         new ErrorReader(proc.getErrorStream()).start();

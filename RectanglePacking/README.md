@@ -37,13 +37,17 @@ $N$個全ての長方形を詰め込んだ時の高さをスコアとします�
 TopCoder の Marathon Match と同じです．<code>"[command]"</code>にプログラムの実行コマンド，<code>[seed]</code>に乱数のシードを入れてください．
 <div class = "iodata">
 <pre>
-$ java -jar Tester.jar -exec "[command]" -seed [seed]
+$ java -jar Tester.jar --exec "[command]" --seed [seed]
 </pre>
 </div>
 
 <h4>その他オプション</h4>
 <pre>
--vis   : ビジュアライズ
--save  : 画像の保存
--debug : 実行コマンドの入出力を保存
+usage: Tester.jar
+ -d,--debug            write the input and output of [command] as a text file.
+ -e,--exec [command]   set the execution command of the solver. (required)
+ -h,--help             print this message.
+ -o,--save             output the visualized result in png format.
+ -s,--seed [seed]      set a random seed. (required)
+ -v,--vis              visualize the result.
 </pre>

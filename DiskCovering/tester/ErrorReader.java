@@ -6,15 +6,13 @@ class ErrorReader extends Thread
     final InputStream error;
     final StringBuilder sb;
 
-    public ErrorReader (InputStream is)
-    {
+    public ErrorReader (InputStream is) {
         error = is;
         sb = new StringBuilder();
     }
 
     @Override
-    public void run ()
-    {
+    public void run () {
         try {
             byte[] buf = new byte[BUF_SIZE];
             int read;
@@ -23,7 +21,8 @@ class ErrorReader extends Thread
                 System.err.print(s);
                 System.err.flush();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

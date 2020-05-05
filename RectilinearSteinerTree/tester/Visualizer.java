@@ -3,58 +3,47 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.BasicStroke;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
+import java.awt.Dimension;
+import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JFrame
+public class Visualizer extends JPanel
 {
-    final int FIELD_HEIGHT = 1000;
-    final int FIELD_WIDTH  = 1000;
-    final int PADDING = 10;
-    final int VIS_SIZE_X = FIELD_WIDTH + PADDING * 2;
-    final int VIS_SIZE_Y = FIELD_HEIGHT + PADDING * 2;
+    final int FIELD_SIZE_X = 1000;
+    final int FIELD_SIZE_Y = 1000;
+    final int PADDING      = 10;
+    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
     final Tester tester;
 
-    public Visualizer (final Tester _tester)
-    {
+    public Visualizer (final Tester _tester) {
         this.tester = _tester;
     }
 
-    public void saveImage (String fileName)
-    {
+    public Dimension getDimension () {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
+    }
+
+    public void saveImage (String fileName) {
         try {
             BufferedImage bi = drawImage();
             ImageIO.write(bi, "png", new File(fileName +".png"));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.err.println("Visualizer failed to save the image.");
             e.printStackTrace();
         }
     }
 
-    public void visualize ()
-    {
-        this.setVisible(true);
-        Insets insets = getInsets();
-        final int width  = VIS_SIZE_X + insets.left + insets.right;
-        final int height = VIS_SIZE_Y + insets.top + insets.bottom;
-        this.setSize(width, height);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setVisible(true);
-    }
-
     @Override
-    public void paint (Graphics g)
-    {
+    public void paint (Graphics g) {
         try {
             BufferedImage bi = drawImage();
-            g.drawImage(bi, getInsets().left, getInsets().top, VIS_SIZE_X, VIS_SIZE_Y, null);
-        } catch (Exception e) {
+            g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
+        }
+        catch (Exception e) {
             System.err.println("Visualizer failed to draw.");
             e.printStackTrace();
         }
@@ -72,8 +61,8 @@ public class Visualizer extends JFrame
      *
      * @see Tester
      */
-    private BufferedImage drawImage ()
-    {
+    private BufferedImage drawImage () {
+
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -82,15 +71,15 @@ public class Visualizer extends JFrame
         g2.setColor(new Color(0xD3D3D3));
         g2.fillRect(0, 0, VIS_SIZE_X, VIS_SIZE_Y);
         g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(PADDING, PADDING, FIELD_WIDTH, FIELD_HEIGHT);
+        g2.fillRect(PADDING, PADDING, FIELD_SIZE_X, FIELD_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system.*/
         g2.translate(PADDING, PADDING);
 
         /* Draw pannels */
-        final int cellw = FIELD_WIDTH / tester.WIDTH;
-        final int cellh = FIELD_HEIGHT / tester.HEIGHT; 
+        final int cellw = FIELD_SIZE_X / tester.WIDTH;
+        final int cellh = FIELD_SIZE_Y / tester.HEIGHT; 
 
         g2.setColor(new Color(0xdc143c));
         for (int i = 0; i < tester.N; i++) {
@@ -105,10 +94,10 @@ public class Visualizer extends JFrame
         g2.setStroke(new BasicStroke(1.0f));
         g2.setColor(new Color(0xD3D3D3));
         for (int i = 1; i <= tester.WIDTH; i++) {
-            g2.drawLine(i * cellw, 0, i * cellw, FIELD_HEIGHT);
+            g2.drawLine(i * cellw, 0, i * cellw, FIELD_SIZE_Y);
         }
         for (int i = 1; i <= tester.HEIGHT; i++) {
-            g2.drawLine(0, i * cellh, FIELD_WIDTH, i * cellh);
+            g2.drawLine(0, i * cellh, FIELD_SIZE_X, i * cellh);
         }
 
         return bi;
