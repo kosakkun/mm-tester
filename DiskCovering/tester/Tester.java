@@ -119,5 +119,7 @@ public class Tester
         if (proc != null) {
             proc.destroy();
         }
+
+        getScore();
     }
 }
