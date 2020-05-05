@@ -60,10 +60,10 @@ $ java -jar Tester.jar --exec "[command]" --seed [seed]
 <h4>その他オプション</h4>
 <pre>
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
- -e,--exec <command>   set the execution command of the solver. (required)
+ -d,--debug            write the input and output of [command] as a text file.
+ -e,--exec [command]   set the execution command of the solver. (required)
  -h,--help             print this message.
- -l,--delay <ms>       frame delay time [ms].
- -s,--seed <seed>      set a random seed. (required)
+ -l,--delay [ms]       frame delay time [ms].
+ -s,--seed [seed]      set a random seed. (required)
  -v,--vis              visualize the result.
 </pre>
