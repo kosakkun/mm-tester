@@ -49,7 +49,7 @@ public class Main
             Tester tester = new Tester(Long.parseLong(seed), exec);
             Visualizer v = new Visualizer(tester);
 
-            if (vis) {
+            if (vis && tester.getScore() >= 0) {
                 JFrame jf = new JFrame();
                 jf.getContentPane().add(v);
                 jf.getContentPane().setPreferredSize(v.getDimension());
@@ -59,7 +59,7 @@ public class Main
                 jf.setVisible(true);
             }
 
-            if (save) {
+            if (save && tester.getScore() >= 0) {
                 v.saveImage(seed);
             }
 
