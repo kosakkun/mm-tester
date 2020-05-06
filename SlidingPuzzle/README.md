@@ -64,6 +64,7 @@ usage: Tester.jar
  -e,--exec [command]   set the execution command of the solver. (required)
  -h,--help             print this message.
  -l,--delay [ms]       frame delay time [ms].
+ -o,--save             output gif animation.
  -s,--seed [seed]      set a random seed. (required)
  -v,--vis              visualize the result.
 </pre>

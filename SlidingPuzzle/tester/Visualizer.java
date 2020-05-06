@@ -8,7 +8,16 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.imageio.ImageWriter;
 import javax.imageio.ImageIO;
+import javax.imageio.IIOImage;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
+import org.w3c.dom.Node;
+import java.util.Iterator;
 
 public class Visualizer extends JPanel
 {
@@ -32,6 +41,73 @@ public class Visualizer extends JPanel
         return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
     }
 
+    public void startAnimation (final long delay) {
+        try {
+            tester.initPuzzle();
+            Thread.sleep(2000);
+            while (tester.nextPuzzle()) {
+                this.repaint();
+                Thread.sleep(delay);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // output gif animation
+    public void saveAnimation (final String filename, final long delay) {
+        try {
+            Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("gif");
+            ImageWriter writer = it.next();
+            File file = new File(filename + ".gif");
+            ImageOutputStream stream = ImageIO.createImageOutputStream(file);
+            writer.setOutput(stream);
+            writer.prepareWriteSequence(null);
+
+            tester.initPuzzle();
+            do {
+                BufferedImage image = drawImage();
+                ImageWriteParam iwp = writer.getDefaultWriteParam();
+                IIOMetadata metadata = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), iwp);
+                String metaFormat = metadata.getNativeMetadataFormatName();
+                IIOMetadataNode root = (IIOMetadataNode)metadata.getAsTree(metaFormat);
+                
+                IIOMetadataNode gctrl = new IIOMetadataNode("GraphicControlExtension");
+                gctrl.setAttribute("delayTime", String.valueOf(delay / 10));
+                gctrl.setAttribute("disposalMethod", "none");
+                gctrl.setAttribute("userInputFlag", "FALSE");
+                gctrl.setAttribute("transparentColorFlag", "FALSE");
+                gctrl.setAttribute("transparentColorIndex","0");
+                root.appendChild(gctrl);
+                
+                IIOMetadataNode appext = new IIOMetadataNode("ApplicationExtensions");
+                IIOMetadataNode child = new IIOMetadataNode("ApplicationExtension");
+                child.setAttribute("applicationID", "NETSCAPE");
+                child.setAttribute("authenticationCode", "2.0");
+                byte[] uo = {
+                    //last two bytes is an unsigned short (little endian) that
+                    //indicates the the number of times to loop.
+                    //0 means loop forever.
+                    0x1, 0x0, 0x0
+                };
+                child.setUserObject(uo);
+                appext.appendChild(child);
+                root.appendChild(appext);
+
+                metadata.setFromTree(metaFormat, root);
+                writer.writeToSequence(new IIOImage(image, null, metadata), null);
+            } while (tester.nextPuzzle());
+
+            writer.endWriteSequence();
+            stream.close();
+        }
+        catch (Exception e) {
+            System.err.println("Visualizer failed to save the gif animation.");
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void paint (Graphics g) {
         try {
@@ -45,8 +121,12 @@ public class Visualizer extends JPanel
     }
 
     /**
-     * int     turn       Number of moves from the initial board.
-     * int[][] curBoard   Current board condition.
+     * int     tester.N          Board size.
+     * int     tester.M          Number of moves.
+     * int[]   tester.posX       The coordinate of the x-axis to slide.
+     * int[]   tester.posY       The coordinate of the y-axis to slide.
+     * int     tester.turn       Number of moves from the initial board.
+     * int[][] tester.curBoard   Current board condition.
      * 
      * @see Tester
      */

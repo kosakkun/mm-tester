@@ -47,7 +47,6 @@ public class Tester
     }
 
     private boolean move_pannel (int x, int y) {
-
         if (bposX < 0 || bposX >= N) return false;
         if (bposY < 0 || bposY >= N) return false;
         if (x == bposX && y != bposY) {
@@ -87,7 +86,11 @@ public class Tester
         turn = 0;
         bposX = initBposX;
         bposY = initBposY;
-        curBoard = initBoard;
+        for (int x = 0; x < N; x++) {
+            for (int y = 0; y < N; y++) {
+                curBoard[x][y] = initBoard[x][y];
+            }
+        }
     }
 
     public boolean nextPuzzle () {
@@ -111,6 +114,18 @@ public class Tester
             return score_t = -1;
         }
 
+        initPuzzle();
+        for (int i = 0; i < M; i++) {
+            if (posX[i] < 0 || posX[i] >= N ||
+                posY[i] < 0 || posY[i] >= N)
+            {
+                System.err.println("The coordinate x = " + posX[i] +
+                                   ", y = " + posY[i] + " is out of range.");
+                return score_t = -1;
+            }
+            nextPuzzle();
+        }
+
         long score = M;
         for (int x = 0; x < N; x++) {
             for (int y = 0; y < N; y++) {
@@ -122,6 +137,8 @@ public class Tester
                 }
             }
         }
+
+        initPuzzle();
         return score_t = score;
     }
 
@@ -155,7 +172,12 @@ public class Tester
                 if (move_pannel(x, y)) break;
             }
         }
-        initBoard = curBoard;
+        initBoard = new int[N][N];
+        for (int x = 0; x < N; x++) {
+            for (int y = 0; y < N; y++) {
+                initBoard[x][y] = curBoard[x][y];
+            }
+        }
         initBposX = bposX;
         initBposY = bposY;
 
@@ -174,5 +196,7 @@ public class Tester
         if (proc != null) {
             proc.destroy();
         }
+
+        getScore();
     }
 }

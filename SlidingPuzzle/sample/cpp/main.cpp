@@ -11,8 +11,8 @@ public:
         const vector<vector<int>> B)
     {
         int M = N * N;
-        vector<int> r(N);
-        vector<int> c(N);
+        vector<int> r(M);
+        vector<int> c(M);
         for (int x = 0; x < N; x++) {
             for (int y = 0; y < N; y++) {
                 r[x * N + y] = x;

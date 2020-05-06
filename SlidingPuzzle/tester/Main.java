@@ -15,7 +15,8 @@ public class Main
     static String seed = "";
     static String exec = "";
     static long delay = 100;
-    static boolean vis  = false;
+    static boolean vis   = false;
+    static boolean save  = false;
     static boolean debug = false;
 
     private String getJsonString (Tester tester) {
@@ -49,7 +50,7 @@ public class Main
             Tester tester = new Tester(Long.parseLong(seed), exec);
             Visualizer v = new Visualizer(tester);
 
-            if (vis) {
+            if (vis && tester.getScore() >= 0) {
                 JFrame jf = new JFrame();
                 jf.getContentPane().add(v);
                 jf.getContentPane().setPreferredSize(v.getDimension());
@@ -57,16 +58,11 @@ public class Main
                 jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jf.setResizable(false);
                 jf.setVisible(true);
-                Thread.sleep(2000);
-                tester.initPuzzle();
-                while (tester.nextPuzzle()) {
-                    v.repaint();
-                    Thread.sleep(delay);
-                }
+                v.startAnimation(delay);
             }
-            else {
-                tester.initPuzzle();
-                while (tester.nextPuzzle());
+
+            if (save && tester.getScore() >= 0) {
+                v.saveAnimation(seed, delay);
             }
 
             if (debug) {
@@ -125,6 +121,14 @@ public class Main
             .desc("frame delay time [ms].")
             .build());
 
+        // --save option
+        options.addOption(Option.builder("o")
+            .required(false)
+            .longOpt("save")
+            .hasArg(false)
+            .desc("output gif animation.")
+            .build());
+
         // --debug option
         options.addOption(Option.builder("d")
             .required(false)
@@ -151,6 +155,7 @@ public class Main
             seed  = cmd.getOptionValue("seed");
             exec  = cmd.getOptionValue("exec");
             vis   = cmd.hasOption("vis");
+            save  = cmd.hasOption("save");
             debug = cmd.hasOption("debug");
             help  = cmd.hasOption("help");
 
