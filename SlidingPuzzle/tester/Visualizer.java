@@ -1,6 +1,7 @@
 import java.io.File;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.RenderingHints;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,6 +9,7 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import javax.imageio.ImageWriter;
 import javax.imageio.ImageIO;
 import javax.imageio.IIOImage;
@@ -43,9 +45,9 @@ public class Visualizer extends JPanel
 
     public void startAnimation (final long delay) {
         try {
-            tester.initPuzzle();
+            tester.initState();
             Thread.sleep(2000);
-            while (tester.nextPuzzle()) {
+            while (tester.nextState()) {
                 this.repaint();
                 Thread.sleep(delay);
             }
@@ -65,7 +67,7 @@ public class Visualizer extends JPanel
             writer.setOutput(stream);
             writer.prepareWriteSequence(null);
 
-            tester.initPuzzle();
+            tester.initState();
             do {
                 BufferedImage image = drawImage();
                 ImageWriteParam iwp = writer.getDefaultWriteParam();
@@ -74,7 +76,7 @@ public class Visualizer extends JPanel
                 IIOMetadataNode root = (IIOMetadataNode)metadata.getAsTree(metaFormat);
                 
                 IIOMetadataNode gctrl = new IIOMetadataNode("GraphicControlExtension");
-                gctrl.setAttribute("delayTime", String.valueOf(delay / 10));
+                gctrl.setAttribute("delayTime", (tester.turn == tester.M) ? "200" : String.valueOf(delay / 10));
                 gctrl.setAttribute("disposalMethod", "none");
                 gctrl.setAttribute("userInputFlag", "FALSE");
                 gctrl.setAttribute("transparentColorFlag", "FALSE");
@@ -97,7 +99,7 @@ public class Visualizer extends JPanel
 
                 metadata.setFromTree(metaFormat, root);
                 writer.writeToSequence(new IIOImage(image, null, metadata), null);
-            } while (tester.nextPuzzle());
+            } while (tester.nextState());
 
             writer.endWriteSequence();
             stream.close();
@@ -123,8 +125,10 @@ public class Visualizer extends JPanel
     /**
      * int     tester.N          Board size.
      * int     tester.M          Number of moves.
-     * int[]   tester.posX       The coordinate of the x-axis to slide.
-     * int[]   tester.posY       The coordinate of the y-axis to slide.
+     * int[]   tester.posX       Row coordinate to slide.
+     * int[]   tester.posY       Column coordinate to slide.
+     * int     tester.bposX      Row coordinate of the blank.
+     * int     tester.bposY      Column coordinate of the blank.
      * int     tester.turn       Number of moves from the initial board.
      * int[][] tester.curBoard   Current board condition.
      * 
@@ -161,6 +165,67 @@ public class Visualizer extends JPanel
                 char[] ch = ("" + num).toCharArray();
                 g2.setColor(new Color(0x000000));
                 g2.drawChars(ch, 0, ch.length, pos_y + 20 - ch.length * 4, pos_x + 25);
+            }
+        }
+
+        /* Mark panels to move. */
+        if (tester.turn < tester.M) {
+            int dx = tester.bposX - tester.posX[tester.turn];
+            int dy = tester.bposY - tester.posY[tester.turn];
+            if (!(dx == 0 || dy == 0) || (dx == 0 && dy == 0)) {
+                int sx = tester.posX[tester.turn];
+                int sy = tester.posY[tester.turn];
+                g2.setColor(new Color(0.0f, 0.0f, 0.0f, 0.5f));
+                g2.fillRect(PANNEL_SIZE * sy, PANNEL_SIZE * sx,
+                            PANNEL_SIZE, PANNEL_SIZE);
+                g2.setColor(new Color(0x000000));
+                g2.setStroke(new BasicStroke(2.0f));
+                g2.drawLine(PANNEL_SIZE * sy, PANNEL_SIZE * sx,
+                            PANNEL_SIZE * (sy + 1), PANNEL_SIZE * (sx + 1));
+                g2.drawLine(PANNEL_SIZE * (sy + 1), PANNEL_SIZE * sx,
+                            PANNEL_SIZE * sy, PANNEL_SIZE * (sx + 1));
+                g2.drawRect(PANNEL_SIZE * sy, PANNEL_SIZE * sx,
+                            PANNEL_SIZE, PANNEL_SIZE);
+            }
+            else {
+                int rx = tester.posX[tester.turn] + dx + 1;
+                int ry = tester.posY[tester.turn] + dy + 1;
+                int sx = (dx == 0) ? 1 : Math.abs(dx);
+                int sy = (dy == 0) ? 1 : Math.abs(dy);
+                g2.setColor(new Color(0.0f, 0.0f, 0.0f, 0.3f));
+                g2.fillRect(Math.min(ry, tester.posY[tester.turn]) * PANNEL_SIZE,
+                            Math.min(rx, tester.posX[tester.turn]) * PANNEL_SIZE, 
+                            sy * PANNEL_SIZE, sx * PANNEL_SIZE);
+                g2.setColor(new Color(0x000000));
+                g2.setStroke(new BasicStroke(2.0f));
+                g2.drawRect(Math.min(ry, tester.posY[tester.turn]) * PANNEL_SIZE,
+                            Math.min(rx, tester.posX[tester.turn]) * PANNEL_SIZE, 
+                            sy * PANNEL_SIZE, sx * PANNEL_SIZE);
+                g2.setColor(new Color(0.0f, 0.0f, 0.0f, 0.3f));
+                g2.fillOval(tester.posY[tester.turn] * PANNEL_SIZE + PANNEL_SIZE / 8,
+                            tester.posX[tester.turn] * PANNEL_SIZE + PANNEL_SIZE / 8,
+                            PANNEL_SIZE / 8 * 6, PANNEL_SIZE / 8 * 6);
+
+                /* Draw an arrow */
+                try {
+                    int tx = tester.bposX * PANNEL_SIZE + PANNEL_SIZE / 2;
+                    int ty = tester.bposY * PANNEL_SIZE + PANNEL_SIZE / 2;
+                    double rad = 0.0;
+                    if (dx < 0) rad = 0.0;
+                    if (dx > 0) rad = Math.PI;
+                    if (dy < 0) rad = Math.PI * 1.5;
+                    if (dy > 0) rad = Math.PI * 0.5;
+
+                    g2.translate(ty, tx);
+                    g2.rotate(rad);
+                    ClassLoader cl = this.getClass().getClassLoader(); 
+                    ImageIcon icon = new ImageIcon(cl.getResource("img/arrow.png"));
+                    g2.drawImage(icon.getImage(), - PANNEL_SIZE / 2, - PANNEL_SIZE / 2, this);
+                    g2.translate(-ty, -tx);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 

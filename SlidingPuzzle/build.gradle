@@ -28,4 +28,7 @@ bootJar {
         baseName 'Tester'
         attributes 'Start-Class': 'Main'
     }
+    into('img') {
+        from 'tester/img'
+    }
 }

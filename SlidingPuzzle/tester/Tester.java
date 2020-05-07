@@ -82,7 +82,7 @@ public class Tester
         return false;
     }
 
-    public void initPuzzle () {
+    public void initState () {
         turn = 0;
         bposX = initBposX;
         bposY = initBposY;
@@ -93,7 +93,7 @@ public class Tester
         }
     }
 
-    public boolean nextPuzzle () {
+    public boolean nextState () {
         if (turn >= M) {
             return false;
         }
@@ -114,7 +114,7 @@ public class Tester
             return score_t = -1;
         }
 
-        initPuzzle();
+        initState();
         for (int i = 0; i < M; i++) {
             if (posX[i] < 0 || posX[i] >= N ||
                 posY[i] < 0 || posY[i] >= N)
@@ -123,7 +123,7 @@ public class Tester
                                    ", y = " + posY[i] + " is out of range.");
                 return score_t = -1;
             }
-            nextPuzzle();
+            nextState();
         }
 
         long score = M;
@@ -138,7 +138,7 @@ public class Tester
             }
         }
 
-        initPuzzle();
+        initState();
         return score_t = score;
     }
 
