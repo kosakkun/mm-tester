@@ -64,7 +64,7 @@ $ ./run.sh
 │   └── libs
 │       └── Tester.jar
 ├── tester
-│   └── Tester.java
+│   └── *.java
 └── sample
     ├── cpp
     │   ├── run.sh
@@ -107,3 +107,11 @@ $ ./run.sh
 
 ### [Euclidean Steiner Tree](EuclideanSteinerTree/)
 <img src="images/EuclideanSteinerTree.png" width="400px">
+
+
+## License
+- mm-tester - [MIT License](https://github.com/kosakkun/mm-tester/blob/master/LICENSE)
+- This software includes the work that is distributed in the [Apache License 2.0.](http://www.apache.org/licenses/LICENSE-2.0)
+  - [Jackson Databind](https://github.com/FasterXML/jackson-databind)
+  - [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
+  - [Spring Boot](https://spring.io/projects/spring-boot)
