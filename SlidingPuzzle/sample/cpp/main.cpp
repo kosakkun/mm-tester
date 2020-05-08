@@ -11,12 +11,12 @@ public:
         const vector<vector<int>> B)
     {
         int M = N * N;
-        vector<int> r(M);
-        vector<int> c(M);
+        vector<int> r;
+        vector<int> c;
         for (int x = 0; x < N; x++) {
             for (int y = 0; y < N; y++) {
-                r[x * N + y] = x;
-                c[x * N + y] = y;
+                r.push_back(x);
+                c.push_back(y);
             }
         }
         return make_tuple(M, r, c);
