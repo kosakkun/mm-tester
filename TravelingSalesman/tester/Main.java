@@ -56,11 +56,11 @@ public class Main
             Visualizer  v = new Visualizer(id, od);
             double score = Checker.calcScore(id, od);
 
-            if (save) {
+            if (save && score >= 0) {
                 v.saveImage(String.valueOf(seed));
             }
 
-            if (vis) {
+            if (vis && score >= 0) {
                 v.setVisible(true);
             } else {
                 v.dispose();

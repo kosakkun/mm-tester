@@ -41,11 +41,11 @@ public class Visualizer extends JFrame
 
 class View extends JPanel
 {
-    final int FIELD_SIZE_X = 1000;
-    final int FIELD_SIZE_Y = 1000;
-    final int PADDING      = 10;
-    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
-    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
+    final private int FIELD_SIZE_X = 1000;
+    final private int FIELD_SIZE_Y = 1000;
+    final private int PADDING      = 10;
+    final private int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+    final private int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
     final InputData id;
     final OutputData od;
 
