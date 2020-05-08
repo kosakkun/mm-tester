@@ -4,10 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
 import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
+import java.awt.Image;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -241,9 +244,14 @@ class View extends JPanel
                 g2.fillRect(pos_y, pos_x, PANNEL_SIZE, PANNEL_SIZE);
                 g2.setColor(Color.getHSBColor((1.0f / (float)(id.N * id.N)) * (float)num, 1.0f, 0.95f));
                 g2.fillRect(pos_y + 1, pos_x + 1, PANNEL_SIZE - 2, PANNEL_SIZE - 2);
-                char[] ch = ("" + num).toCharArray();
+                
+                String text = "" + num;
+                FontMetrics fm = g2.getFontMetrics();
+                Rectangle rectText = fm.getStringBounds(text, g2).getBounds();
+                int tw = pos_y - rectText.width / 2 + PANNEL_SIZE / 2;
+                int th = pos_x - rectText.height / 2 + fm.getMaxAscent() + PANNEL_SIZE / 2;
                 g2.setColor(new Color(0x000000));
-                g2.drawChars(ch, 0, ch.length, pos_y + 20 - ch.length * 4, pos_x + 25);
+                g2.drawString(text, tw, th);
             }
         }
 
@@ -299,6 +307,8 @@ class View extends JPanel
                     g2.rotate(rad);
                     ClassLoader cl = this.getClass().getClassLoader(); 
                     ImageIcon icon = new ImageIcon(cl.getResource("img/arrow.png"));
+                    Image rsImg = icon.getImage().getScaledInstance(PANNEL_SIZE, PANNEL_SIZE, Image.SCALE_SMOOTH);
+                    icon = new ImageIcon(rsImg);
                     g2.drawImage(icon.getImage(), - PANNEL_SIZE / 2, - PANNEL_SIZE / 2, this);
                     g2.translate(-ty, -tx);
                 }
