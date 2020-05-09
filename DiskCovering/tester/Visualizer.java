@@ -7,28 +7,29 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JPanel
+public class Visualizer extends JFrame
 {
-    final int FIELD_SIZE_X = 1000;
-    final int FIELD_SIZE_Y = 1000;
-    final int PADDING      = 10;
-    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
-    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
-    final Tester tester;
+    private View view;
 
-    public Visualizer (final Tester _tester) {
-        this.tester = _tester;
+    public Visualizer (
+        final InputData id,
+        final OutputData od)
+    {
+        view = new View(id, od);
+        this.getContentPane().add(view);
+        this.getContentPane().setPreferredSize(view.getDimension());
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
     }
 
-    public Dimension getDimension () {
-        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
-    }
-
-    public void saveImage (String fileName) {
+    public void saveImage (final String fileName)
+    {
         try {
-            BufferedImage bi = drawImage();
+            BufferedImage bi = view.drawImage();
             ImageIO.write(bi, "png", new File(fileName +".png"));
         }
         catch (Exception e) {
@@ -36,9 +37,34 @@ public class Visualizer extends JPanel
             e.printStackTrace();
         }
     }
+}
+
+class View extends JPanel
+{
+    final private int FIELD_SIZE_X = 1000;
+    final private int FIELD_SIZE_Y = 1000;
+    final private int PADDING      = 10;
+    final private int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+    final private int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
+    final InputData id;
+    final OutputData od;
+
+    public View (
+        final InputData _id,
+        final OutputData _od)
+    {
+        this.id = _id;
+        this.od = _od;
+    }
+
+    public Dimension getDimension ()
+    {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
+    }
 
     @Override
-    public void paint (Graphics g) {
+    public void paint (Graphics g)
+    {
         try {
             BufferedImage bi = drawImage();
             g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
@@ -50,20 +76,19 @@ public class Visualizer extends JPanel
     }
 
     /**
-     * int   tester.WIDTH    The width of the board.
-     * int   tester.HEIGHT   The height of the board.
-     * int   tester.N        Number of vertices.
-     * int   tester.R        The radius of the disk.
-     * int[] tester.px       x coordinate of the i-th vertex.
-     * int[] tester.py       y coordinate of the i-th vertex.
-     * int   tester.M        Number of disks.
-     * int[] tester.rx       x coordinate of the i-th disk.
-     * int[] tester.ry       y coordinate of the i-th disk.
+     * int   id.N     Number of vertices.
+     * int   id.R     The radius of the disk.
+     * int[] id.xp    x coordinate of the i-th vertex.
+     * int[] id.yp    y coordinate of the i-th vertex.
+     * int   od.M     Number of disks.
+     * int[] od.xr    x coordinate of the i-th disk.
+     * int[] od.yr    y coordinate of the i-th disk.
      *
-     * @see Tester
+     * @see InputData
+     * @see OutputData
      */
-    private BufferedImage drawImage () {
-
+    public BufferedImage drawImage ()
+    {
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -73,30 +98,30 @@ public class Visualizer extends JPanel
         g2.fillRect(PADDING, PADDING, FIELD_SIZE_X, FIELD_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
-           point (x, y) in the current coordinate system.*/
+           point (x, y) in the current coordinate system. */
         g2.translate(PADDING, PADDING);
 
         /* Draw the disk */
         g2.setColor(new Color(0xF4F4FF));
-        for (int i = 0; i < tester.M; i++) {
-            g2.fillOval(tester.rx[i] - tester.R, tester.ry[i] - tester.R, tester.R * 2, tester.R * 2);
+        for (int i = 0; i < od.M; i++) {
+            g2.fillOval(od.xr[i] - id.R, od.yr[i] - id.R, id.R * 2, id.R * 2);
         }
         g2.setColor(new Color(0x4169e1));
-        for (int i = 0; i < tester.M; i++) {
-            g2.drawOval(tester.rx[i] - tester.R, tester.ry[i] - tester.R, tester.R * 2, tester.R * 2);
+        for (int i = 0; i < od.M; i++) {
+            g2.drawOval(od.xr[i] - id.R, od.yr[i] - id.R, id.R * 2, id.R * 2);
         }
 
         /* Draw the vertex */
         final int R1 = 4;
-        for (int i = 0; i < tester.N; i++) {
+        for (int i = 0; i < id.N; i++) {
             g2.setColor(new Color(0x454552));
-            g2.fillOval(tester.px[i] - R1 / 2, tester.py[i] - R1 / 2, R1, R1);
+            g2.fillOval(id.xp[i] - R1 / 2, id.yp[i] - R1 / 2, R1, R1);
             g2.setColor(new Color(0x000000));
-            g2.drawOval(tester.px[i] - R1 / 2, tester.py[i] - R1 / 2, R1, R1);
+            g2.drawOval(id.xp[i] - R1 / 2, id.yp[i] - R1 / 2, R1, R1);
         }
 
         /* Converts the origin of the graphics context to a 
-           point (x, y) in the current coordinate system.*/
+           point (x, y) in the current coordinate system. */
         g2.translate(-PADDING, -PADDING);
 
         /* Draw the edge of this image */
