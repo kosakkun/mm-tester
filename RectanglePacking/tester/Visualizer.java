@@ -58,8 +58,8 @@ class View extends JPanel
     {
         this.id = _id;
         this.od = _od;
-        FIELD_SIZE_X = Checker.BOX_SIZE;
-        FIELD_SIZE_Y = Checker.BOX_SIZE;
+        FIELD_SIZE_X = OutputData.BOX_SIZE;
+        FIELD_SIZE_Y = OutputData.BOX_SIZE;
         VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
         VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
     }

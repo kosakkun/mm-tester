@@ -51,9 +51,9 @@ public class Main
     public Main ()
     {
         try {
-            InputData  id = Generator.genInput(seed);
-            OutputData od = Checker.runCommand(exec, id);
-            Visualizer  v = new Visualizer(id, od);
+            InputData  id = InputData.genInputData(seed);
+            OutputData od = OutputData.runCommand(exec, id);
+            Visualizer v = new Visualizer(id, od);
             int score = Checker.calcScore(id, od);
 
             if (save && score >= 0) {

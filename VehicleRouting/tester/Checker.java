@@ -1,9 +1,8 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -52,7 +51,7 @@ public class Checker
         return true;
     }
 
-    static double calcDist (
+    public static double calcDist (
         final int x1,
         final int y1,
         final int x2,
@@ -63,7 +62,7 @@ public class Checker
         return Math.sqrt(lx * lx + ly * ly);
     }
 
-    static double[] getDist (
+    public static double[] getDist (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -97,7 +96,7 @@ public class Checker
         return dist;
     }
 
-    static double calcScore (
+    public static double calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -115,37 +114,5 @@ public class Checker
         }
 
         return max_time;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.K = sc.nextInt();
-        od.T = new int[od.K];
-        od.L = new int[od.K];
-        od.D = new int[od.K][];
-        for (int i = 0; i < od.K; i++) {
-            od.T[i] = sc.nextInt();
-            od.L[i] = sc.nextInt();
-            od.D[i] = new int[od.L[i]];
-            for (int j = 0; j < od.L[i]; j++) {
-                od.D[i][j] = sc.nextInt();
-            }
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

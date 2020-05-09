@@ -1,15 +1,13 @@
-import java.util.Scanner;
-
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
     {
         for (int i = 0; i < od.M; i++) {
             if (od.xr[i] < 0 || od.yr[i] < 0 ||
-                od.xr[i] > Generator.MAX_X || od.yr[i] > Generator.MAX_Y) {
+                od.xr[i] > InputData.MAX_X || od.yr[i] > InputData.MAX_Y) {
                 System.err.println(
                     "The coordinates of the disk must satisfy 0 <= xi,yi " + 
                     "<= 1000, but your output is the coordinates of the " +
@@ -38,7 +36,7 @@ public class Checker
         return true;
     }
 
-    static int calcScore (
+    public static int calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -48,33 +46,5 @@ public class Checker
         }
 
         return od.M;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.M = sc.nextInt();
-        od.xr = new int[od.M];
-        od.yr = new int[od.M];
-        
-        for (int i = 0; i < od.M; i++) {
-            od.xr[i] = sc.nextInt();
-            od.yr[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

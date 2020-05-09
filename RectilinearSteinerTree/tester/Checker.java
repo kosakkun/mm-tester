@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Checker
 {
     public static final int[] dx = {1, 0, -1, 0};
@@ -25,13 +23,13 @@ public class Checker
         }
     }
 
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
     {
-        final int WIDTH  = Generator.MAX_X + 1;
-        final int HEIGHT = Generator.MAX_Y + 1;
+        final int WIDTH  = InputData.MAX_X + 1;
+        final int HEIGHT = InputData.MAX_Y + 1;
 
         board = new boolean[WIDTH][HEIGHT];
         for (int i = 0; i < id.N; i++) {
@@ -42,8 +40,8 @@ public class Checker
             if (od.ax[i] < 0 || od.ay[i] < 0 ||
                 od.ax[i] >= WIDTH || od.ay[i] >= HEIGHT) {
                 System.err.println(
-                    "The panel coordinates must be 0 <= xi <= " + Generator.MAX_X + 
-                    ", 0 <= yi <= " + Generator.MAX_Y + ", but your output contains ("
+                    "The panel coordinates must be 0 <= xi <= " + InputData.MAX_X + 
+                    ", 0 <= yi <= " + InputData.MAX_Y + ", but your output contains ("
                     + od.ax[i] + "," + od.ay[i] + ").");
                 return false;
             }
@@ -67,7 +65,7 @@ public class Checker
         return true;
     }
 
-    static int calcScore (
+    public static int calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -77,33 +75,5 @@ public class Checker
         }
 
         return od.M;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.M = sc.nextInt();
-        od.ax = new int[od.M];
-        od.ay = new int[od.M];
-        
-        for (int i = 0; i < od.M; i++) {
-            od.ax[i] = sc.nextInt();
-            od.ay[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

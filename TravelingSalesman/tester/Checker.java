@@ -1,8 +1,6 @@
-import java.util.Scanner;
-
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -29,7 +27,7 @@ public class Checker
         return true;
     }
 
-    static double calcScore (
+    public static double calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -46,29 +44,5 @@ public class Checker
         }
 
         return score;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.v = new int[id.N];
-        for (int i = 0; i < id.N; i++) {
-            od.v[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

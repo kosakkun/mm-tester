@@ -1,14 +1,11 @@
-import java.util.Scanner;
-
 public class Checker
 {
-    public static final int BOX_SIZE = 1000;
-
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
     {
+        int BOX_SIZE = OutputData.BOX_SIZE;
         boolean[][] used = new boolean[BOX_SIZE][BOX_SIZE];
         for (int i = 0; i < id.N; i++) {
             for (int xt = od.x[i]; xt < od.x[i] + id.w[i]; xt++) {
@@ -31,7 +28,7 @@ public class Checker
         return true;
     }
 
-    static int calcScore (
+    public static int calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -46,32 +43,5 @@ public class Checker
         }
 
         return max_y;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.x = new int[id.N];
-        od.y = new int[id.N];
-        
-        for (int i = 0; i < id.N; i++) {
-            od.x[i] = sc.nextInt();
-            od.y[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

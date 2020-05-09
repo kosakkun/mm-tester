@@ -56,8 +56,8 @@ class View extends JPanel
     {
         this.id = _id;
         this.od = _od;
-        FIELD_SIZE_X = PANNEL_SIZE * (Generator.MAX_X + 1);
-        FIELD_SIZE_Y = PANNEL_SIZE * (Generator.MAX_Y + 1);
+        FIELD_SIZE_X = PANNEL_SIZE * (InputData.MAX_X + 1);
+        FIELD_SIZE_Y = PANNEL_SIZE * (InputData.MAX_Y + 1);
         VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
         VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
     }
@@ -88,12 +88,11 @@ class View extends JPanel
      * int[] od.ax     The x coordinate of panels to be placed later.
      * int[] od.ay     The y coordinate of panels to be placed later.
      *
-     * int   Generator.MAX_X
-     * int   Generator.MAX_Y
+     * int   InputData.MAX_X
+     * int   InputData.MAX_Y
      *
      * @see InputData
      * @see OutputData
-     * @see Generator
      */
     public BufferedImage drawImage ()
     {
@@ -124,10 +123,10 @@ class View extends JPanel
 
         g2.setStroke(new BasicStroke(1.0f));
         g2.setColor(new Color(0xD3D3D3));
-        for (int i = 1; i <= Generator.MAX_X + 1; i++) {
+        for (int i = 1; i <= InputData.MAX_X + 1; i++) {
             g2.drawLine(i * PANNEL_SIZE, 0, i * PANNEL_SIZE, FIELD_SIZE_Y);
         }
-        for (int i = 1; i <= Generator.MAX_Y + 1; i++) {
+        for (int i = 1; i <= InputData.MAX_Y + 1; i++) {
             g2.drawLine(0, i * PANNEL_SIZE, FIELD_SIZE_X, i * PANNEL_SIZE);
         }
 

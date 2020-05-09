@@ -1,14 +1,12 @@
-import java.util.Scanner;
-
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
     {
-        int SIZE_X = Generator.MAX_X + 1;
-        int SIZE_Y = Generator.MAX_Y + 1;
+        int SIZE_X = InputData.MAX_X + 1;
+        int SIZE_Y = InputData.MAX_Y + 1;
         boolean[][] used = new boolean[SIZE_X][SIZE_Y];
         for (int i = 0; i < id.K; i++) {
             if (od.cx[i] < 0 || od.cy[i] < 0 || od.cx[i] >= SIZE_X || od.cy[i] >= SIZE_Y) {
@@ -28,7 +26,7 @@ public class Checker
         return true;
     }
 
-    static int[] getRoots (
+    public static int[] getRoots (
         final InputData id,
         final OutputData od)
     {
@@ -52,7 +50,7 @@ public class Checker
         return roots;
     }
 
-    static double calcScore (
+    public static double calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -72,31 +70,5 @@ public class Checker
         }
 
         return score;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.cx = new int[id.K];
-        od.cy = new int[id.K];
-        for (int i = 0; i < id.K; i++) {
-            od.cx[i] = sc.nextInt();
-            od.cy[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

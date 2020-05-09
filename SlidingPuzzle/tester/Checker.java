@@ -1,8 +1,6 @@
-import java.util.Scanner;
-
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -29,7 +27,7 @@ public class Checker
         return true;
     }
 
-    static long calcScore (
+    public static long calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -63,7 +61,7 @@ public class Checker
         return score;
     }
 
-    static boolean movePannel (
+    public static boolean movePannel (
         final int N,
         final int r,
         final int c,
@@ -116,33 +114,5 @@ public class Checker
         }
 
         return false;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.M = sc.nextInt();
-        od.r = new int[od.M];
-        od.c = new int[od.M];
-
-        for (int i = 0; i < od.M; i++) {
-            od.r[i] = sc.nextInt();
-            od.c[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }

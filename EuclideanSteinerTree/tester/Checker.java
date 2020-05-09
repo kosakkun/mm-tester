@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Checker
 {
-    static boolean isValid (
+    public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -16,8 +15,8 @@ public class Checker
             return false;
         }
 
-        int WIDTH  = Generator.MAX_X + 1;
-        int HEIGHT = Generator.MAX_Y + 1;
+        int WIDTH  = InputData.MAX_X + 1;
+        int HEIGHT = InputData.MAX_Y + 1;
         boolean[][] used = new boolean[WIDTH][HEIGHT];
 
         for (int i = 0; i < id.N; i++) {
@@ -29,7 +28,7 @@ public class Checker
                 od.ax[i] >= WIDTH || od.ay[i] >= HEIGHT) {
                 System.err.println(
                     "All vertex coordinates must be 0 <= xi <= " +
-                    Generator.MAX_X + ", 0 <= yi <= " + Generator.MAX_Y +
+                    InputData.MAX_X + ", 0 <= yi <= " + InputData.MAX_Y +
                     ", but your output includes (" + od.ax[i] + ", " + od.ay[i] + ").");
                 return false;
             }
@@ -46,7 +45,7 @@ public class Checker
         return true;
     }
 
-    static LineSegment[] getMinimumPinningTree (
+    public static LineSegment[] getMinimumPinningTree (
         final int N,
         final int[] x,
         final int[] y)
@@ -88,7 +87,7 @@ public class Checker
         return MST;
     }
 
-    static double calcScore (
+    public static double calcScore (
         final InputData id,
         final OutputData od)
         throws Exception
@@ -117,33 +116,5 @@ public class Checker
         }
 
         return score;
-    }
-
-    static OutputData runCommand (
-        final String exec,
-        final InputData id)
-        throws Exception
-    {
-        Process proc = Runtime.getRuntime().exec(exec);
-        new ErrorReader(proc.getErrorStream()).start();
-        proc.getOutputStream().write(id.toString().getBytes());
-        proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
-
-        OutputData od = new OutputData();
-        od.M = sc.nextInt();
-        od.ax = new int[od.M];
-        od.ay = new int[od.M];
-
-        for (int i = 0; i < od.M; i++) {
-            od.ax[i] = sc.nextInt();
-            od.ay[i] = sc.nextInt();
-        }
-
-        if (proc != null) {
-            proc.destroy();
-        }
-
-        return od;
     }
 }
