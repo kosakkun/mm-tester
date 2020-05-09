@@ -7,28 +7,29 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JPanel
+public class Visualizer extends JFrame
 {
-    final int FIELD_SIZE_X = 1000;
-    final int FIELD_SIZE_Y = 1000;
-    final int PADDING      = 10;
-    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
-    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
-    final Tester tester;
+    private View view;
 
-    public Visualizer (final Tester _tester) {
-        this.tester = _tester;
+    public Visualizer (
+        final InputData id,
+        final OutputData od)
+    {
+        view = new View(id, od);
+        this.getContentPane().add(view);
+        this.getContentPane().setPreferredSize(view.getDimension());
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
     }
 
-    public Dimension getDimension () {
-        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
-    }
-
-    public void saveImage (String fileName) {
+    public void saveImage (final String fileName)
+    {
         try {
-            BufferedImage bi = drawImage();
+            BufferedImage bi = view.drawImage();
             ImageIO.write(bi, "png", new File(fileName +".png"));
         }
         catch (Exception e) {
@@ -36,9 +37,34 @@ public class Visualizer extends JPanel
             e.printStackTrace();
         }
     }
+}
+
+class View extends JPanel
+{
+    final private int FIELD_SIZE_X = 1000;
+    final private int FIELD_SIZE_Y = 1000;
+    final private int PADDING      = 10;
+    final private int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+    final private int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
+    final InputData id;
+    final OutputData od;
+
+    public View (
+        final InputData _id,
+        final OutputData _od)
+    {
+        this.id = _id;
+        this.od = _od;
+    }
+
+    public Dimension getDimension ()
+    {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
+    }
 
     @Override
-    public void paint (Graphics g) {
+    public void paint (Graphics g)
+    {
         try {
             BufferedImage bi = drawImage();
             g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
@@ -50,17 +76,17 @@ public class Visualizer extends JPanel
     }
 
     /**
-     * int     tester.N      Number of vertices.
-     * int     tester.M      Number of edges.
-     * int[]   tester.a      Edge vertex A.
-     * int[]   tester.b      Edge vertex B.
-     * int[][] tester.edge   True is connected, false is not connected.   
-     * int[]   tester.col    The color of the i-th vertex.
+     * int     id.N      Number of vertices.
+     * int     id.M      Number of edges.
+     * int[]   id.a      Edge vertex A.
+     * int[]   id.b      Edge vertex B.
+     * int[]   od.c      The color of the i-th vertex.
      *
-     * @see Tester
+     * @see InputData
+     * @see OutputData
      */
-    private BufferedImage drawImage () {
-
+    public BufferedImage drawImage ()
+    {
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -72,26 +98,44 @@ public class Visualizer extends JPanel
         g2.fillRect(PADDING, PADDING, FIELD_SIZE_X, FIELD_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
-           point (x, y) in the current coordinate system.*/
+           point (x, y) in the current coordinate system. */
         g2.translate(PADDING, PADDING);
 
+        boolean[][] edge = new boolean[id.N][id.N];
+        for (int i = 0; i < id.M; i++) {
+            edge[id.a[i]][id.b[i]] = true;
+            edge[id.b[i]][id.a[i]] = true;
+        }
+
+        int cntc = 1;
+        int[] col = new int[id.N];
+        int[] recol = new int[id.N];
+        for (int i = 0; i < id.N; i++) {
+            if (recol[od.c[i]] == 0) {
+                recol[od.c[i]] = cntc++;
+            }
+        }
+        for (int i = 0; i < id.N; i++) {
+            col[i] = recol[od.c[i]];
+        }
+
         /* Draw edges information. */
-        final int cell_width  = FIELD_SIZE_X / tester.N;
-        final int cell_height = FIELD_SIZE_Y / tester.N;
+        final int cell_width  = FIELD_SIZE_X / id.N;
+        final int cell_height = FIELD_SIZE_Y / id.N;
         final float max_c = 30.0f;
-        for (int x = 0; x < tester.N; x++) {
-            for (int y = 0; y < tester.N; y++) {
-                if (!tester.edge[x][y]) continue;
-                float cval = Math.min(max_c, (float)tester.col[x]);
+        for (int x = 0; x < id.N; x++) {
+            for (int y = 0; y < id.N; y++) {
+                if (!edge[x][y]) continue;
+                float cval = Math.min(max_c, (float)col[x]);
                 Color c = Color.getHSBColor((0.4f / max_c) * cval, 1.0f, 1.0f);
                 g2.setColor(c);
                 g2.fillRect(cell_width * x, cell_width * y, cell_width, cell_height);
             }
         }
-        for (int x = 0; x < tester.N; x++) {
-            for (int y = 0; y < tester.N; y++) {
-                if (!tester.edge[x][y]) continue;
-                float cval = Math.min(max_c, (float)tester.col[y]);
+        for (int x = 0; x < id.N; x++) {
+            for (int y = 0; y < id.N; y++) {
+                if (!edge[x][y]) continue;
+                float cval = Math.min(max_c, (float)col[y]);
                 Color c = Color.getHSBColor((0.4f / max_c) * cval, 1.0f, 1.0f);
                 g2.setColor(c);
                 g2.fillRect(cell_width * x + 2, cell_width * y + 2, cell_width - 4, cell_height - 4);
