@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileWriter;
-import javax.swing.JFrame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
@@ -12,16 +11,17 @@ import org.apache.commons.cli.ParseException;
 
 public class Main
 {
-    static String seed = "";
+    static long seed = 1;
     static String exec = "";
     static boolean save = false;
     static boolean vis  = false;
     static boolean debug = false;
 
-    private String getJsonString (Tester tester) {
+    private String getJsonString (final Object obj)
+    {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String ret = mapper.writeValueAsString(tester);
+            String ret = mapper.writeValueAsString(obj);
             return ret;
         }
         catch (Exception e) {
@@ -31,7 +31,10 @@ public class Main
         }
     }
 
-    private void saveText (String fileName, String text) {
+    public static void saveText (
+        final String fileName,
+        final String text)
+    {
         try {
             File file = new File(fileName);
             FileWriter fw = new FileWriter(file);
@@ -40,35 +43,44 @@ public class Main
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Failed to save file " + fileName + ".");
+            System.err.println(
+                "Failed to save file " + fileName + ".");
         }
     }
 
-    private Main () {
+    public Main ()
+    {
         try {
-            Tester tester = new Tester(Long.parseLong(seed), exec);
-            Visualizer v = new Visualizer(tester);
+            InputData  id = Generator.genInput(seed);
+            OutputData od = Checker.runCommand(exec, id);
+            Visualizer  v = new Visualizer(id, od);
+            double score = Checker.calcScore(id, od);
 
-            if (vis && tester.getScore() >= 0) {
-                JFrame jf = new JFrame();
-                jf.getContentPane().add(v);
-                jf.getContentPane().setPreferredSize(v.getDimension());
-                jf.pack();
-                jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                jf.setResizable(false);
-                jf.setVisible(true);
+            if (save && score >= 0) {
+                v.saveImage(String.valueOf(seed));
             }
 
-            if (save && tester.getScore() >= 0) {
-                v.saveImage(seed);
+            if (vis && score >= 0) {
+                v.setVisible(true);
+            } else {
+                v.dispose();
             }
 
             if (debug) {
-                saveText( "input-" + seed + ".txt", tester.getInputString());
-                saveText("output-" + seed + ".txt", tester.getOutputString());
+                saveText( "input-" + seed + ".txt", id.toString());
+                saveText("output-" + seed + ".txt", od.toString());
             }
 
-            System.out.println(getJsonString(tester));
+            class JsonInfo {
+                public long seed;
+                public double score;
+            }
+
+            JsonInfo info = new JsonInfo();
+            info.seed = seed;
+            info.score = score;
+
+            System.out.println(getJsonString(info));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -77,8 +89,8 @@ public class Main
         }
     }
 
-    public static void main (String[] args) {
-
+    public static void main (String[] args)
+    {
         Options options = new Options();
 
         // --seed option
@@ -140,7 +152,7 @@ public class Main
 
         try {
             cmd = parser.parse(options, args);
-            seed  = cmd.getOptionValue("seed");
+            seed  = Long.parseLong(cmd.getOptionValue("seed"));
             exec  = cmd.getOptionValue("exec");
             save  = cmd.hasOption("save");
             vis   = cmd.hasOption("vis");

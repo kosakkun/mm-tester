@@ -7,28 +7,29 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JPanel
+public class Visualizer extends JFrame
 {
-    final int FIELD_SIZE_X = 1000;
-    final int FIELD_SIZE_Y = 1000;
-    final int PADDING      = 10;
-    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
-    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
-    final Tester tester;
+    private View view;
 
-    public Visualizer (final Tester _tester) {
-        this.tester = _tester;
+    public Visualizer (
+        final InputData id,
+        final OutputData od)
+    {
+        view = new View(id, od);
+        this.getContentPane().add(view);
+        this.getContentPane().setPreferredSize(view.getDimension());
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
     }
 
-    public Dimension getDimension () {
-        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
-    }
-
-    public void saveImage (String fileName) {
+    public void saveImage (final String fileName)
+    {
         try {
-            BufferedImage bi = drawImage();
+            BufferedImage bi = view.drawImage();
             ImageIO.write(bi, "png", new File(fileName +".png"));
         }
         catch (Exception e) {
@@ -36,9 +37,34 @@ public class Visualizer extends JPanel
             e.printStackTrace();
         }
     }
+}
+
+class View extends JPanel
+{
+    final private int FIELD_SIZE_X = 1000;
+    final private int FIELD_SIZE_Y = 1000;
+    final private int PADDING      = 10;
+    final private int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+    final private int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
+    final InputData id;
+    final OutputData od;
+
+    public View (
+        final InputData _id,
+        final OutputData _od)
+    {
+        this.id = _id;
+        this.od = _od;
+    }
+
+    public Dimension getDimension ()
+    {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
+    }
 
     @Override
-    public void paint (Graphics g) {
+    public void paint (Graphics g)
+    {
         try {
             BufferedImage bi = drawImage();
             g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
@@ -48,22 +74,24 @@ public class Visualizer extends JPanel
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * int    tester.N            Number of input vertices.
-     * int    tester.M            Number of output vertices.
-     * int[]  tester.x            The x coordinate of the input vertex.
-     * int[]  tester.y            The y coordinate of the input vertex.
-     * int[]  tester.ax           The x coordinate of the output vertex.
-     * int[]  tester.ay           The y coordinate of the output vertex.
-     * LineSegment[] teater.MST1  The line segments of the initial minimum spanning tree.
-     * LineSegment[] tester.MST2  The line segments of the minimum spanning tree with added vertices.
+     * int    id.N       Number of input vertices.
+     * int[]  id.x       The x coordinate of the input vertex.
+     * int[]  id.y       The y coordinate of the input vertex.
+     * int    od.M       Number of output vertices.
+     * int[]  od.ax      The x coordinate of the output vertex.
+     * int[]  od.ay      The y coordinate of the output vertex.
      *
-     * @see Tester
+     * LineSegment[] getMinimumPinningTree(N, x[], y[])
+     *
+     * @see InputData
+     * @see OutputData
+     * @see Checker
      * @see LineSegment
      */
-    private BufferedImage drawImage () {
-
+    public BufferedImage drawImage ()
+    {
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -78,18 +106,31 @@ public class Visualizer extends JPanel
            point (x, y) in the current coordinate system.*/
         g2.translate(PADDING, PADDING);
 
+        int nx[] = new int[id.N + od.M];
+        int ny[] = new int[id.N + od.M];
+        for (int i = 0; i < id.N; i++) {
+            nx[i] = id.x[i];
+            ny[i] = id.y[i];
+        }
+        for (int i = id.N; i < id.N + od.M; i++) {
+            nx[i] = od.ax[i - id.N];
+            ny[i] = od.ay[i - id.N];
+        }
+
+        LineSegment[] MST1 = Checker.getMinimumPinningTree(id.N, id.x, id.y);
+        LineSegment[] MST2 = Checker.getMinimumPinningTree(id.N + od.M, nx, ny);
+
         /* Draw edges */
         g2.setColor(new Color(0x999999));
         g2.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1.0f, new float[]{3}, 0));
-        for (int i = 0; i < tester.MST1.length; i++) {
-            g2.drawLine(tester.MST1[i].x1, tester.MST1[i].y1, 
-                        tester.MST1[i].x2, tester.MST1[i].y2);
+        for (int i = 0; i < MST1.length; i++) {
+            g2.drawLine(MST1[i].x1, MST1[i].y1, MST1[i].x2, MST1[i].y2);
         }
 
-        for (int i = 0; i < tester.MST2.length; i++) {
+        for (int i = 0; i < MST2.length; i++) {
             boolean addLine = false;
-            for (int j = 0; j < tester.MST1.length; j++) {
-                if (tester.MST2[i].equals(tester.MST1[j])) {
+            for (int j = 0; j < MST1.length; j++) {
+                if (MST2[i].equals(MST1[j])) {
                     addLine = true;
                     break;
                 }
@@ -101,21 +142,20 @@ public class Visualizer extends JPanel
                 g2.setColor(new Color(0x32cd32));
                 g2.setStroke(new BasicStroke(1.5f));
             }
-            g2.drawLine(tester.MST2[i].x1, tester.MST2[i].y1, 
-                        tester.MST2[i].x2, tester.MST2[i].y2);
+            g2.drawLine(MST2[i].x1, MST2[i].y1, MST2[i].x2, MST2[i].y2);
         }
 
         /* Draw vertex */
         final int R1 = 6;
-        for (int i = 0; i < tester.N; i++) {
+        for (int i = 0; i < id.N; i++) {
             g2.setColor(new Color(0xDC143C));
-            g2.fillOval(tester.x[i] - R1 / 2, tester.y[i] - R1 / 2, R1, R1);
+            g2.fillOval(id.x[i] - R1 / 2, id.y[i] - R1 / 2, R1, R1);
         }
         
         final int R2 = 6;
-        for (int i = 0; i < tester.M; i++) {
+        for (int i = 0; i < od.M; i++) {
             g2.setColor(new Color(0x4169E1));
-            g2.fillOval(tester.ax[i] - R2 / 2, tester.ay[i] - R2 / 2, R2, R2);
+            g2.fillOval(od.ax[i] - R2 / 2, od.ay[i] - R2 / 2, R2, R2);
         }
 
         return bi;
