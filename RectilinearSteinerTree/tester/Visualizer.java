@@ -7,28 +7,29 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.imageio.ImageIO;
 
-public class Visualizer extends JPanel
+public class Visualizer extends JFrame
 {
-    final int FIELD_SIZE_X = 1000;
-    final int FIELD_SIZE_Y = 1000;
-    final int PADDING      = 10;
-    final int VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
-    final int VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
-    final Tester tester;
+    private View view;
 
-    public Visualizer (final Tester _tester) {
-        this.tester = _tester;
+    public Visualizer (
+        final InputData id,
+        final OutputData od)
+    {
+        view = new View(id, od);
+        this.getContentPane().add(view);
+        this.getContentPane().setPreferredSize(view.getDimension());
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
     }
 
-    public Dimension getDimension () {
-        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
-    }
-
-    public void saveImage (String fileName) {
+    public void saveImage (final String fileName)
+    {
         try {
-            BufferedImage bi = drawImage();
+            BufferedImage bi = view.drawImage();
             ImageIO.write(bi, "png", new File(fileName +".png"));
         }
         catch (Exception e) {
@@ -36,9 +37,39 @@ public class Visualizer extends JPanel
             e.printStackTrace();
         }
     }
+}
+
+class View extends JPanel
+{
+    final private int PANNEL_SIZE  = 10;
+    final private int PADDING      = 10;
+    final private int FIELD_SIZE_X;
+    final private int FIELD_SIZE_Y;
+    final private int VIS_SIZE_X;
+    final private int VIS_SIZE_Y;
+    final InputData id;
+    final OutputData od;
+
+    public View (
+        final InputData _id,
+        final OutputData _od)
+    {
+        this.id = _id;
+        this.od = _od;
+        FIELD_SIZE_X = PANNEL_SIZE * (Generator.MAX_X + 1);
+        FIELD_SIZE_Y = PANNEL_SIZE * (Generator.MAX_Y + 1);
+        VIS_SIZE_X   = FIELD_SIZE_X + PADDING * 2;
+        VIS_SIZE_Y   = FIELD_SIZE_Y + PADDING * 2;
+    }
+
+    public Dimension getDimension ()
+    {
+        return new Dimension(VIS_SIZE_X, VIS_SIZE_Y);
+    }
 
     @Override
-    public void paint (Graphics g) {
+    public void paint (Graphics g)
+    {
         try {
             BufferedImage bi = drawImage();
             g.drawImage(bi, 0, 0, VIS_SIZE_X, VIS_SIZE_Y, null);
@@ -50,19 +81,22 @@ public class Visualizer extends JPanel
     }
 
     /**
-     * int   tester.WIDTH   The width of the board.
-     * int   tester.HEIGHT  The height of the board.
-     * int   tester.N       The number of panels placed in advance.
-     * int[] tester.x       The x coordinate of panels placed in advance.
-     * int[] tester.y       The y coordinate of panels placed in advance.
-     * int   tester.M       The number of panels to be placed later.
-     * int[] tester.ax      The x coordinate of panels to be placed later.
-     * int[] tester.ay      The y coordinate of panels to be placed later.
+     * int   id.N      The number of panels placed in advance.
+     * int[] id.x      The x coordinate of panels placed in advance.
+     * int[] id.y      The y coordinate of panels placed in advance.
+     * int   od.M      The number of panels to be placed later.
+     * int[] od.ax     The x coordinate of panels to be placed later.
+     * int[] od.ay     The y coordinate of panels to be placed later.
      *
-     * @see Tester
+     * int   Generator.MAX_X
+     * int   Generator.MAX_Y
+     *
+     * @see InputData
+     * @see OutputData
+     * @see Generator
      */
-    private BufferedImage drawImage () {
-
+    public BufferedImage drawImage ()
+    {
         BufferedImage bi = new BufferedImage(VIS_SIZE_X, VIS_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -78,26 +112,23 @@ public class Visualizer extends JPanel
         g2.translate(PADDING, PADDING);
 
         /* Draw pannels */
-        final int cellw = FIELD_SIZE_X / tester.WIDTH;
-        final int cellh = FIELD_SIZE_Y / tester.HEIGHT; 
-
         g2.setColor(new Color(0xdc143c));
-        for (int i = 0; i < tester.N; i++) {
-            g2.fillRect(tester.x[i] * cellw, tester.y[i] * cellh, cellw, cellh);
+        for (int i = 0; i < id.N; i++) {
+            g2.fillRect(id.x[i] * PANNEL_SIZE, id.y[i] * PANNEL_SIZE, PANNEL_SIZE, PANNEL_SIZE);
         }
 
         g2.setColor(new Color(0x4169e1));
-        for (int i = 0; i < tester.M; i++) {
-            g2.fillRect(tester.ax[i] * cellw, tester.ay[i] * cellh, cellw, cellh);
+        for (int i = 0; i < od.M; i++) {
+            g2.fillRect(od.ax[i] * PANNEL_SIZE, od.ay[i] * PANNEL_SIZE, PANNEL_SIZE, PANNEL_SIZE);
         }
 
         g2.setStroke(new BasicStroke(1.0f));
         g2.setColor(new Color(0xD3D3D3));
-        for (int i = 1; i <= tester.WIDTH; i++) {
-            g2.drawLine(i * cellw, 0, i * cellw, FIELD_SIZE_Y);
+        for (int i = 1; i <= Generator.MAX_X + 1; i++) {
+            g2.drawLine(i * PANNEL_SIZE, 0, i * PANNEL_SIZE, FIELD_SIZE_Y);
         }
-        for (int i = 1; i <= tester.HEIGHT; i++) {
-            g2.drawLine(0, i * cellh, FIELD_SIZE_X, i * cellh);
+        for (int i = 1; i <= Generator.MAX_Y + 1; i++) {
+            g2.drawLine(0, i * PANNEL_SIZE, FIELD_SIZE_X, i * PANNEL_SIZE);
         }
 
         return bi;
