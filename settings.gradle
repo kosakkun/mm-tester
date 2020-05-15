@@ -7,4 +7,5 @@ include 'TravelingSalesman',
         'RectilinearSteinerTree',
         'DiskCovering',
         'LongestPath',
-        'EuclideanSteinerTree'
+        'EuclideanSteinerTree',
+        'Hiroimono'
