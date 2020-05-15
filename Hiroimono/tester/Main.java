@@ -58,6 +58,17 @@ public class Main
             Visualizer v = new Visualizer(id, od);
             int score = Checker.calcScore(id, od);
 
+            class JsonInfo {
+                public long seed;
+                public int score;
+            }
+
+            JsonInfo info = new JsonInfo();
+            info.seed = seed;
+            info.score = score;
+
+            System.out.println(getJsonString(info));
+
             if (debug) {
                 saveText( "input-" + seed + ".txt", id.toString());
                 saveText("output-" + seed + ".txt", od.toString());
@@ -77,17 +88,6 @@ public class Main
             } else {
                 v.dispose();
             }
-
-            class JsonInfo {
-                public long seed;
-                public int score;
-            }
-
-            JsonInfo info = new JsonInfo();
-            info.seed = seed;
-            info.score = score;
-
-            System.out.println(getJsonString(info));
         }
         catch (Exception e) {
             e.printStackTrace();

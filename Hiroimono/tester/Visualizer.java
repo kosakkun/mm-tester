@@ -39,11 +39,13 @@ public class Visualizer extends JFrame
     public void startAnimation (final long delay)
     {
         try {
-            view.initState();
-            Thread.sleep(2000);
-            while (view.nextState()) {
-                this.repaint();
-                Thread.sleep(delay);
+            while (true) {
+                Thread.sleep(2000);
+                view.initState();
+                while (view.nextState()) {
+                    this.repaint();
+                    Thread.sleep(delay);
+                }
             }
         }
         catch (Exception e) {
