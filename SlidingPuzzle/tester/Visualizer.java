@@ -33,6 +33,7 @@ public class Visualizer extends JFrame
         final OutputData od)
     {
         view = new View(id, od);
+        view.initState();
         this.getContentPane().add(view);
         this.getContentPane().setPreferredSize(view.getDimension());
         this.pack();
@@ -43,11 +44,13 @@ public class Visualizer extends JFrame
     public void startAnimation (final long delay)
     {
         try {
-            view.initState();
-            Thread.sleep(2000);
-            while (view.nextState()) {
-                this.repaint();
-                Thread.sleep(delay);
+            while (true) {
+                Thread.sleep(2000);
+                view.initState();
+                while (view.nextState()) {
+                    this.repaint();
+                    Thread.sleep(delay);
+                }
             }
         }
         catch (Exception e) {
@@ -132,6 +135,11 @@ class View extends JPanel
     private final InputData id;
     private final OutputData od;
 
+    private int curTurn;
+    private int[][] curB;
+    private int bposR;
+    private int bposC;
+
     public View (
         final InputData _id,
         final OutputData _od)
@@ -142,6 +150,8 @@ class View extends JPanel
         FIELD_SIZE_Y = PANNEL_SIZE * id.N;
         VIS_SIZE_X = FIELD_SIZE_X + PADDING * 2;
         VIS_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
+
+        curB = new int[id.N][id.N];
     }
 
     public Dimension getDimension ()
@@ -162,16 +172,9 @@ class View extends JPanel
         }
     }
 
-    private int curTurn;
-    private int[][] curB;
-    private int bposR;
-    private int bposC;
-
     public void initState ()
     {
         curTurn = 0;
-        curB = new int[id.N][id.N];
-
         for (int r = 0; r < id.N; r++) {
             for (int c = 0; c < id.N; c++) {
                 curB[r][c] = id.B[r][c];

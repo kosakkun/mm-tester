@@ -57,22 +57,6 @@ public class Main
             Visualizer v = new Visualizer(id, od);
             long score = Checker.calcScore(id, od);
 
-            if (save && score >= 0) {
-                v.saveAnimation(String.valueOf(seed), delay);
-            }
-
-            if (vis && score >= 0) {
-                v.setVisible(true);
-                v.startAnimation(delay);
-            } else {
-                v.dispose();
-            }
-
-            if (debug) {
-                saveText( "input-" + seed + ".txt", id.toString());
-                saveText("output-" + seed + ".txt", od.toString());
-            }
-
             class JsonInfo {
                 public long seed;
                 public long score;
@@ -83,6 +67,22 @@ public class Main
             info.score = score;
 
             System.out.println(getJsonString(info));
+
+            if (debug) {
+                saveText( "input-" + seed + ".txt", id.toString());
+                saveText("output-" + seed + ".txt", od.toString());
+            }
+
+            if (save && score >= 0) {
+                v.saveAnimation(String.valueOf(seed), delay);
+            }
+
+            if (vis && score >= 0) {
+                v.setVisible(true);
+                v.startAnimation(delay);
+            } else {
+                v.dispose();
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
