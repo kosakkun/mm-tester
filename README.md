@@ -55,21 +55,29 @@ $ gradle build
 └── sample
     ├── cpp
     │   ├── run.sh
+    │   ├── run.py
     │   └── main.cpp
     ├── java
     │   ├── run.sh
+    │   ├── run.py
     │   └── Main.java
     └── python
         ├── run.sh
+    │   ├── run.py
         └── main.py
 ```
 
 ### サンプル
-例）Traveling Salesmanのjavaのサンプルプログラムを実行する場合．
+Traveling Salesmanのjavaのサンプルプログラムを実行する場合．
 ```
 $ cd TravelingSalesman/sample/java
 $ chmod a+x run.sh
 $ ./run.sh
+```
+または，
+```
+$ cd TravelingSalesman/sample/java
+$ python3 run.py
 ```
 
 ## 問題
