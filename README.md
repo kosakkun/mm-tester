@@ -7,11 +7,6 @@
 $ sudo apt update
 $ sudo apt install default-jre default-jdk build-essential git curl python3
 ```
-```
-$ curl -s http://get.sdkman.io | bash
-$ source ~/.sdkman/bin/sdkman-init.sh
-$ sdk install gradle
-```
 
 ### macOS
 ```
@@ -21,17 +16,8 @@ $ xcode-select --install
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 $ brew update
 $ brew cask install java
-$ brew install git gradle python3
+$ brew install git python3
 ```
-
-### Docker
-```
-$ git clone --depth 1 https://github.com/kosakkun/mm-tester.git
-$ cd mm-tester
-$ docker build . -t mm-env
-$ docker run --rm -v $(pwd):/mnt/workdir -w /mnt/workdir -it mm-env /bin/bash
-```
-
 
 ## 使い方
 
@@ -39,7 +25,8 @@ $ docker run --rm -v $(pwd):/mnt/workdir -w /mnt/workdir -it mm-env /bin/bash
 ```
 $ git clone --depth 1 https://github.com/kosakkun/mm-tester.git
 $ cd mm-tester
-$ gradle build
+$ chmod +x gradlew
+$ ./gradlew build
 ```
 
 ### 問題毎のファイル構成
@@ -63,7 +50,7 @@ $ gradle build
     │   └── Main.java
     └── python
         ├── run.sh
-    │   ├── run.py
+        ├── run.py
         └── main.py
 ```
 
@@ -71,7 +58,7 @@ $ gradle build
 Traveling Salesmanのjavaのサンプルプログラムを実行する場合．
 ```
 $ cd TravelingSalesman/sample/java
-$ chmod a+x run.sh
+$ chmod +x run.sh
 $ ./run.sh
 ```
 または，
@@ -103,3 +90,4 @@ $ python3 run.py
   - [Jackson Databind](https://github.com/FasterXML/jackson-databind)
   - [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
   - [Spring Boot](https://spring.io/projects/spring-boot)
+  - [Gradle](https://gradle.org)
