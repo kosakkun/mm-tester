@@ -11,7 +11,7 @@ public class InputData
     public int[] x;
     public int[] y;
 
-    public static InputData genInput (
+    public static InputData genInputData (
         final long seed)
         throws Exception
     {

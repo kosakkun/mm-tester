@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 class DiskCovering
@@ -29,7 +30,9 @@ int main ()
     }
 
     DiskCovering dc;
-    auto [M, rx, ry] = dc.solve(N, R, x, y);
+    int M;
+    vector<int> rx, ry;
+    tie(M, rx, ry) = dc.solve(N, R, x, y);
     cout << M << endl;
     for (int i = 0; i < M; i++) {
         cout << rx[i] << " " << ry[i] << endl;

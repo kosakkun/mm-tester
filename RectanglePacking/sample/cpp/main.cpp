@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 class RectanglePacking
@@ -31,8 +32,9 @@ int main ()
     }
 
     RectanglePacking rp;
-    auto [x, y] = rp.solve(N, w, h);
-    for (int i = 0; i < x.size(); i++) {
+    vector<int> x,y;
+    tie(x, y) = rp.solve(N, w, h);
+    for (int i = 0; i < (int)x.size(); i++) {
         cout << x[i] << " " << y[i] << endl;
     }
 

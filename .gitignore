@@ -6,4 +6,7 @@
 MANIFEST.MF
 Tester.jar
 main
+test.sh
+test_run.sh
+Dockerfile*
 

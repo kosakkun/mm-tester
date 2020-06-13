@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CXX="g++"
-CXXFLAGS="-O2 -Wall -std=c++17"
+CXXFLAGS="-O2 -Wall -std=c++14"
 TESTER="../../build/libs/Tester.jar"
 TESTNUM=10
 

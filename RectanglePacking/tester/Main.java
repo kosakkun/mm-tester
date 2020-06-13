@@ -17,35 +17,35 @@ public class Main
     static boolean vis  = false;
     static boolean debug = false;
 
-    private String getJsonString (final Object obj)
+    private String getJsonString (
+        final InputData id,
+        final OutputData od,
+        final double score)
+        throws Exception
     {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String ret = mapper.writeValueAsString(obj);
-            return ret;
+        class JsonInfo {
+            public long seed;
+            public double score;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("JSON generation failed.");
-            return "";
-        }
+
+        JsonInfo info = new JsonInfo();
+        info.seed = seed;
+        info.score = score;
+        
+        ObjectMapper mapper = new ObjectMapper();
+        String ret = mapper.writeValueAsString(info);
+        return ret;
     }
 
     public static void saveText (
         final String fileName,
         final String text)
+        throws Exception
     {
-        try {
-            File file = new File(fileName);
-            FileWriter fw = new FileWriter(file);
-            fw.write(text);
-            fw.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(
-                "Failed to save file " + fileName + ".");
-        }
+        File file = new File(fileName);
+        FileWriter fw = new FileWriter(file);
+        fw.write(text);
+        fw.close();
     }
 
     public Main ()
@@ -53,39 +53,33 @@ public class Main
         try {
             InputData  id = InputData.genInputData(seed);
             OutputData od = OutputData.runCommand(exec, id);
-            Visualizer v = new Visualizer(id, od);
-            int score = Checker.calcScore(id, od);
-
-            if (save && score >= 0) {
-                v.saveImage(String.valueOf(seed));
-            }
-
-            if (vis && score >= 0) {
-                v.setVisible(true);
-            } else {
-                v.dispose();
-            }
+            double score = Checker.calcScore(id, od);
+            System.out.println(getJsonString(id, od, score));
 
             if (debug) {
                 saveText( "input-" + seed + ".txt", id.toString());
                 saveText("output-" + seed + ".txt", od.toString());
             }
 
-            class JsonInfo {
-                public long seed;
-                public int score;
+            if (!(save || vis) || score < 0) {
+                System.exit(0);
             }
 
-            JsonInfo info = new JsonInfo();
-            info.seed = seed;
-            info.score = score;
-
-            System.out.println(getJsonString(info));
+            try {
+                Visualizer v = new Visualizer(id, od);
+                if (save) v.saveImage(String.valueOf(seed));
+                if (vis ) v.setVisible(true);
+                else      v.dispose();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Visualization failed.");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
-            System.err.println("Failed to get result from your answer.");
+            System.out.println("{\"seed\":" + seed + ",\"score\":-1.0}");
+            System.err.println("An exception occurred while running your program.");
         }
     }
 

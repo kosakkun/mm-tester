@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 class LongestPath
@@ -35,7 +36,9 @@ int main ()
     }
 
     LongestPath lp;
-    auto [K, v] = lp.solve(N, M, x, y, a, b);
+    int K;
+    vector<int> v;
+    tie(K, v) = lp.solve(N, M, x, y, a, b);
     cout << K << endl;
     for (int i = 0; i < K; i++) {
         cout << v[i] << endl;

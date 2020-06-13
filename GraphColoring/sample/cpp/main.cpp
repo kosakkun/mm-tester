@@ -30,7 +30,7 @@ int main ()
     }
 
     GraphColoring gc;
-    auto ret = gc.solve(N, M, a, b);
+    vector<int> ret = gc.solve(N, M, a, b);
     for (auto c: ret) {
         cout << c << endl;
     }

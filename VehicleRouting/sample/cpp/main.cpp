@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <tuple>
 using namespace std;
 
 class VehicleRouting
@@ -55,7 +56,10 @@ int main ()
     }
 
     VehicleRouting vr;
-    auto [K, T, L, D] = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
+    int K;
+    vector<int> T,L;
+    vector<vector<int>> D;
+    tie(K, T, L, D) = vr.solve(N, M, depotX, depotY, x, y, cap, speed);
     cout << K << '\n';
     for (int i = 0; i < K; i++) {
         cout << T[i] << ' ' << L[i] << '\n';

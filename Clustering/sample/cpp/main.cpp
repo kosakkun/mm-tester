@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 class Clustering
@@ -33,8 +34,9 @@ int main ()
     }
 
     Clustering c;
-    auto [cx, cy] = c.solve(N, K, x, y);
-    for (int i = 0; i < cx.size(); i++) {
+    vector<int> cx,cy;
+    tie(cx, cy) = c.solve(N, K, x, y);
+    for (int i = 0; i < (int)cx.size(); i++) {
         cout << cx[i] << " " << cy[i] << endl;
     }
 

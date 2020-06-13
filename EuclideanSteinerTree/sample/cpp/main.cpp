@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 class EuclideanSteinerTree
@@ -28,7 +29,9 @@ int main ()
     }
     
     EuclideanSteinerTree est;
-    auto [M, ax, ay] = est.solve(N, x, y);
+    int M;
+    vector<int> ax,ay;
+    tie(M, ax, ay) = est.solve(N, x, y);
     cout << M << endl;
     for (int i = 0; i < M; i++) {
         cout << ax[i] << " " << ay[i] << endl;

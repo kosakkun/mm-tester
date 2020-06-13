@@ -31,7 +31,7 @@ int main ()
     }
 
     TravelingSalesman ts;
-    auto v = ts.solve(N, x, y);
+    vector<int> v = ts.solve(N, x, y);
     for (auto vt: v) {
         cout << vt << endl;
     }

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <tuple>
 using namespace std;
 
 class Hiroimono
@@ -29,7 +29,9 @@ int main ()
     }
 
     Hiroimono h;
-    auto [M, v] = h.solve(N, x, y);
+    int M;
+    vector<int> v;
+    tie(M, v) = h.solve(N, x, y);
     
     cout << M << endl;
     for (auto vt: v) {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <tuple>
 using namespace std;
 
 class SlidingPuzzle
@@ -36,7 +37,9 @@ int main ()
     }
 
     SlidingPuzzle sp;
-    auto [M, r, c] = sp.solve(N, B);
+    int M;
+    vector<int> r,c;
+    tie(M, r, c) = sp.solve(N, B);
     cout << M << endl;
     for (int i = 0; i < M; i++) {
         cout << r[i] << " " << c[i] << endl;

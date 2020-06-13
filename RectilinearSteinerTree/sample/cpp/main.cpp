@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <tuple>
 using namespace std;
 
 class RectilinearSteinerTree
@@ -42,7 +43,9 @@ int main ()
     }
 
     RectilinearSteinerTree rst;
-    auto [M, ax, ay] = rst.solve(N, x, y);
+    int M;
+    vector<int> ax,ay;
+    tie(M, ax, ay) = rst.solve(N, x, y);
     cout << M << endl;
     for (int i = 0; i < M; i++) {
         cout << ax[i] << " " << ay[i] << endl;
