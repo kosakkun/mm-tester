@@ -27,6 +27,7 @@ public class Visualizer extends JFrame
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+        this.setTitle("Vehicle Routing");
     }
 
     public void saveImage (final String fileName)

@@ -39,6 +39,7 @@ public class Visualizer extends JFrame
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+        this.setTitle("Sliding Puzzle");
     }
 
     public void startAnimation (final long delay)
