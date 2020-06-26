@@ -55,31 +55,31 @@ $ ./gradlew build
         └── main.py
 ```
 
-### サンプル
+### Sample
 Traveling Salesmanのjavaのサンプルプログラムを実行する場合．
 ```
-$ cd TravelingSalesman/sample/java
+$ cd problems/TravelingSalesman/sample/java
 $ chmod +x run.sh
 $ ./run.sh
 ```
 または，
 ```
-$ cd TravelingSalesman/sample/java
+$ cd problems/TravelingSalesman/sample/java
 $ python3 run.py
 ```
 
-## 問題
-- [Traveling Salesman](TravelingSalesman/)
-- [Vehicle Routing](VehicleRouting/) 
-- [Rectangle Packing](RectanglePacking/)
-- [Graph Coloring](GraphColoring/)
-- [Clustering](Clustering/)
-- [Sliding Puzzle](SlidingPuzzle)
-- [Rectilinear Steiner Tree](RectilinearSteinerTree/)
-- [Disk Covering](DiskCovering/)
-- [Longest Path](LongestPath/)
-- [Euclidean Steiner Tree](EuclideanSteinerTree/)
-- [Hiroimono](Hiroimono/)
+## Problems
+- [Traveling Salesman](problems/TravelingSalesman/)
+- [Vehicle Routing](problems/VehicleRouting/) 
+- [Rectangle Packing](problems/RectanglePacking/)
+- [Graph Coloring](problems/GraphColoring/)
+- [Clustering](problems/Clustering/)
+- [Sliding Puzzle](problems/SlidingPuzzle)
+- [Rectilinear Steiner Tree](problems/RectilinearSteinerTree/)
+- [Disk Covering](problems/DiskCovering/)
+- [Longest Path](problems/LongestPath/)
+- [Euclidean Steiner Tree](problems/EuclideanSteinerTree/)
+- [Hiroimono](problems/Hiroimono/)
 
 ### 問題文が読めない時
 [ここ](http://marxi.co)とかに貼り付けて読んでください．
