@@ -8,4 +8,5 @@ include 'problems:TravelingSalesman',
         'problems:DiskCovering',
         'problems:LongestPath',
         'problems:EuclideanSteinerTree',
-        'problems:Hiroimono'
+        'problems:Hiroimono',
+        'problems:EdgeMatching'
