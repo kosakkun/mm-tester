@@ -4,8 +4,8 @@ public class InputData
 {
     public static final int MAX_N = 50;
     public static final int MIN_N = 5;
-    public static final int MAX_C = 10;
-    public static final int MIN_C = 3;
+    public static final int MAX_C = 50;
+    public static final int MIN_C = 5;
 
     public int N;
     public int C;

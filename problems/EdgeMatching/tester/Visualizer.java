@@ -96,7 +96,7 @@ class View extends JPanel
         final int UNMATCH  = 0x2F;
         final int MATCH    = 0xFF;
         final float ColorS = 0.75f;
-        final float ColorB = 0.90f;
+        final float ColorB = 1.00f;
         float ColorH = 0.0f;
         int ColorA = MATCH;
 
@@ -170,7 +170,7 @@ class View extends JPanel
         /* Draw background */
         g2.setColor(new Color(0xD3D3D3));
         g2.fillRect(0, 0, VIS_SIZE_X, VIS_SIZE_Y);
-        g2.setColor(new Color(0xFFFFFF));
+        g2.setColor(new Color(0x000000));
         g2.fillRect(PADDING, PADDING, FIELD_SIZE_X, FIELD_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
