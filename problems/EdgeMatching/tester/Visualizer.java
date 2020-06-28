@@ -243,7 +243,17 @@ class View extends JPanel
             g2.fillPolygon(posX, posY, 3);
         }
 
+        /* Draw borders. */
+        g2.setStroke(new BasicStroke(1.0f));
+        g2.setColor(new Color(0x000000));
 
+        for (int x = 0; x <= id.N; x++) {
+            g2.drawLine(x * PANNEL_SIZE, 0, x * PANNEL_SIZE, FIELD_SIZE_Y);
+        }
+
+        for (int y = 0; y <= id.N; y++) {
+            g2.drawLine(0, y * PANNEL_SIZE, FIELD_SIZE_X, y * PANNEL_SIZE);
+        }
 
         return bi;
     }
