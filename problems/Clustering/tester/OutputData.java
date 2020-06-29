@@ -11,11 +11,14 @@ public class OutputData
         throws Exception
     {
         Process proc = Runtime.getRuntime().exec(exec);
+        Scanner sc = new Scanner(proc.getInputStream());
         new ErrorReader(proc.getErrorStream()).start();
+
+        /* Input to the "<command>". */
         proc.getOutputStream().write(id.toString().getBytes());
         proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
 
+        /* Output from the "<command>". */
         OutputData od = new OutputData();
         od.cx = new int[id.K];
         od.cy = new int[id.K];

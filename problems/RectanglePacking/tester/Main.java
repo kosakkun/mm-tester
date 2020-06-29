@@ -17,43 +17,13 @@ public class Main
     static boolean vis  = false;
     static boolean debug = false;
 
-    private String getJsonString (
-        final InputData id,
-        final OutputData od,
-        final double score)
-        throws Exception
-    {
-        class JsonInfo {
-            public long seed;
-            public double score;
-        }
-
-        JsonInfo info = new JsonInfo();
-        info.seed = seed;
-        info.score = score;
-        
-        ObjectMapper mapper = new ObjectMapper();
-        String ret = mapper.writeValueAsString(info);
-        return ret;
-    }
-
-    public static void saveText (
-        final String fileName,
-        final String text)
-        throws Exception
-    {
-        File file = new File(fileName);
-        FileWriter fw = new FileWriter(file);
-        fw.write(text);
-        fw.close();
-    }
-
     public Main ()
     {
         try {
             InputData  id = InputData.genInputData(seed);
             OutputData od = OutputData.runCommand(exec, id);
-            double score = Checker.calcScore(id, od);
+
+            int score = Checker.calcScore(id, od);
             System.out.println(getJsonString(id, od, score));
 
             if (debug) {
@@ -78,9 +48,39 @@ public class Main
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println("{\"seed\":" + seed + ",\"score\":-1.0}");
+            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
             System.err.println("An exception occurred while running your program.");
         }
+    }
+
+    private String getJsonString (
+        final InputData id,
+        final OutputData od,
+        final int _score)
+        throws Exception
+    {
+        class JsonInfo {
+            public long seed = Main.seed;
+            public int score = _score;
+            // public int N = id.N;
+            // ...
+        }
+
+        JsonInfo info = new JsonInfo();
+        ObjectMapper mapper = new ObjectMapper();
+        String ret = mapper.writeValueAsString(info);
+        return ret;
+    }
+
+    private void saveText (
+        final String fileName,
+        final String text)
+        throws Exception
+    {
+        File file = new File(fileName);
+        FileWriter fw = new FileWriter(file);
+        fw.write(text);
+        fw.close();
     }
 
     public static void main (String[] args)

@@ -13,15 +13,17 @@ public class OutputData
         throws Exception
     {
         Process proc = Runtime.getRuntime().exec(exec);
+        Scanner sc = new Scanner(proc.getInputStream());
         new ErrorReader(proc.getErrorStream()).start();
+
+        /* Input to the "<command>". */
         proc.getOutputStream().write(id.toString().getBytes());
         proc.getOutputStream().flush();
-        Scanner sc = new Scanner(proc.getInputStream());
 
+        /* Output from the "<command>". */
         OutputData od = new OutputData();
         od.x = new int[id.N];
         od.y = new int[id.N];
-        
         for (int i = 0; i < id.N; i++) {
             od.x[i] = sc.nextInt();
             od.y[i] = sc.nextInt();
