@@ -9,16 +9,15 @@ public class Checker
         for (int i = 0; i < id.N; i++) {
             if (od.v[i] < 0 || od.v[i] >= id.N) {
                 System.err.println(
-                    "All elements of your return must be " +
-                    "between 0 and " + (id.N - 1) + ", but " +
-                    "your return contained " + od.v[i] + ".");
+                    "The vertex numbers must be between 0 and " +
+                    (id.N - 1) + ", but your output includes " +
+                    od.v[i] + ".");
                 return false;
             }
             if (used[od.v[i]]) {
                 System.err.println(
-                    "All elements of your return must be " +
-                    "unique, but your return contained " +
-                    od.v[i] + " two or more times.");
+                    "The vertex numbers must be unique, but your" + 
+                    " output contains " + od.v[i] + " more than once.");
                 return false;
             }
             used[od.v[i]] = true;
