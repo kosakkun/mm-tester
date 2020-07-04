@@ -1,12 +1,13 @@
 public class Checker
 {
+    public static final int  MOVE_LIMIT = 100000;
+    public static final long PENALTY    = 100000;
+
     public static boolean isValid (
         final InputData id,
         final OutputData od)
         throws Exception
     {
-        final int MOVE_LIMIT = 100000;
-
         if (od.M > MOVE_LIMIT) {
             System.err.println(
                 "The number of slides must be less than or equal to " + 
@@ -18,8 +19,8 @@ public class Checker
             if (od.r[i] < 0 || od.r[i] >= id.N ||
                 od.c[i] < 0 || od.c[i] >= id.N) {
                 System.err.println(
-                    "The coordinate r = " + od.r[i] + ", c = " +
-                    od.c[i] + " is out of range.");
+                    "The coordinate r = " + od.r[i] + ", c = " + od.c[i] +
+                    " is out of range.");
                 return false;
             }
         }
@@ -54,7 +55,7 @@ public class Checker
                 long nr = (B[r][c] - 1) / id.N;
                 long nc = (B[r][c] - 1) % id.N;
                 long diff = Math.abs(r - nr) + Math.abs(c - nc);
-                score += diff * 100000;
+                score += diff * PENALTY;
             }
         }
 
@@ -66,6 +67,7 @@ public class Checker
         final int r,
         final int c,
         int[][] B)
+        throws Exception
     {
         if (r < 0 || r >= N) return false;
         if (c < 0 || c >= N) return false;

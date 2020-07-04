@@ -1,5 +1,5 @@
-import java.io.File;
-import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
@@ -11,81 +11,82 @@ import org.apache.commons.cli.ParseException;
 
 public class Main
 {
-    static long seed = 1;
-    static String exec = "";
-    static long delay = 100;
+    static String  title = "Sliding Puzzle";
+    static String  exec  = "";
+    static long    delay = 100;
+    static long    seed  = 1;
     static boolean vis   = false;
     static boolean save  = false;
     static boolean debug = false;
+    static boolean help  = false;
 
     public Main ()
     {
         try {
             InputData  id = InputData.genInputData(seed);
             OutputData od = OutputData.runCommand(exec, id);
+            long _score = Checker.calcScore(id, od);
 
-            long score = Checker.calcScore(id, od);
-            System.out.println(getJsonString(id, od, score));
+            class JsonResult {
+                public long seed = Main.seed;
+                public long score = _score;
+                // public int N = id.N;
+                // ...
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            String result = mapper.writeValueAsString(new JsonResult());
+            System.out.println(result);
 
             if (debug) {
                 saveText( "input-" + seed + ".txt", id.toString());
                 saveText("output-" + seed + ".txt", od.toString());
             }
 
-            if (!(save || vis) || score < 0) {
-                System.exit(0);
-            }
-
-            try {
-                Visualizer v = new Visualizer(id, od);
-                if (save) v.saveAnimation(String.valueOf(seed), delay);
-                if (vis) {
-                    v.setVisible(true);
-                    v.startAnimation(delay);
-                } else {
-                    v.dispose();
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Visualization failed.");
+            if ((save || vis) && _score >= 0) {
+                visualize(id, od);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
             System.err.println("An exception occurred while running your program.");
+            System.out.println("{\"seed\":" + seed + ",\"score\":-1}");
         }
     }
 
-    private String getJsonString (
+    private void visualize (
         final InputData id,
-        final OutputData od,
-        final long _score)
-        throws Exception
+        final OutputData od)
     {
-        class JsonInfo {
-            public long seed = Main.seed;
-            public long score = _score;
-            // public int N = id.N;
-            // ...
+        try {
+            Visualizer v = new Visualizer(id, od);
+            if (save) v.saveAnimation(String.valueOf(seed), delay);
+            if (vis) {
+                v.setVisible(true);
+                v.startAnimation(delay);
+            } else {
+                v.dispose();
+            }
         }
-
-        JsonInfo info = new JsonInfo();
-        ObjectMapper mapper = new ObjectMapper();
-        String ret = mapper.writeValueAsString(info);
-        return ret;
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Visualization failed.");
+        }
     }
 
     private void saveText (
-        final String fileName,
+        final String name,
         final String text)
-        throws Exception
     {
-        File file = new File(fileName);
-        FileWriter fw = new FileWriter(file);
-        fw.write(text);
-        fw.close();
+        try {
+            OutputStream out = new FileOutputStream(name);
+            out.write(text.getBytes());
+            out.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to export " + name + ".");
+        }
     }
 
     public static void main (String[] args) {
@@ -135,7 +136,7 @@ public class Main
             .required(false)
             .longOpt("save")
             .hasArg(false)
-            .desc("output gif animation.")
+            .desc("export gif animation.")
             .build());
 
         // --debug option
@@ -143,7 +144,7 @@ public class Main
             .required(false)
             .longOpt("debug")
             .hasArg(false)
-            .desc("write the input and output of <command> as a text file.")
+            .desc("export the input and output of <command> as a text file.")
             .build());
 
         // --help option
@@ -155,12 +156,9 @@ public class Main
             .build());
 
 
-        CommandLineParser parser = new DefaultParser();
-        CommandLine cmd = null;
-        boolean help = false;
-
         try {
-            cmd = parser.parse(options, args);
+            CommandLineParser parser = new DefaultParser();
+            CommandLine cmd = parser.parse(options, args);
             seed  = Long.parseLong(cmd.getOptionValue("seed"));
             exec  = cmd.getOptionValue("exec");
             vis   = cmd.hasOption("vis");
@@ -173,7 +171,7 @@ public class Main
             }
         } 
         catch (ParseException e) {
-            e.printStackTrace();
+            System.err.println(e);
             help = true;
         }
 

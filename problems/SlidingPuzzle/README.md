@@ -2,7 +2,6 @@
 
 ## 問題文
 $15$パズルを知ってますか？あれを$N×N$の盤面でより短い手数で解いてください．
-<img src="4x4.gif">
 
 ### 制約
 - $4 \leqq N \leqq 10$
@@ -53,11 +52,11 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 ### その他オプション
 ```
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
+ -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
  -h,--help             print this message.
  -l,--delay <ms>       frame delay time <ms>.
- -o,--save             output gif animation.
+ -o,--save             export gif animation.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
 ```
