@@ -23,11 +23,15 @@ public class Visualizer extends JFrame
         this.setTitle(Main.title);
     }
 
-    public void saveImage (
-        final String fileName)
-        throws Exception
+    public void saveImage (final String fileName)
     {
-        BufferedImage bi = view.drawImage();
-        ImageIO.write(bi, "png", new File(fileName +".png"));
+        try {
+            BufferedImage bi = view.drawImage();
+            ImageIO.write(bi, "png", new File(fileName + ".png"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Visualizer failed to save the image.");
+        }
     }
 }

@@ -11,7 +11,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Main
 {
-    static String title = "Traveling Salesman";
+    static String title  = "Traveling Salesman";
     static String  exec  = "";
     static long    seed  = 1;
     static boolean save  = false;
@@ -61,7 +61,7 @@ public class Main
             Visualizer v = new Visualizer(id, od);
             if (save) v.saveImage(String.valueOf(seed));
             if (vis ) v.setVisible(true);
-            else      v.dispose();
+            else v.dispose();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +121,7 @@ public class Main
             .required(false)
             .longOpt("save")
             .hasArg(false)
-            .desc("output the visualized result in png format.")
+            .desc("export the visualized result in png format.")
             .build());
 
         // --debug option
@@ -129,7 +129,7 @@ public class Main
             .required(false)
             .longOpt("debug")
             .hasArg(false)
-            .desc("write the input and output of <command> as a text file.")
+            .desc("export the input and output of <command> as a text file.")
             .build());
 
         // --help option

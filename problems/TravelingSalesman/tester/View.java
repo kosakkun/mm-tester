@@ -28,8 +28,14 @@ public class View extends JPanel
     @Override
     public void paint (Graphics g)
     {
-        BufferedImage bi = drawImage();
-        g.drawImage(bi, 0, 0, VIEW_SIZE_X, VIEW_SIZE_Y, null);
+        try {
+            BufferedImage bi = drawImage();
+            g.drawImage(bi, 0, 0, VIEW_SIZE_X, VIEW_SIZE_Y, null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Visualizer failed to draw.");
+        }
     }
 
     /**
@@ -41,7 +47,7 @@ public class View extends JPanel
      * @see InputData
      * @see OutputData
      */
-    public BufferedImage drawImage ()
+    public BufferedImage drawImage () throws Exception
     {
         BufferedImage bi = new BufferedImage(VIEW_SIZE_X, VIEW_SIZE_Y, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
