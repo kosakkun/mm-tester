@@ -44,12 +44,12 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 ### その他オプション
 ```
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
+ -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
- -g,--save-gif         output gif animation.
+ -g,--save-gif         export gif animation.
  -h,--help             print this message.
  -l,--delay <ms>       frame delay time <ms>.
- -p,--save-png         output the visualized result in png format.
+ -p,--save-png         export the visualized result in png format.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
 ```
