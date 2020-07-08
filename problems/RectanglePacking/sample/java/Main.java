@@ -17,8 +17,8 @@ class RectanglePacking
         ret.x = new int[N];
         ret.y = new int[N];
         for (int i = 0; i < N; i++) {
-            ret.x[i] = 100 * (i % 10);
-            ret.y[i] = 100 * (i / 10);
+            ret.x[i] = 50 * (i % 20);
+            ret.y[i] = 50 * (i / 20);
         }
         return ret;
     }

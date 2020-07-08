@@ -4,12 +4,12 @@
 長方形の詰め込み問題です．長方形が$N$個与えらます．$i$番目の長方形の横幅は$w_{i}$，縦幅$h_{i}$はです．これらの長方形を$0 \leqq x_{i},y_{i} \leqq 1000$の箱の中にはみ出たり重ならないようにしながら，なるべく小さな領域に敷き詰めてください．長方形は回転できません．
 
 ### 制約
-- $N = 100$
-- $5 \leqq w_{i}, h_{i} \leqq 100$
-- 与えられた$100$個の長方形は必ず$0 \leqq x_{i},y_{i} \leqq 1000$の箱の中に収まる
+- $N = 400$
+- $5 \leqq w_{i}, h_{i} \leqq 50$
+- 与えられた$N$個の長方形は必ず$0 \leqq x_{i},y_{i} \leqq 1000$の箱の中に収まる
 
 ### 入力
-$1$行目に長方形の個数$N(=100)$，続く$N$行に長方形の横幅と縦幅 $5 \leqq w_{i}, h_{i} \leqq 100$ が標準入力で与えられます．  
+$1$行目に長方形の個数$N$，続く$N$行に長方形の横幅と縦幅 $w_{i}, h_{i}$ が標準入力で与えられます．  
 $N$  
 $w_{0} \ h_{0}$  
 $w_{1} \ h_{1}$  
@@ -39,10 +39,10 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 ### その他オプション
 ```
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
+ -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
  -h,--help             print this message.
- -o,--save             output the visualized result in png format.
+ -o,--save             export the visualized result in png format.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
-```
+ ```

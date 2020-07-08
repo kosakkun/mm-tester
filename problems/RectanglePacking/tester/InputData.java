@@ -2,8 +2,8 @@ import java.security.SecureRandom;
 
 public class InputData
 {
-    public static final int FIXED_N = 100;
-    public static final int MAX_SIZE = 100;
+    public static final int FIXED_N  = 400;
+    public static final int MAX_SIZE = 50;
     public static final int MIN_SIZE = 5;
 
     public int N;

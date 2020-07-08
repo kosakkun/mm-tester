@@ -5,8 +5,8 @@ class RectanglePacking:
         x = []
         y = []
         for i in range(N):
-            x.append(100 * (i % 10))
-            y.append(100 * (i // 10))
+            x.append(50 * (i % 20))
+            y.append(50 * (i // 20))
         return x, y
 
 def main():

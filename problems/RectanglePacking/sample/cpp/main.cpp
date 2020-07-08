@@ -14,8 +14,8 @@ public:
         vector<int> x(N);
         vector<int> y(N);
         for (int i = 0; i < N; i++) {
-            x[i] = 100 * (i % 10);
-            y[i] = 100 * (i / 10);
+            x[i] = 50 * (i % 20);
+            y[i] = 50 * (i / 20);
         }
         return make_tuple(x, y);
     }
