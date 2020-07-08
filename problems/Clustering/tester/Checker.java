@@ -29,6 +29,7 @@ public class Checker
     public static int[] getRoots (
         final InputData id,
         final OutputData od)
+        throws Exception
     {
         int[] roots = new int[id.N];
         
