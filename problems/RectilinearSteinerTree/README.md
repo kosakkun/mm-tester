@@ -37,10 +37,10 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 ### その他オプション
 ```
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
+ -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
  -h,--help             print this message.
- -o,--save             output the visualized result in png format.
+ -o,--save             export the visualized result in png format.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
 ```

@@ -2,14 +2,15 @@ public class Checker
 {
     public static final int[] dx = {1, 0, -1, 0};
     public static final int[] dy = {0, 1, 0, -1};
-    private static boolean[][] board;
-    private static boolean[][] connect;
 
-    private static void dfs (
+    public static void dfs (
         final int xt,
         final int yt,
         final int wl,
-        final int hl)
+        final int hl,
+        final boolean[][] board,
+        final boolean[][] connect)
+        throws Exception
     {
         if (connect[xt][yt]) return;
         connect[xt][yt] = true;
@@ -19,7 +20,7 @@ public class Checker
             if (nx < 0 || ny < 0 || nx >= wl || ny >= hl) continue;
             if (!board[nx][ny]) continue;
             if (connect[nx][ny]) continue;  
-            dfs(nx, ny, wl, hl);
+            dfs(nx, ny, wl, hl, board, connect);
         }
     }
 
@@ -31,7 +32,7 @@ public class Checker
         final int WIDTH  = InputData.MAX_X + 1;
         final int HEIGHT = InputData.MAX_Y + 1;
 
-        board = new boolean[WIDTH][HEIGHT];
+        boolean[][] board = new boolean[WIDTH][HEIGHT];
         for (int i = 0; i < id.N; i++) {
             board[id.x[i]][id.y[i]] = true;
         }
@@ -53,8 +54,8 @@ public class Checker
             board[od.ax[i]][od.ay[i]] = true;
         }
 
-        connect = new boolean[WIDTH][HEIGHT];
-        dfs(id.x[0], id.y[0], WIDTH, HEIGHT);
+        boolean[][] connect = new boolean[WIDTH][HEIGHT];
+        dfs(id.x[0], id.y[0], WIDTH, HEIGHT, board, connect);
         for (int i = 0; i < id.N; i++) {
             if (!connect[id.x[i]][id.y[i]]) {
                 System.err.println("Panels are not connected.");
