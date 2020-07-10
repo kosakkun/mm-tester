@@ -12,5 +12,5 @@ if [ $? -ne 0 ]; then
 fi
 
 for i in `seq 1 $TESTNUM`; do
-    java -jar $TESTER --exec "./main" --seed $i
+    java -Xss256M -jar $TESTER --exec "./main" --seed $i
 done

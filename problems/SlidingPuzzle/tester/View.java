@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-class View extends JPanel
+public class View extends JPanel
 {
     public static final int PANNEL_SIZE = 40;
     public static final int MARGIN  = 10;

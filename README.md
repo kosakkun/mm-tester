@@ -80,7 +80,7 @@ $ python3 run.py
 - [Longest Path](problems/LongestPath/)
 - [Euclidean Steiner Tree](problems/EuclideanSteinerTree/)
 - [Hiroimono](problems/Hiroimono/)
-- [EdgeMatching](problems/EdgeMatching)
+- [Edge Matching](problems/EdgeMatching)
 
 ### 問題文が読めない時
 [ここ](https://stackedit.io)とかに貼り付けて読んでください．

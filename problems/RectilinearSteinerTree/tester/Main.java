@@ -141,7 +141,6 @@ public class Main
             .desc("print this message.")
             .build());
 
-
         try {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);

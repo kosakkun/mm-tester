@@ -18,7 +18,7 @@ public class OutputData
         proc.getOutputStream().write(id.toString().getBytes());
         proc.getOutputStream().flush();
 
-        /* Output to the "<command>". */
+        /* Output from the "<command>". */
         OutputData od = new OutputData();
         od.M = sc.nextInt();
         od.v = new int[od.M];
