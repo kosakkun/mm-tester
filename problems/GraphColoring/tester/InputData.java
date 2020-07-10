@@ -2,7 +2,7 @@ import java.security.SecureRandom;
 
 public class InputData
 {
-    public static final int FIXED_N = 100;
+    public static final int FIXED_N = 200;
 
     public int N;
     public int M;

@@ -4,7 +4,7 @@
 グラフの彩色問題です．頂点の個数$N$，辺の本数$M$のグラフが与えられます．頂点には$0$から$N-1$までの番号が振られています．隣接する頂点同士が異なる色になるように彩色してください．この時に必要な色の数をなるべく少なくしてください．グラフは多重辺や自己ループを持ちません，また必ずしも連結ではありません．
 
 ### 制約
-- $N=100$</li>
+- $N=200$</li>
 - $2N \leqq M \leqq N(N-1)/4$
 
 ### 入力
@@ -36,10 +36,10 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 ### その他オプション
 ```
 usage: Tester.jar
- -d,--debug            write the input and output of <command> as a text file.
+ -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
  -h,--help             print this message.
- -o,--save             output the visualized result in png format.
+ -o,--save             export the visualized result in png format.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
 ```
