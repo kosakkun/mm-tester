@@ -49,6 +49,7 @@ public class Checker
         final int N,
         final int[] x,
         final int[] y)
+        throws Exception
     {
         class Tuple {
             public Double dist;
