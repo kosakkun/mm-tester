@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.JPanel;
-import java.util.Arrays;
 
 public class View extends JPanel
 {

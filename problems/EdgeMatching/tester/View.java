@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
@@ -10,7 +11,6 @@ import javax.imageio.ImageIO;
 public class View extends JPanel
 {
     public static final int PANNEL_SIZE = 30;
-    public static final int MARGIN  = 10;
     public static final int PADDING = 0;
     public static int FIELD_SIZE_X;
     public static int FIELD_SIZE_Y; 
@@ -23,12 +23,13 @@ public class View extends JPanel
         final InputData _id,
         final OutputData _od)
     {
+        View.FIELD_SIZE_X = PANNEL_SIZE * _id.N;
+        View.FIELD_SIZE_Y = PANNEL_SIZE * _id.N;
+        View.VIEW_SIZE_X = FIELD_SIZE_X + PADDING * 2;
+        View.VIEW_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
         this.id = _id;
         this.od = _od;
-        View.FIELD_SIZE_X = PANNEL_SIZE * id.N;
-        View.FIELD_SIZE_Y = PANNEL_SIZE * id.N;
-        View.VIEW_SIZE_X = FIELD_SIZE_X + MARGIN * 2 + PADDING * 2;
-        View.VIEW_SIZE_Y = FIELD_SIZE_Y + MARGIN * 2 + PADDING * 2;
+        this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
     @Override
@@ -114,14 +115,12 @@ public class View extends JPanel
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             
         /* Draw background */
-        g2.setColor(new Color(0xD3D3D3));
-        g2.fillRect(0, 0, VIEW_SIZE_X, VIEW_SIZE_Y);
         g2.setColor(new Color(0x000000));
-        g2.fillRect(MARGIN, MARGIN, FIELD_SIZE_X + PADDING * 2, FIELD_SIZE_Y + PADDING * 2);
+        g2.fillRect(0, 0, VIEW_SIZE_X, VIEW_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(MARGIN + PADDING, MARGIN + PADDING);
+        g2.translate(PADDING, PADDING);
 
         /* Draw pannels */
         int[][] cU = new int[id.N][id.N];

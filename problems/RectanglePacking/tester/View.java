@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.Rectangle;
 import java.awt.Font;
@@ -11,7 +12,6 @@ import javax.swing.JPanel;
 
 public class View extends JPanel
 {
-    public static final int MARGIN  = 10;
     public static final int PADDING = 0;
     public static int FIELD_SIZE_X;
     public static int FIELD_SIZE_Y;
@@ -24,12 +24,13 @@ public class View extends JPanel
         final InputData _id,
         final OutputData _od)
     {
-        this.id = _id;
-        this.od = _od;
         View.FIELD_SIZE_X = OutputData.BOX_SIZE;
         View.FIELD_SIZE_Y = OutputData.BOX_SIZE;
-        View.VIEW_SIZE_X  = FIELD_SIZE_X + MARGIN * 2 + PADDING * 2;
-        View.VIEW_SIZE_Y  = FIELD_SIZE_Y + MARGIN * 2 + PADDING * 2;
+        View.VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 2;
+        View.VIEW_SIZE_Y  = FIELD_SIZE_Y + PADDING * 2;
+        this.id = _id;
+        this.od = _od;
+        this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
     @Override
@@ -64,14 +65,12 @@ public class View extends JPanel
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             
         /* Draw background */
-        g2.setColor(new Color(0xD3D3D3));
-        g2.fillRect(0, 0, VIEW_SIZE_X, VIEW_SIZE_Y);
         g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(MARGIN, MARGIN, FIELD_SIZE_X + PADDING * 2, FIELD_SIZE_Y + PADDING * 2);
+        g2.fillRect(0, 0, VIEW_SIZE_X, VIEW_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(MARGIN + PADDING, MARGIN + PADDING);
+        g2.translate(PADDING, PADDING);
 
         /* Draw rectangles */
         for (int i = 0; i < id.N; i++) {
@@ -83,23 +82,18 @@ public class View extends JPanel
         }
 
         /* Draw score */
-        try {
-            int score = Checker.calcScore(id, od);
-            g2.setStroke(new BasicStroke(2.0f));
-            g2.drawLine(0, FIELD_SIZE_Y - score, FIELD_SIZE_X, FIELD_SIZE_Y - score);
-        
-            g2.setFont(new Font("Courier", Font.BOLD, 15));
-            String text = "Score = " + score;
-            FontMetrics fm = g2.getFontMetrics();
-            Rectangle rectText = fm.getStringBounds(text, g2).getBounds();
-            int tw = FIELD_SIZE_X / 2 - rectText.width / 2;
-            int th = FIELD_SIZE_Y - score - rectText.height / 2;
-            g2.setColor(new Color(0x000000));
-            g2.drawString(text, tw, th);
-        }
-        catch (Exception e) {
-
-        }
+        int score = Checker.calcScore(id, od);
+        g2.setStroke(new BasicStroke(2.0f));
+        g2.drawLine(0, FIELD_SIZE_Y - score, FIELD_SIZE_X, FIELD_SIZE_Y - score);
+    
+        g2.setFont(new Font("Courier", Font.BOLD, 15));
+        String text = "Score = " + score;
+        FontMetrics fm = g2.getFontMetrics();
+        Rectangle rectText = fm.getStringBounds(text, g2).getBounds();
+        int tw = FIELD_SIZE_X / 2 - rectText.width / 2;
+        int th = FIELD_SIZE_Y - score - rectText.height / 2;
+        g2.setColor(new Color(0x000000));
+        g2.drawString(text, tw, th);
      
         return bi;
     }

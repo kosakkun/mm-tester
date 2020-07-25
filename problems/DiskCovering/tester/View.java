@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
@@ -10,10 +11,9 @@ public class View extends JPanel
 {
     public static final int FIELD_SIZE_X = 1000;
     public static final int FIELD_SIZE_Y = 1000;
-    public static final int MARGIN       = 10;
     public static final int PADDING      = 0;
-    public static final int VIEW_SIZE_X  = FIELD_SIZE_X + MARGIN * 2 + PADDING * 2;
-    public static final int VIEW_SIZE_Y  = FIELD_SIZE_Y + MARGIN * 2 + PADDING * 2;
+    public static final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 2;
+    public static final int VIEW_SIZE_Y  = FIELD_SIZE_Y + PADDING * 2;
     private final InputData id;
     private final OutputData od;
 
@@ -23,6 +23,7 @@ public class View extends JPanel
     {
         this.id = _id;
         this.od = _od;
+        this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
     @Override
@@ -58,11 +59,11 @@ public class View extends JPanel
             
         /* Draw the background */
         g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(MARGIN, MARGIN, FIELD_SIZE_X + PADDING * 2, FIELD_SIZE_Y + PADDING * 2);
+        g2.fillRect(0, 0, VIEW_SIZE_X, VIEW_SIZE_Y);
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(MARGIN + PADDING, MARGIN + PADDING);
+        g2.translate(PADDING, PADDING);
 
         /* Draw the disk */
         g2.setColor(new Color(0x41, 0x69, 0xe1, 0x1F));
@@ -86,19 +87,14 @@ public class View extends JPanel
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(- MARGIN - PADDING, - MARGIN - PADDING);
+        g2.translate(-PADDING, -PADDING);
 
         /* Draw the edge of this image */
         g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(0, MARGIN, VIEW_SIZE_X, PADDING);
-        g2.fillRect(MARGIN, 0, PADDING, VIEW_SIZE_Y);
-        g2.fillRect(VIEW_SIZE_X - MARGIN - PADDING, 0, PADDING, VIEW_SIZE_Y);
-        g2.fillRect(0, VIEW_SIZE_Y - MARGIN - PADDING, VIEW_SIZE_X, PADDING);
-        g2.setColor(new Color(0xD3D3D3));
-        g2.fillRect(0, 0, VIEW_SIZE_X, MARGIN);
-        g2.fillRect(0, 0, MARGIN, VIEW_SIZE_Y);
-        g2.fillRect(VIEW_SIZE_X - MARGIN, 0, MARGIN, VIEW_SIZE_Y);
-        g2.fillRect(0, VIEW_SIZE_Y - MARGIN, VIEW_SIZE_X, MARGIN);
+        g2.fillRect(0, 0, VIEW_SIZE_X, PADDING);
+        g2.fillRect(0, 0, PADDING, VIEW_SIZE_Y);
+        g2.fillRect(VIEW_SIZE_X - PADDING, 0, PADDING, VIEW_SIZE_Y);
+        g2.fillRect(0, VIEW_SIZE_Y - PADDING, VIEW_SIZE_X, PADDING);
 
         return bi;
     }
