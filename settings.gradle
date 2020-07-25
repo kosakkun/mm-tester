@@ -9,4 +9,5 @@ include 'problems:TravelingSalesman',
         'problems:LongestPath',
         'problems:EuclideanSteinerTree',
         'problems:Hiroimono',
-        'problems:EdgeMatching'
+        'problems:EdgeMatching',
+        'problems:PoliticalDistricting'

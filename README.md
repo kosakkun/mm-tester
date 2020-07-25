@@ -81,6 +81,7 @@ $ python3 run.py
 - [Euclidean Steiner Tree](problems/EuclideanSteinerTree/)
 - [Hiroimono](problems/Hiroimono/)
 - [Edge Matching](problems/EdgeMatching)
+- [Political Districting](problems/PoliticalDistricting)
 
 ### 問題文が読めない時
 [ここ](https://stackedit.io)とかに貼り付けて読んでください．
