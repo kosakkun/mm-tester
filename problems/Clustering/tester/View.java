@@ -66,17 +66,19 @@ public class View extends JPanel
            point (x, y) in the current coordinate system. */
         g2.translate(PADDING, PADDING);
 
-        /* Draw lines */
-        int[] roots = Checker.getRoots(id, od);
-        g2.setColor(new Color(0x000000));
-        g2.setStroke(new BasicStroke(1.0f));
-        for (int i = 0; i < id.N; i++) {
-            final int bidx = roots[i];
-            g2.drawLine(id.x[i], id.y[i], od.cx[bidx], od.cy[bidx]);
+        /* Draw Voronoi diagram */
+        g2.setStroke(new BasicStroke(2.0f));
+        for (int r = 1500; r > 0; r -= 2) {
+            for (int i = 0; i < id.K; i++) {
+                Color c = Color.getHSBColor((1.0f / (float)id.K) * (float)i, 0.2f, 1.0f);
+                g2.setColor(c);
+                g2.drawOval(od.cx[i] - r / 2, od.cy[i] - r / 2, r, r);
+            }
         }
 
         /* Draw vertexs */
-        final int R1 = 8;
+        final int R1 = 6;
+        int[] roots = Checker.getRoots(id, od);
         g2.setStroke(new BasicStroke(1.0f));
         for (int i = 0; i < id.N; i++) {
             Color c = Color.getHSBColor((1.0f / (float)id.K) * (float)roots[i], 1.0f, 0.95f);
@@ -86,14 +88,12 @@ public class View extends JPanel
             g2.drawOval(id.x[i] - R1 / 2, id.y[i] - R1 / 2, R1, R1);
         }
 
-        final int R2 = 12;
+        final int R2 = 10;
+        g2.setColor(new Color(0x000000));
         g2.setStroke(new BasicStroke(3.0f));
         for (int i = 0; i < id.K; i++) {
             Color c = Color.getHSBColor((1.0f / (float)id.K) * (float)i, 1.0f, 1.0f);
-            g2.setColor(c);
             g2.fillOval(od.cx[i] - R2 / 2, od.cy[i] - R2 / 2, R2, R2);
-            g2.setColor(new Color(0x000000));
-            g2.drawOval(od.cx[i] - R2 / 2, od.cy[i] - R2 / 2, R2, R2);
         }
 
         return bi;
