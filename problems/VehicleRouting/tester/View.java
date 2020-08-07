@@ -16,7 +16,7 @@ public class View extends JPanel
     public static final int FIELD_SIZE_Y = 1000;
     public static final int PADDING      = 10;
     public static final int INFO_WIDTH   = 250;
-    public static final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 2 + INFO_WIDTH;
+    public static final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 3 + INFO_WIDTH;
     public static final int VIEW_SIZE_Y  = FIELD_SIZE_Y + PADDING * 2;
     private final InputData id;
     private final OutputData od;
@@ -132,7 +132,7 @@ public class View extends JPanel
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(FIELD_SIZE_X + PADDING, - PADDING);
+        g2.translate(FIELD_SIZE_X + PADDING * 2, 0);
 
 
         /* Draw information of vehicles */
