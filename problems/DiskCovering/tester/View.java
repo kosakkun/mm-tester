@@ -11,7 +11,7 @@ public class View extends JPanel
 {
     public static final int FIELD_SIZE_X = 1000;
     public static final int FIELD_SIZE_Y = 1000;
-    public static final int PADDING      = 0;
+    public static final int PADDING      = 10;
     public static final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 2;
     public static final int VIEW_SIZE_Y  = FIELD_SIZE_Y + PADDING * 2;
     private final InputData id;
@@ -84,17 +84,6 @@ public class View extends JPanel
             g2.setColor(new Color(0x000000));
             g2.drawOval(id.xp[i] - R1 / 2, id.yp[i] - R1 / 2, R1, R1);
         }
-
-        /* Converts the origin of the graphics context to a 
-           point (x, y) in the current coordinate system. */
-        g2.translate(-PADDING, -PADDING);
-
-        /* Draw the edge of this image */
-        g2.setColor(new Color(0xFFFFFF));
-        g2.fillRect(0, 0, VIEW_SIZE_X, PADDING);
-        g2.fillRect(0, 0, PADDING, VIEW_SIZE_Y);
-        g2.fillRect(VIEW_SIZE_X - PADDING, 0, PADDING, VIEW_SIZE_Y);
-        g2.fillRect(0, VIEW_SIZE_Y - PADDING, VIEW_SIZE_X, PADDING);
 
         return bi;
     }
