@@ -1,5 +1,8 @@
 import java.io.OutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
@@ -21,51 +24,58 @@ public class Main
 
     public Main ()
     {
+        InputData  id = null;
+        OutputData od = null;
+        double score = -1.0;
+
         try {
-            InputData  id = InputData.genInputData(seed);
-            OutputData od = OutputData.runCommand(exec, id);
-            double _score = Checker.calcScore(id, od);
-
-            class JsonResult {
-                public long seed = Main.seed;
-                public double score = _score;
-                // public int N = id.N;
-                // ...
-            }
-
-            ObjectMapper mapper = new ObjectMapper();
-            String result = mapper.writeValueAsString(new JsonResult());
-            System.out.println(result);
-
-            if (debug) {
-                saveText( "input-" + seed + ".txt", id.toString());
-                saveText("output-" + seed + ".txt", od.toString());
-            }
-
-            if ((save || vis) && _score >= 0) {
-                visualize(id, od);
-            }
+            id = InputData.genInputData(Main.seed);
+            od = OutputData.runCommand(Main.exec, id);
+            score = Checker.calcScore(id, od);
         }
         catch (Exception e) {
             e.printStackTrace();
             System.err.println("An exception occurred while running your program.");
-            System.out.println("{\"seed\":" + seed + ",\"score\":-1.0}");
+        }
+        finally {
+            String result = getJsonResult(id, od, score);
+            System.out.println(result);
+        }
+
+        if (Main.debug) {
+            saveText( "input-" + Main.seed + ".txt", id.toString());
+            saveText("output-" + Main.seed + ".txt", od.toString());
+        }
+
+        if (Main.save && score >= 0) {
+            saveImage(String.valueOf(Main.seed), id, od);
+        }
+
+        if (Main.vis && score >= 0) {
+            visualize(id, od);
         }
     }
 
-    private void visualize (
+    private String getJsonResult (
         final InputData id,
-        final OutputData od)
+        final OutputData od,
+        final double _score)
     {
+        class JsonResult {
+            public long seed = Main.seed;
+            public double score = _score;
+            // public int N = (id != null) ? id.N : 0;
+            // ...
+        }
+
         try {
-            Visualizer v = new Visualizer(id, od);
-            if (save) v.saveImage(String.valueOf(seed));
-            if (vis ) v.setVisible(true);
-            else v.dispose();
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(new JsonResult());
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Visualization failed.");
+            System.err.println("Failed to create the Json result.");
+            return "";
         }
     }
 
@@ -81,6 +91,36 @@ public class Main
         catch (Exception e) {
             e.printStackTrace();
             System.err.println("Failed to export " + name + ".");
+        }
+    }
+
+    private void saveImage (
+        final String fileName,
+        final InputData id,
+        final OutputData od)
+    {
+        try {
+            View view = new View(id, od);
+            BufferedImage bi = view.drawImage();
+            ImageIO.write(bi, "png", new File(fileName + ".png"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to save the image.");
+        }
+    }
+
+    private void visualize (
+        final InputData id,
+        final OutputData od)
+    {
+        try {
+            Visualizer v = new Visualizer(id, od);
+            v.setVisible(true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Visualization failed.");
         }
     }
 
@@ -143,19 +183,19 @@ public class Main
         try {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
-            seed  = Long.parseLong(cmd.getOptionValue("seed"));
-            exec  = cmd.getOptionValue("exec");
-            save  = cmd.hasOption("save");
-            vis   = cmd.hasOption("vis");
-            debug = cmd.hasOption("debug");
-            help  = cmd.hasOption("help");
+            Main.seed  = Long.parseLong(cmd.getOptionValue("seed"));
+            Main.exec  = cmd.getOptionValue("exec");
+            Main.save  = cmd.hasOption("save");
+            Main.vis   = cmd.hasOption("vis");
+            Main.debug = cmd.hasOption("debug");
+            Main.help  = cmd.hasOption("help");
         } 
         catch (ParseException e) {
             System.err.println(e);
-            help = true;
+            Main.help = true;
         }
 
-        if (help) {
+        if (Main.help) {
             HelpFormatter hf = new HelpFormatter();
             hf.printHelp("Tester.jar", options);
             System.exit(0);
