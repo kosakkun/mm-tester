@@ -54,9 +54,10 @@ c++，java，python は`sample/`にそれぞれサンプルプログラムと，
 usage: Tester.jar
  -d,--debug            export the input and output of <command> as a text file.
  -e,--exec <command>   set the execution command of the solver. (required)
+ -g,--save-gif         export gif animation.
  -h,--help             print this message.
  -l,--delay <ms>       frame delay time <ms>.
- -o,--save             export gif animation.
+ -p,--save-png         export the visualized result in png format.
  -s,--seed <seed>      set a random seed. (required)
  -v,--vis              visualize the result.
 ```
