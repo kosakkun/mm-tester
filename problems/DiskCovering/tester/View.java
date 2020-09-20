@@ -18,11 +18,11 @@ public class View extends JPanel
     private final OutputData od;
 
     public View (
-        final InputData _id,
-        final OutputData _od)
+        final InputData id,
+        final OutputData od)
     {
-        this.id = _id;
-        this.od = _od;
+        this.id = id;
+        this.od = od;
         this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
