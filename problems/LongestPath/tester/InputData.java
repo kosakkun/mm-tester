@@ -1,7 +1,11 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.security.SecureRandom;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
-public class InputData
+public class InputData implements Cloneable
 {
     public static final int MAX_N = 1000;
     public static final int MIN_N = 50;
@@ -16,6 +20,55 @@ public class InputData
     public int[] a;
     public int[] b;
 
+    public InputData (
+        final int N,
+        final int M)
+    {
+        this.N = N;
+        this.M = M;
+        this.x = new int[N];
+        this.y = new int[N];
+        this.a = new int[M];
+        this.b = new int[M];
+    }
+
+    @Override
+    public String toString ()
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(N).append(' ');
+        sb.append(M).append('\n');
+        for (int i = 0; i < N; ++i) {
+            sb.append(x[i]).append(' ');
+            sb.append(y[i]).append('\n');
+        }
+        for (int i = 0; i < M; i++) {
+            sb.append(a[i]).append(' ');
+            sb.append(b[i]).append('\n');
+        }
+        
+        return sb.toString();
+    }
+
+    @Override
+    public InputData clone ()
+    {
+        InputData id = null;
+
+        try {
+            id = (InputData)super.clone();
+            id.x = this.x.clone();
+            id.y = this.y.clone();
+            id.a = this.a.clone();
+            id.b = this.b.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
     public static InputData genInputData (
         final long seed)
         throws Exception
@@ -23,10 +76,8 @@ public class InputData
         SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
         rnd.setSeed(seed);
 
-        InputData id = new InputData();
-        id.N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        id.x = new int[id.N];
-        id.y = new int[id.N];
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, 1);
 
         for (int i = 0; i < id.N; i++) {
             while (true) {
@@ -49,41 +100,34 @@ public class InputData
             }
         }
 
-        class Tuple {
-            public Integer key,a,b;
-            public Tuple (int _k, int _a, int _b) {
-                key = _k;
-                a = _a;
-                b = _b;
-            }
-        }
-
-        ArrayList<Tuple> order = new ArrayList<Tuple>();
+        var order = new ArrayList<Triple<Integer,Integer,Integer>>();
         for (int i = 0; i < id.N; i++) {
             for (int j = 0; j < id.N; j++) {
                 if (i == j) continue;
                 int key = rnd.nextInt(Integer.MAX_VALUE);
-                order.add(new Tuple(key, i, j));
+                order.add(Triple.of(key, i, j));
             }
         }
 
-        order.sort((a, b) -> a.key.compareTo(b.key));
-        boolean[][] connect = new boolean[id.N][id.N];
-        ArrayList<Tuple> edges = new ArrayList<Tuple>();
+        order.sort((a, b) -> a.compareTo(b));
+        Set<Pair> connect = new HashSet<>();
+        ArrayList<Pair> edges = new ArrayList<Pair>();
         
         for (int i = 0; i < 2; i++) {
             final int MAX_DIST = (int)((i + 1) * 1000.0 / Math.sqrt(id.N));
             for (int key = 0; key < order.size(); key++) {
-                int at = order.get(key).a;
-                int bt = order.get(key).b;
-                if (connect[at][bt]) continue;
-                int lx = id.x[at] - id.x[bt];
-                int ly = id.y[at] - id.y[bt];
+                final int at = (int)order.get(key).getMiddle();
+                final int bt = (int)order.get(key).getRight();
+                Pair e1 = Pair.of(at, bt);
+                Pair e2 = Pair.of(bt, at);
+                if (connect.contains(e1)) continue;
+                final int lx = id.x[at] - id.x[bt];
+                final int ly = id.y[at] - id.y[bt];
                 if (lx * lx + ly * ly <= MAX_DIST * MAX_DIST) {
                     boolean cross = false;
                     for (int j = 0; j < edges.size(); j++) {
-                        int as = edges.get(j).a;
-                        int bs = edges.get(j).b;
+                        int as = (int)edges.get(j).getLeft();
+                        int bs = (int)edges.get(j).getRight();
                         if (intersect(
                             id.x[at], id.y[at], id.x[bt], id.y[bt], 
                             id.x[as], id.y[as], id.x[bs], id.y[bs]))
@@ -93,9 +137,9 @@ public class InputData
                         }
                     }
                     if (!cross) {
-                        edges.add(new Tuple(0, at, bt));
-                        connect[at][bt] = true;
-                        connect[bt][at] = true;
+                        edges.add(Pair.of(at, bt));
+                        connect.add(e1);
+                        connect.add(e2);
                     }
                 }
             }
@@ -105,8 +149,8 @@ public class InputData
         id.a = new int[id.M];
         id.b = new int[id.M];
         for (int i = 0; i < edges.size(); i++) {
-            id.a[i] = edges.get(i).a;
-            id.b[i] = edges.get(i).b;
+            id.a[i] = (int)edges.get(i).getLeft();
+            id.b[i] = (int)edges.get(i).getRight();
         }
 
         return id;
@@ -121,23 +165,5 @@ public class InputData
         long td1 = (l2_ax - l2_bx) * (l1_ay - l2_ay) + (l2_ay - l2_by) * (l2_ax - l1_ax);
         long td2 = (l2_ax - l2_bx) * (l1_by - l2_ay) + (l2_ay - l2_by) * (l2_ax - l1_bx);
         return tc1 * tc2 < 0 && td1 * td2 < 0;
-    }
-
-    @Override
-    public String toString ()
-    {
-        StringBuffer sb = new StringBuffer();
-        sb.append(N).append(' ');
-        sb.append(M).append('\n');
-        for (int i = 0; i < N; ++i) {
-            sb.append(x[i]).append(' ');
-            sb.append(y[i]).append('\n');
-        }
-        for (int i = 0; i < M; i++) {
-            sb.append(a[i]).append(' ');
-            sb.append(b[i]).append('\n');
-        }
-        
-        return sb.toString();
     }
 }

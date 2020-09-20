@@ -1,9 +1,43 @@
 import java.util.Scanner;
 
-public class OutputData
+public class OutputData implements Cloneable
 {
     public int K;
     public int[] v;
+
+    public OutputData (final int K)
+    {
+        this.K = K;
+        this.v = new int[K];
+    }
+
+    @Override
+    public String toString ()
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(K).append('\n');
+        for (int i = 0; i < K; ++i) {
+            sb.append(v[i]).append('\n');
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public OutputData clone ()
+    {
+        OutputData od = null;
+
+        try {
+            od = (OutputData)super.clone();
+            od.v = this.v.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return od;
+    }
 
     public static OutputData runCommand (
         final String exec,
@@ -19,9 +53,8 @@ public class OutputData
         proc.getOutputStream().flush();
 
         /* Output from the "<command>". */
-        OutputData od = new OutputData();
-        od.K = sc.nextInt();
-        od.v = new int[od.K];
+        final int K = sc.nextInt();
+        OutputData od = new OutputData(K);
         for (int i = 0; i < od.K; i++) {
             od.v[i] = sc.nextInt();
         }
@@ -31,17 +64,5 @@ public class OutputData
         }
 
         return od;
-    }
-
-    @Override
-    public String toString ()
-    {
-        StringBuffer sb = new StringBuffer();
-        sb.append(K).append('\n');
-        for (int i = 0; i < K; ++i) {
-            sb.append(v[i]).append('\n');
-        }
-
-        return sb.toString();
     }
 }

@@ -18,11 +18,11 @@ public class View extends JPanel
     private final OutputData od;
 
     public View (
-        final InputData _id,
-        final OutputData _od)
+        final InputData id,
+        final OutputData od)
     {
-        this.id = _id;
-        this.od = _od;
+        this.id = id;
+        this.od = od;
         this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
@@ -95,7 +95,11 @@ public class View extends JPanel
         g2.setStroke(new BasicStroke(1.5f));
         for (int i = 0; i < od.K; i++) {
             int v = od.v[i];
-            g2.setColor(new Color(0xFFFFFF));
+            if (i == 0 || i == od.K - 1) {
+                g2.setColor(new Color(0x32cd32));
+            } else {
+                g2.setColor(new Color(0xDC143C)); 
+            }
             g2.fillOval(id.x[v] - R2 / 2, id.y[v] - R2 / 2, R2, R2);
             g2.setColor(new Color(0x000000));
             g2.drawOval(id.x[v] - R2 / 2, id.y[v] - R2 / 2, R2, R2);
