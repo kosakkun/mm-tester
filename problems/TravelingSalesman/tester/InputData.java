@@ -63,17 +63,14 @@ public class InputData implements Cloneable
         InputData id = new InputData(N);
         
         Set<Pair> used = new HashSet<>();
-        for (int i = 0; i < id.N; i++) {
-            while (true) {
-                final int xt = rnd.nextInt(MAX_X + 1);
-                final int yt = rnd.nextInt(MAX_Y + 1);
-                Pair p = Pair.of(xt, yt);
-                if (used.contains(p)) continue;
-                used.add(p);
-                id.x[i] = xt;
-                id.y[i] = yt;
-                break;
-            }
+        while (usde.size() < id.N) {
+            final int xt = rnd.nextInt(MAX_X + 1);
+            final int yt = rnd.nextInt(MAX_Y + 1);
+            Pair p = Pair.of(xt, yt);
+            if (used.contains(p)) continue;
+            id.x[used.size()] = xt;
+            id.y[used.size()] = yt;
+            used.add(p);
         }
 
         return id;

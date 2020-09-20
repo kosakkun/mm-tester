@@ -78,7 +78,6 @@ public class InputData implements Cloneable
             id.xp[used.size()] = x;
             id.yp[used.size()] = y;
             used.add(p);
-            break;
         }
 
         return id;
