@@ -2,15 +2,7 @@ import java.io.OutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageWriter;
 import javax.imageio.ImageIO;
-import javax.imageio.IIOImage;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import java.util.Iterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
@@ -134,64 +126,20 @@ public class Main
     {
         try {
             View view = new View(id, od);
-            Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("gif");
-            ImageWriter writer = it.next();
-            File file = new File(fileName + ".gif");
-            ImageOutputStream stream = ImageIO.createImageOutputStream(file);
-            writer.setOutput(stream);
-            writer.prepareWriteSequence(null);
-            view.initState();
+            GifAnimationWriter writer = new GifAnimationWriter(fileName);
 
+            view.initState();
             do {
-                BufferedImage image = view.drawImage();
-                IIOMetadata metadata = getMetadata(view.isFinish() ? 2000 : delay, writer, image);
-                writer.writeToSequence(new IIOImage(image, null, metadata), null);
+                BufferedImage frame = view.drawImage();
+                writer.addFrame(frame, view.isFinish() ? 2000 : delay);
             } while (view.nextState());
 
-            writer.endWriteSequence();
-            stream.close();
+            writer.close();
         }
         catch (Exception e) {
             e.printStackTrace();
             System.err.println("Failed to save the gif animation.");
         }
-    }
-
-    private IIOMetadata getMetadata (
-        final long delay,
-        final ImageWriter writer,
-        final BufferedImage image)
-        throws Exception
-    {
-        ImageWriteParam iwp = writer.getDefaultWriteParam();
-        IIOMetadata metadata = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), iwp);
-        String metaFormat = metadata.getNativeMetadataFormatName();
-        IIOMetadataNode root = (IIOMetadataNode)metadata.getAsTree(metaFormat);
-        
-        IIOMetadataNode gctrl = new IIOMetadataNode("GraphicControlExtension");
-        gctrl.setAttribute("delayTime", "" + (delay / 10));
-        gctrl.setAttribute("disposalMethod", "none");
-        gctrl.setAttribute("userInputFlag", "FALSE");
-        gctrl.setAttribute("transparentColorFlag", "FALSE");
-        gctrl.setAttribute("transparentColorIndex","0");
-        root.appendChild(gctrl);
-        
-        IIOMetadataNode appext = new IIOMetadataNode("ApplicationExtensions");
-        IIOMetadataNode child = new IIOMetadataNode("ApplicationExtension");
-        child.setAttribute("applicationID", "NETSCAPE");
-        child.setAttribute("authenticationCode", "2.0");
-        byte[] uo = {
-            //last two bytes is an unsigned short (little endian) that
-            //indicates the the number of times to loop.
-            //0 means loop forever.
-            0x1, 0x0, 0x0
-        };
-        child.setUserObject(uo);
-        appext.appendChild(child);
-        root.appendChild(appext);
-
-        metadata.setFromTree(metaFormat, root);
-        return metadata;
     }
 
     private void visualize (

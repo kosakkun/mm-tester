@@ -21,11 +21,11 @@ public class View extends JPanel
     private int curTurn;
 
     public View (
-        final InputData _id,
-        final OutputData _od)
+        final InputData id,
+        final OutputData od)
     {
-        this.id = _id;
-        this.od = _od;
+        this.id = id;
+        this.od = od;
         this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
@@ -109,7 +109,11 @@ public class View extends JPanel
         final int R = 8;
         g2.setStroke(new BasicStroke(1.5f));
         for (int i = 0; i < id.N; i++) {
-            g2.setColor(new Color(used[i] ? 0xDC143C : 0xFFFFFF));
+            if (i == od.v[0] || i == od.v[od.v.length - 1]) {
+                g2.setColor(new Color(used[i] ? 0x4169E1 : 0xFFFFFF));
+            } else {
+                g2.setColor(new Color(used[i] ? 0xDC143C : 0xFFFFFF));
+            }
             g2.fillOval(id.x[i] * SCALE_X - R / 2, id.y[i] * SCALE_Y - R / 2, R, R);
             g2.setColor(new Color(0x000000));
             g2.drawOval(id.x[i] * SCALE_X - R / 2, id.y[i] * SCALE_Y - R / 2, R, R);
