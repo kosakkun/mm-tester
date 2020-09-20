@@ -63,7 +63,7 @@ public class InputData implements Cloneable
         InputData id = new InputData(N);
         
         Set<Pair> used = new HashSet<>();
-        while (usde.size() < id.N) {
+        while (used.size() < id.N) {
             final int xt = rnd.nextInt(MAX_X + 1);
             final int yt = rnd.nextInt(MAX_Y + 1);
             Pair p = Pair.of(xt, yt);
