@@ -1,6 +1,6 @@
 import java.security.SecureRandom;
 
-public class InputData
+public class InputData implements Cloneable
 {
     public static final int FIXED_N  = 400;
     public static final int MAX_SIZE = 50;
@@ -10,24 +10,11 @@ public class InputData
     public int[] w;
     public int[] h;
 
-    public static InputData genInputData (
-        final long seed)
-        throws Exception
+    public InputData (final int N)
     {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        InputData id = new InputData();
-        id.N = FIXED_N;
-        id.h = new int[id.N];
-        id.w = new int[id.N];
-
-        for (int i = 0; i < id.N; i++) {
-            id.w[i] = rnd.nextInt(MAX_SIZE - MIN_SIZE + 1) + MIN_SIZE;
-            id.h[i] = rnd.nextInt(MAX_SIZE - MIN_SIZE + 1) + MIN_SIZE;
-        }
-
-        return id;
+        this.N = N;
+        this.w = new int[N];
+        this.h = new int[N];
     }
 
     @Override
@@ -41,5 +28,38 @@ public class InputData
         }
         
         return sb.toString();
+    }
+
+    @Override
+    public InputData clone ()
+    {
+        InputData id = null;
+
+        try {
+            id = (InputData)super.clone();
+            id.w = this.w.clone();
+            id.h = this.h.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    public static InputData genInputData (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        InputData id = new InputData(FIXED_N);
+        for (int i = 0; i < id.N; i++) {
+            id.w[i] = rnd.nextInt(MAX_SIZE - MIN_SIZE + 1) + MIN_SIZE;
+            id.h[i] = rnd.nextInt(MAX_SIZE - MIN_SIZE + 1) + MIN_SIZE;
+        }
+
+        return id;
     }
 }

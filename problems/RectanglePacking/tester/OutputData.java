@@ -1,11 +1,46 @@
 import java.util.Scanner;
 
-public class OutputData
+public class OutputData implements Cloneable
 {
     public static final int BOX_SIZE = 1000;
 
     public int[] x;
     public int[] y;
+
+    public OutputData (final int N)
+    {
+        this.x = new int[N];
+        this.y = new int[N];
+    }
+
+    @Override
+    public String toString ()
+    {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < x.length; ++i) {
+            sb.append(x[i]).append(' ');
+            sb.append(y[i]).append('\n');
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public OutputData clone ()
+    {
+        OutputData od = null;
+
+        try {
+            od = (OutputData)super.clone();
+            od.x = this.x.clone();
+            od.y = this.y.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return od;
+    }
 
     public static OutputData runCommand (
         final String exec,
@@ -21,9 +56,7 @@ public class OutputData
         proc.getOutputStream().flush();
 
         /* Output from the "<command>". */
-        OutputData od = new OutputData();
-        od.x = new int[id.N];
-        od.y = new int[id.N];
+        OutputData od = new OutputData(id.N);
         for (int i = 0; i < id.N; i++) {
             od.x[i] = sc.nextInt();
             od.y[i] = sc.nextInt();
@@ -34,17 +67,5 @@ public class OutputData
         }
 
         return od;
-    }
-
-    @Override
-    public String toString ()
-    {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < x.length; ++i) {
-            sb.append(x[i]).append(' ');
-            sb.append(y[i]).append('\n');
-        }
-
-        return sb.toString();
     }
 }
