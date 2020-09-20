@@ -1,6 +1,9 @@
 import java.security.SecureRandom;
+import java.util.HashSet;
+import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
 
-public class InputData
+public class InputData implements Cloneable
 {
     public static final int MAX_N = 500;
     public static final int MIN_N = 50;
@@ -23,47 +26,18 @@ public class InputData
     public int[] cap;
     public int[] speed;
 
-    public static InputData genInputData (
-        final long seed)
-        throws Exception
+    public InputData (
+        final int N,
+        final int M)
     {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        InputData id = new InputData();
-        id.N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        id.M = rnd.nextInt(MAX_M - MIN_M + 1) + MIN_M;
-        id.depotX = rnd.nextInt(MAX_X + 1);
-        id.depotY = rnd.nextInt(MAX_Y + 1);
-        id.x = new int[id.N];
-        id.y = new int[id.N];
-
-        boolean[][] used = new boolean[MAX_X + 1][MAX_Y + 1];
-        used[id.depotX][id.depotY] = true;
-        for (int i = 0; i < id.N; i++) {
-            while (true) {
-                int xt = rnd.nextInt(MAX_X + 1);
-                int yt = rnd.nextInt(MAX_Y + 1);
-                if (used[xt][yt]) continue;
-                int lx = xt - id.depotX;
-                int ly = yt - id.depotY;
-                if (lx * lx + ly * ly >= NEAREST * NEAREST) {
-                    used[xt][yt] = true;
-                    id.x[i] = xt;
-                    id.y[i] = yt;
-                    break;
-                }
-            }
-        }
-
-        id.cap   = new int[id.M];
-        id.speed = new int[id.M];
-        for (int i = 0; i < id.M; i++) {
-            id.cap[i]   = rnd.nextInt(MAX_CAP - MIN_CAP + 1) + MIN_CAP;
-            id.speed[i] = rnd.nextInt(MAX_SPEED - MIN_SPEED + 1) + MIN_SPEED;
-        }
-
-        return id;
+        this.N = N;
+        this.M = M;
+        this.depotX = 0;
+        this.depotY = 0;
+        this.x = new int[N];
+        this.y = new int[N];
+        this.cap   = new int[M];
+        this.speed = new int[M];
     }
 
     @Override
@@ -84,5 +58,62 @@ public class InputData
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public InputData clone ()
+    {
+        InputData id = null;
+
+        try {
+            id = (InputData)super.clone();
+            id.x = this.x.clone();
+            id.y = this.y.clone();
+            id.cap = this.cap.clone();
+            id.speed = this.speed.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    public static InputData genInputData (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        final int M = rnd.nextInt(MAX_M - MIN_M + 1) + MIN_M;
+        InputData id = new InputData(N, M);
+        
+        id.depotX = rnd.nextInt(MAX_X + 1);
+        id.depotY = rnd.nextInt(MAX_Y + 1);
+
+        Set<Pair> used = new HashSet<>();
+        used.add(Pair.of(id.depotX, id.depotY));
+        while (used.size() < id.N + 1) {
+            final int xt = rnd.nextInt(MAX_X + 1);
+            final int yt = rnd.nextInt(MAX_Y + 1);
+            Pair p = Pair.of(xt, yt);
+            if (used.contains(p)) continue;
+            final int lx = xt - id.depotX;
+            final int ly = yt - id.depotY;
+            if (lx * lx + ly * ly >= NEAREST * NEAREST) {
+                id.x[used.size() - 1] = xt;
+                id.y[used.size() - 1] = yt;
+                used.add(p);
+            }
+        }
+        
+        for (int i = 0; i < id.M; i++) {
+            id.cap[i]   = rnd.nextInt(MAX_CAP - MIN_CAP + 1) + MIN_CAP;
+            id.speed[i] = rnd.nextInt(MAX_SPEED - MIN_SPEED + 1) + MIN_SPEED;
+        }
+
+        return id;
     }
 }
