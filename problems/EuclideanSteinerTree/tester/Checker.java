@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
 public class Checker
 {
@@ -17,10 +21,10 @@ public class Checker
 
         int WIDTH  = InputData.MAX_X + 1;
         int HEIGHT = InputData.MAX_Y + 1;
-        boolean[][] used = new boolean[WIDTH][HEIGHT];
+        Set<Pair> used = new HashSet<>();
 
         for (int i = 0; i < id.N; i++) {
-            used[id.x[i]][id.y[i]] = true;
+            used.add(Pair.of(id.x[i], id.y[i]));
         }
 
         for (int i = 0; i < od.M; i++) {
@@ -32,14 +36,15 @@ public class Checker
                     ", but your output includes (" + od.ax[i] + ", " + od.ay[i] + ").");
                 return false;
             }
-            if (used[od.ax[i]][od.ay[i]]) {
+            Pair p = Pair.of(od.ax[i], od.ay[i]);
+            if (used.contains(p)) {
                 System.err.println(
                     "All vertices must not have duplicate coordinates, " + 
                     "but your output will have multiple vertices at (" + 
                     od.ax[i] + ", " + od.ay[i] + ").");
                 return false;
             }
-            used[od.ax[i]][od.ay[i]] = true;
+            used.add(p);
         }
 
         return true;
@@ -51,31 +56,21 @@ public class Checker
         final int[] y)
         throws Exception
     {
-        class Tuple {
-            public Double dist;
-            public Integer a,b;
-            public Tuple (double _d, int _a, int _b) {
-                dist = _d;
-                a = _a;
-                b = _b;
-            }
-        }
-
-        ArrayList<Tuple> order = new ArrayList<Tuple>();
+        var order = new ArrayList<Triple<Double, Integer, Integer>>();
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 LineSegment e = new LineSegment(x[i], y[i], x[j], y[j]);
-                order.add(new Tuple(e.calcDist(), i, j));
+                order.add(Triple.of(e.calcDist(), i, j));
             }
         }
 
-        order.sort((a, b) -> a.dist.compareTo(b.dist));
+        order.sort((a, b) -> a.compareTo(b));
         ArrayList<LineSegment> tree = new ArrayList<LineSegment>();
         DisjointSet ds = new DisjointSet(N);
 
         for (int i = 0; i < order.size(); i++) {
-            int at = order.get(i).a;
-            int bt = order.get(i).b;
+            int at = (int)order.get(i).getMiddle();
+            int bt = (int)order.get(i).getRight();
             if (!ds.same(at, bt)) {
                 ds.unite(at, bt);
                 tree.add(new LineSegment(x[at], y[at], x[bt], y[bt]));
