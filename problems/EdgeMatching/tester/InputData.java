@@ -1,6 +1,6 @@
 import java.security.SecureRandom;
 
-public class InputData
+public class InputData implements Cloneable
 {
     public static final int MAX_N = 50;
     public static final int MIN_N = 5;
@@ -14,30 +14,17 @@ public class InputData
     public int[] L;
     public int[] R;
 
-    public static InputData genInputData (
-        final long seed)
-        throws Exception
+    public InputData (
+        final int N,
+        final int C)
     {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        InputData id = new InputData();
-        id.N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        id.C = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
-        final int PN = id.N * id.N;
-        id.U = new int[PN];
-        id.D = new int[PN];
-        id.L = new int[PN];
-        id.R = new int[PN];
-
-        for (int i = 0; i < PN; i++) {
-            id.U[i] = rnd.nextInt(id.C);
-            id.D[i] = rnd.nextInt(id.C);
-            id.L[i] = rnd.nextInt(id.C);
-            id.R[i] = rnd.nextInt(id.C);
-        }
-
-        return id;
+        final int PN = N * N;
+        this.N = N;
+        this.C = C;
+        this.U = new int[PN];
+        this.D = new int[PN];
+        this.L = new int[PN];
+        this.R = new int[PN];
     }
 
     @Override
@@ -54,5 +41,46 @@ public class InputData
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public InputData clone ()
+    {
+        InputData id = null;
+
+        try {
+            id = (InputData)super.clone();
+            id.U = this.U.clone();
+            id.D = this.D.clone();
+            id.L = this.L.clone();
+            id.R = this.R.clone();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    public static InputData genInputData (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        final int C = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+        InputData id = new InputData(N, C);
+
+        final int PN = N * N;
+        for (int i = 0; i < PN; i++) {
+            id.U[i] = rnd.nextInt(id.C);
+            id.D[i] = rnd.nextInt(id.C);
+            id.L[i] = rnd.nextInt(id.C);
+            id.R[i] = rnd.nextInt(id.C);
+        }
+
+        return id;
     }
 }

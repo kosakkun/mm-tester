@@ -20,15 +20,15 @@ public class View extends JPanel
     private final OutputData od;
 
     public View (
-        final InputData _id,
-        final OutputData _od)
+        final InputData id,
+        final OutputData od)
     {
-        View.FIELD_SIZE_X = PANNEL_SIZE * _id.N;
-        View.FIELD_SIZE_Y = PANNEL_SIZE * _id.N;
+        View.FIELD_SIZE_X = PANNEL_SIZE * id.N;
+        View.FIELD_SIZE_Y = PANNEL_SIZE * id.N;
         View.VIEW_SIZE_X = FIELD_SIZE_X + PADDING * 2;
         View.VIEW_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
-        this.id = _id;
-        this.od = _od;
+        this.id = id;
+        this.od = od;
         this.setPreferredSize(new Dimension(VIEW_SIZE_X, VIEW_SIZE_Y));
     }
 
