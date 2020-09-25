@@ -100,7 +100,9 @@ public class InputData implements Cloneable
             }
         }
 
-        var order = new ArrayList<Triple<Integer,Integer,Integer>>();
+        ArrayList<Triple<Integer,Integer,Integer>> order = 
+            new ArrayList<Triple<Integer,Integer,Integer>>();
+        
         for (int i = 0; i < id.N; i++) {
             for (int j = 0; j < id.N; j++) {
                 if (i == j) continue;
@@ -110,16 +112,16 @@ public class InputData implements Cloneable
         }
 
         order.sort((a, b) -> a.compareTo(b));
-        Set<Pair> connect = new HashSet<>();
-        ArrayList<Pair> edges = new ArrayList<Pair>();
+        Set<Pair<Integer,Integer>> connect = new HashSet<>();
+        ArrayList<Pair<Integer,Integer>> edges = new ArrayList<Pair<Integer,Integer>>();
         
         for (int i = 0; i < 2; i++) {
             final int MAX_DIST = (int)((i + 1) * 1000.0 / Math.sqrt(id.N));
             for (int key = 0; key < order.size(); key++) {
                 final int at = (int)order.get(key).getMiddle();
                 final int bt = (int)order.get(key).getRight();
-                Pair e1 = Pair.of(at, bt);
-                Pair e2 = Pair.of(bt, at);
+                Pair<Integer,Integer> e1 = Pair.of(at, bt);
+                Pair<Integer,Integer> e2 = Pair.of(bt, at);
                 if (connect.contains(e1)) continue;
                 final int lx = id.x[at] - id.x[bt];
                 final int ly = id.y[at] - id.y[bt];

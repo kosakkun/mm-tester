@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 
+@SuppressWarnings("serial")
 public class View extends JPanel
 {
     public static final int PANNEL_SIZE = 30;

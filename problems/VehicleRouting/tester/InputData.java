@@ -93,12 +93,12 @@ public class InputData implements Cloneable
         id.depotX = rnd.nextInt(MAX_X + 1);
         id.depotY = rnd.nextInt(MAX_Y + 1);
 
-        Set<Pair> used = new HashSet<>();
+        Set<Pair<Integer,Integer>> used = new HashSet<>();
         used.add(Pair.of(id.depotX, id.depotY));
         while (used.size() < id.N + 1) {
             final int xt = rnd.nextInt(MAX_X + 1);
             final int yt = rnd.nextInt(MAX_Y + 1);
-            Pair p = Pair.of(xt, yt);
+            Pair<Integer,Integer> p = Pair.of(xt, yt);
             if (used.contains(p)) continue;
             final int lx = xt - id.depotX;
             final int ly = yt - id.depotY;

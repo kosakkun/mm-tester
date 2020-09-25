@@ -7,6 +7,7 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class View extends JPanel
 {
     public static final int PANNEL_SIZE = 10;

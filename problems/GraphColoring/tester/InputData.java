@@ -65,12 +65,12 @@ public class InputData implements Cloneable
         InputData id = new InputData(N, M);
         
         int esum = 0;
-        Set<Pair> edge = new HashSet<>();
+        Set<Pair<Integer,Integer>> edge = new HashSet<>();
         while (esum < id.M) {
             final int at = rnd.nextInt(id.N);
             final int bt = rnd.nextInt(id.N);
-            Pair e1 = Pair.of(at, bt);
-            Pair e2 = Pair.of(bt, at);
+            Pair<Integer,Integer> e1 = Pair.of(at, bt);
+            Pair<Integer,Integer> e2 = Pair.of(bt, at);
             if (at == bt || edge.contains(e1)) {
                 continue;
             }

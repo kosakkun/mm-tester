@@ -1,12 +1,12 @@
 # mm-tester 
 
-## 環境
+## Requirements
+- JDK 8 or later to build tester
 
 ### Ubuntu
-Ubuntu 16.04 LTS or later
 ```
 $ sudo apt update
-$ sudo apt install default-jre default-jdk build-essential git python3
+$ sudo apt install default-jdk build-essential git python3
 ```
 
 ### macOS
@@ -16,13 +16,12 @@ $ xcode-select --install
 ```
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 $ brew update
-$ brew cask install java
-$ brew install git python3
+$ brew install openjdk git python3
 ```
 
-## 使い方
+## Usage
 
-### テスタのビルド
+### Tester build
 ```
 $ git clone --depth 1 https://github.com/kosakkun/mm-tester.git
 $ cd mm-tester
@@ -30,7 +29,7 @@ $ chmod +x gradlew
 $ ./gradlew build
 ```
 
-### 問題毎のファイル構成
+### Tree of each problem
 ```
 .
 ├── README.md
@@ -56,19 +55,24 @@ $ ./gradlew build
 ```
 
 ### Sample
-Traveling Salesmanのjavaのサンプルプログラムを実行する場合．
+
+Example of java sample of traveling salesman.
+
 ```
 $ cd problems/TravelingSalesman/sample/java
 $ chmod +x run.sh
 $ ./run.sh
 ```
-または，
+or
 ```
 $ cd problems/TravelingSalesman/sample/java
 $ python3 run.py
 ```
 
 ## Problems
+
+If you cannot read the  problem statement, please use [here](https://stackedit.io) or something to read it.
+
 - [Traveling Salesman](problems/TravelingSalesman/)
 - [Vehicle Routing](problems/VehicleRouting/) 
 - [Rectangle Packing](problems/RectanglePacking/)
@@ -82,9 +86,6 @@ $ python3 run.py
 - [Hiroimono](problems/Hiroimono/)
 - [Edge Matching](problems/EdgeMatching)
 - [Political Districting](problems/PoliticalDistricting)
-
-### 問題文が読めない時
-[ここ](https://stackedit.io)とかに貼り付けて読んでください．
 
 
 ## License

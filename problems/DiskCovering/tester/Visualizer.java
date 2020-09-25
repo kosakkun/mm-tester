@@ -3,6 +3,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Visualizer extends JFrame
 {
     private View view;

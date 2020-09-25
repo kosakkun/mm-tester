@@ -36,4 +36,18 @@ public class LineSegment
         return ls.x1 == this.x1 && ls.y1 == this.y1 &&
                ls.x2 == this.x2 && ls.y2 == this.y2;
     }
+
+    @Override
+    public int hashCode ()
+    {
+        int result = 17;
+        final int prime = 31;
+        
+        result = prime * result + Integer.hashCode(x1);
+        result = prime * result + Integer.hashCode(y1);
+        result = prime * result + Integer.hashCode(x2);
+        result = prime * result + Integer.hashCode(y2);
+
+        return result;
+    }
 }

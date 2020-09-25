@@ -21,7 +21,7 @@ public class Checker
 
         int WIDTH  = InputData.MAX_X + 1;
         int HEIGHT = InputData.MAX_Y + 1;
-        Set<Pair> used = new HashSet<>();
+        Set<Pair<Integer,Integer>> used = new HashSet<>();
 
         for (int i = 0; i < id.N; i++) {
             used.add(Pair.of(id.x[i], id.y[i]));
@@ -36,7 +36,7 @@ public class Checker
                     ", but your output includes (" + od.ax[i] + ", " + od.ay[i] + ").");
                 return false;
             }
-            Pair p = Pair.of(od.ax[i], od.ay[i]);
+            Pair<Integer,Integer> p = Pair.of(od.ax[i], od.ay[i]);
             if (used.contains(p)) {
                 System.err.println(
                     "All vertices must not have duplicate coordinates, " + 
@@ -56,7 +56,9 @@ public class Checker
         final int[] y)
         throws Exception
     {
-        var order = new ArrayList<Triple<Double, Integer, Integer>>();
+        ArrayList<Triple<Double, Integer, Integer>> order =
+            new ArrayList<Triple<Double, Integer, Integer>>();
+        
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 LineSegment e = new LineSegment(x[i], y[i], x[j], y[j]);
@@ -69,8 +71,8 @@ public class Checker
         DisjointSet ds = new DisjointSet(N);
 
         for (int i = 0; i < order.size(); i++) {
-            int at = (int)order.get(i).getMiddle();
-            int bt = (int)order.get(i).getRight();
+            int at = order.get(i).getMiddle();
+            int bt = order.get(i).getRight();
             if (!ds.same(at, bt)) {
                 ds.unite(at, bt);
                 tree.add(new LineSegment(x[at], y[at], x[bt], y[bt]));
