@@ -3,6 +3,14 @@ public class Checker
     private static int[] dx = {1, 0, -1, 0};
     private static int[] dy = {0, 1, 0, -1};
 
+    /**
+     * private constructor
+     */
+    private Checker ()
+    {
+        throw new AssertionError();
+    }
+
     private static int getDir (
         final int fx,
         final int fy,

@@ -3,6 +3,14 @@ public class Checker
     public static final int  MOVE_LIMIT = 100000;
     public static final long PENALTY    = 100000;
 
+    /**
+     * private constructor
+     */
+    private Checker ()
+    {
+        throw new AssertionError();
+    }
+
     public static boolean isValid (
         final InputData id,
         final OutputData od)

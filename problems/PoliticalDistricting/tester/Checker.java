@@ -2,6 +2,14 @@ import java.util.Arrays;
 
 public class Checker
 {
+    /**
+     * private constructor
+     */
+    private Checker ()
+    {
+        throw new AssertionError();
+    }
+
     public static final int[] dr = {1, 0, -1, 0};
     public static final int[] dc = {0, 1, 0, -1};
 

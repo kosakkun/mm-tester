@@ -2,6 +2,14 @@ import java.util.Arrays;
 
 public class Checker
 {
+    /**
+     * private constructor
+     */
+    private Checker ()
+    {
+        throw new AssertionError();
+    }
+
     public static boolean isValid (
         final InputData id,
         final OutputData od)
