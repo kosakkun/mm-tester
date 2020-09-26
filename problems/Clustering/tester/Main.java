@@ -1,9 +1,3 @@
-import java.io.OutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -38,89 +32,21 @@ public class Main
             System.err.println("An exception occurred while running your program.");
         }
         finally {
-            String result = getJsonResult(id, od, score);
+            String result = TesterUtil.getJsonResult(Main.seed, score, id, od);
             System.out.println(result);
         }
 
         if (Main.debug) {
-            saveText( "input-" + Main.seed + ".txt", id.toString());
-            saveText("output-" + Main.seed + ".txt", od.toString());
+            TesterUtil.saveText( "input-" + Main.seed + ".txt", id.toString());
+            TesterUtil.saveText("output-" + Main.seed + ".txt", od.toString());
         }
 
         if (Main.save && score >= 0) {
-            saveImage(String.valueOf(Main.seed), id, od);
+            TesterUtil.saveImage(String.valueOf(Main.seed), id, od);
         }
 
         if (Main.vis && score >= 0) {
-            visualize(id, od);
-        }
-    }
-
-    private String getJsonResult (
-        final InputData id,
-        final OutputData od,
-        final double _score)
-    {
-        class JsonResult {
-            public long seed = Main.seed;
-            public double score = _score;
-            // public int N = (id != null) ? id.N : 0;
-            // ...
-        }
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(new JsonResult());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed to create the Json result.");
-            return "";
-        }
-    }
-
-    private void saveText (
-        final String name,
-        final String text)
-    {
-        try {
-            OutputStream out = new FileOutputStream(name);
-            out.write(text.getBytes());
-            out.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed to export " + name + ".");
-        }
-    }
-
-    private void saveImage (
-        final String fileName,
-        final InputData id,
-        final OutputData od)
-    {
-        try {
-            View view = new View(id, od);
-            BufferedImage bi = view.drawImage();
-            ImageIO.write(bi, "png", new File(fileName + ".png"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed to save the image.");
-        }
-    }
-
-    private void visualize (
-        final InputData id,
-        final OutputData od)
-    {
-        try {
-            Visualizer v = new Visualizer(id, od);
-            v.setVisible(true);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Visualization failed.");
+            TesterUtil.visualize(id, od);
         }
     }
 
