@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class View extends JPanel
 {
-    public static final int PANNEL_SIZE = 40;
-    public static final int PADDING = 1;
-    public static int FIELD_SIZE_X;
-    public static int FIELD_SIZE_Y;
-    public static int VIEW_SIZE_X;
-    public static int VIEW_SIZE_Y;
+    public final int PANNEL_SIZE = 40;
+    public final int PADDING     = 1;
+    public final int FIELD_SIZE_X;
+    public final int FIELD_SIZE_Y;
+    public final int VIEW_SIZE_X;
+    public final int VIEW_SIZE_Y;
     private final InputData id;
     private final OutputData od;
     private int curTurn;
@@ -31,10 +31,10 @@ public class View extends JPanel
         final InputData id,
         final OutputData od)
     {
-        View.FIELD_SIZE_X = PANNEL_SIZE * id.N;
-        View.FIELD_SIZE_Y = PANNEL_SIZE * id.N;
-        View.VIEW_SIZE_X = FIELD_SIZE_X + PADDING * 2;
-        View.VIEW_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
+        this.FIELD_SIZE_X = PANNEL_SIZE * id.N;
+        this.FIELD_SIZE_Y = PANNEL_SIZE * id.N;
+        this.VIEW_SIZE_X = FIELD_SIZE_X + PADDING * 2;
+        this.VIEW_SIZE_Y = FIELD_SIZE_Y + PADDING * 2;
         this.id = id;
         this.od = od;
         this.curB = new int[id.N][id.N];
