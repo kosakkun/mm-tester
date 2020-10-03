@@ -116,7 +116,7 @@ public class View extends JPanel
         g2.translate(PADDING, PADDING);
 
         /* Draw pannels */
-        g2.setFont(new Font("Arial", Font.BOLD, 15));
+        g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
         for (int r = 0; r < id.N; r++) {
             for (int c = 0; c < id.N; c++) {
                 if (curB[r][c] < 0) continue;

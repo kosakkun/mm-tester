@@ -87,7 +87,7 @@ public class View extends JPanel
         g2.setStroke(new BasicStroke(2.0f));
         g2.drawLine(0, FIELD_SIZE_Y - score, FIELD_SIZE_X, FIELD_SIZE_Y - score);
     
-        g2.setFont(new Font("Courier", Font.BOLD, 15));
+        g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
         String text = "Score = " + score;
         FontMetrics fm = g2.getFontMetrics();
         Rectangle rectText = fm.getStringBounds(text, g2).getBounds();

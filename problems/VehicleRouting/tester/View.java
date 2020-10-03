@@ -170,14 +170,14 @@ public class View extends JPanel
             String ch2 = "speed : " + id.speed[i];
             String ch3 = "distance : " + dist[i];
             String ch4 = "time : " + dist[i] / (double)id.speed[i];
-            g2.setFont(new Font("Courier", Font.BOLD, 14));
+            g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
             g2.drawString(ch0, 0, i * 100 + 20);
-            g2.setFont(new Font("Courier", Font.BOLD, 12));
+            g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 12));
             g2.drawString(ch1, 0, i * 100 + 34);
             g2.drawString(ch2, 0, i * 100 + 49);
             g2.drawString(ch3, 0, i * 100 + 64);
             if (i == worst_idx) {
-                g2.setFont(new Font("Courier", Font.BOLD, 12));
+                g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 12));
                 g2.setColor(new Color(0xFF0000));
             }
             g2.drawString(ch4, 0, i * 100 + 79);

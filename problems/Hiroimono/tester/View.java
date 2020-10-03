@@ -122,7 +122,7 @@ public class View extends JPanel
 
         /* Draw the index */
         g2.setColor(new Color(0x000000));
-        g2.setFont(new Font("Arial", Font.BOLD, 10));
+        g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 10));
         for (int i = 0; i < curTurn; i++) {
             String text = "" + i;
             int px = id.x[od.v[i]] * SCALE_X + (int)((double)R / 1.4);

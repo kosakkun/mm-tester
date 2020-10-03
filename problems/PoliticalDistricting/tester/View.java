@@ -96,7 +96,7 @@ public class View extends JPanel
                 g2.setColor(col[od.R[r][c]]);
                 g2.fillRect(c * CELL_SW, r * CELL_SH, CELL_SW, CELL_SH);
                 g2.setColor(new Color(0x000000));
-                g2.setFont(new Font("Arial", Font.PLAIN, 11));
+                g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 11));
                 String text = "" + id.B[r][c];
                 FontMetrics fm = g2.getFontMetrics();
                 Rectangle rectText = fm.getStringBounds(text, g2).getBounds();
