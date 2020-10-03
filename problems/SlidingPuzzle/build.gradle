@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     // https://plugins.gradle.org/plugin/org.springframework.boot
-    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id "org.springframework.boot" version "2.3.4.RELEASE"
 }
 
 repositories {
@@ -18,11 +18,11 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0.pr1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
 }
 
 sourceSets {
@@ -35,10 +35,7 @@ sourceSets {
 
 bootJar {
     manifest {
-        baseName 'Tester'
+        archiveBaseName = 'Tester'
         attributes 'Start-Class': 'Main'
-    }
-    into('img') {
-        from 'tester/img'
     }
 }

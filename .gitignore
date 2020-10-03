@@ -2,11 +2,15 @@
 *.txt
 *.class
 *.out
+*.classpath
 .gradle
 MANIFEST.MF
-Tester.jar
+*.jar
 main
 test.sh
 test_run.sh
 Dockerfile*
+.vscode
+.settings
+.project
 
