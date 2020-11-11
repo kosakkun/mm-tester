@@ -1,4 +1,4 @@
-include 'problems:TravelingSalesman',
+include 'problems:EuclideanTravelingSalesman',
         'problems:VehicleRouting',
         'problems:RectanglePacking',
         'problems:GraphColoring',

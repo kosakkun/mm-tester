@@ -55,25 +55,16 @@ $ ./gradlew build
 ```
 
 ### Sample
-
-Example of java sample of traveling salesman.
-
 ```
 $ cd problems/TravelingSalesman/sample/java
 $ chmod +x run.sh
 $ ./run.sh
-```
-or
-```
-$ cd problems/TravelingSalesman/sample/java
-$ python3 run.py
 ```
 
 ## Problems
 
 If you cannot read the  problem statement, please use [here](https://stackedit.io) or something to read it.
 
-- [Traveling Salesman](problems/TravelingSalesman/)
 - [Vehicle Routing](problems/VehicleRouting/) 
 - [Rectangle Packing](problems/RectanglePacking/)
 - [Graph Coloring](problems/GraphColoring/)
@@ -86,7 +77,7 @@ If you cannot read the  problem statement, please use [here](https://stackedit.i
 - [Hiroimono](problems/Hiroimono/)
 - [Edge Matching](problems/EdgeMatching)
 - [Political Districting](problems/PoliticalDistricting)
-
+- [Euclidean Traveling Salesman](problems/EuclideanTravelingSalesman/)
 
 ## License
 - MIT License

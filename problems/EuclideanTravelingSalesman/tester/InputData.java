@@ -5,10 +5,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class InputData implements Cloneable
 {
-    public static final int MAX_N = 1000;
+    public static final int MAX_N = 500;
     public static final int MIN_N = 50;
-    public static final int MAX_X = 1000;
-    public static final int MAX_Y = 1000;
+    public static final int MAX_X = 100;
+    public static final int MAX_Y = 100;
 
     public int N;
     public int[] x;
