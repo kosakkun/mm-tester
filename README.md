@@ -56,7 +56,7 @@ $ ./gradlew build
 
 ### Sample
 ```
-$ cd problems/TravelingSalesman/sample/java
+$ cd problems/EuclideanTravelingSalesman/sample/java
 $ chmod +x run.sh
 $ ./run.sh
 ```
@@ -78,6 +78,7 @@ If you cannot read the  problem statement, please use [here](https://stackedit.i
 - [Edge Matching](problems/EdgeMatching)
 - [Political Districting](problems/PoliticalDistricting)
 - [Euclidean Traveling Salesman](problems/EuclideanTravelingSalesman/)
+- [Rectilinear Traveling Salesman](problems/RectilinearTravelingSalesman/)
 
 ## License
 - MIT License

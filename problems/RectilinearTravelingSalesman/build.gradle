@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    // https://plugins.gradle.org/plugin/org.springframework.boot
+    id "org.springframework.boot" version "2.3.4.RELEASE"
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'tester'
+        }
+    }
+}
+
+bootJar {
+    manifest {
+        archiveBaseName = 'Tester'
+        attributes 'Start-Class': 'Main'
+    }
+}
