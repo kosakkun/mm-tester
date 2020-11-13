@@ -1,6 +1,6 @@
 import sys
 
-class TravelingSalesman:
+class EuclideanTravelingSalesman:
     def solve (self, N, x, y):
         v = []
         for i in range(N):
@@ -15,8 +15,8 @@ def main():
         xt,yt = map(int,input().split())
         x.append(xt)
         y.append(yt)
-    ts = TravelingSalesman()
-    v = ts.solve(N, x, y)
+    ets = EuclideanTravelingSalesman()
+    v = ets.solve(N, x, y)
     for i in v:
         print(i)
     sys.stdout.flush()

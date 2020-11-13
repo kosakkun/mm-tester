@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class TravelingSalesman
+class EuclideanTravelingSalesman
 {
     public int[] solve (
         final int N,
@@ -28,8 +28,8 @@ public class Main
                 x[i] = sc.nextInt();
                 y[i] = sc.nextInt();
             }
-            TravelingSalesman ts = new TravelingSalesman();
-            int[] v = ts.solve(N, x, y);
+            EuclideanTravelingSalesman ets = new EuclideanTravelingSalesman();
+            int[] v = ets.solve(N, x, y);
             for (int i = 0; i < v.length; ++i) {
                 System.out.println(v[i]);
             }

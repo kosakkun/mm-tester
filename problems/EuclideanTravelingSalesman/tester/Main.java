@@ -8,7 +8,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Main
 {
-    static String  title = "Traveling Salesman";
+    static String  title = "Euclidean Traveling Salesman";
     static String  exec  = "";
     static long    seed  = 1;
     static boolean save  = false;
