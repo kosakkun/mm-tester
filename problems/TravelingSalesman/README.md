@@ -38,6 +38,15 @@ $$
 score = \sum_{k=0}^{N-1} (|x_{v_{k}}-x_{v_{k+1}}|+|y_{v_{k}}-y_{v_{k+1}}|)
 $$
 
+## Type3
+Type1と同じ設定で，スコアの計算方法だけ異なります．
+
+### スコア
+スコアは以下のように計算します．ただし，$v_{N} = v_{0}$ とします．無効な出力の場合はスコアを $-1$ とします．  
+$$
+score = \sum_{k=0}^{N-1} max(|x_{v_{k}}-x_{v_{k+1}}|,|y_{v_{k}}-y_{v_{k+1}}|)
+$$
+
 ## テスタ
 ビルドで`build/libs/`に生成される`Tester.jar`がテスタです．テスタは下記のように実行し，`"<command>"`に作成したプログラムの実行コマンド，`<type>`に問題の種類を表す数値，`<seed>`に乱数のシードを入れてください．実行結果として標準出力にJSON形式でスコア情報が，標準エラー出力に実行エラー時のメッセージが出力されます．
 ```
@@ -55,6 +64,6 @@ usage: Tester.jar
 -h,--help           print this message.
 -o,--save           export the visualized result in png format.
 -s,--seed <seed>    set a random seed. (required)
--t,--type <type>    set the scoring type [1 ~ 2]. (required)
+-t,--type <type>    set the scoring type [1 ~ 3]. (required)
 -v,--vis            visualize the result.
 ```

@@ -35,7 +35,8 @@ public class InputData implements Cloneable
 
         switch (this.type) {
             case 1:
-            case 2: 
+            case 2:
+            case 3:
                 for (int i = 0; i < N; ++i) {
                     sb.append(x[i]).append(' ');
                     sb.append(y[i]).append('\n');
@@ -78,6 +79,7 @@ public class InputData implements Cloneable
         switch (type) {
             case 1: return type1(seed);
             case 2: return type2(seed);
+            case 3: return type3(seed);
             default: return new InputData(1, type);
         }
     }
@@ -115,6 +117,30 @@ public class InputData implements Cloneable
 
         final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
         InputData id = new InputData(N, 2);
+        
+        Set<Pair<Integer,Integer>> used = new HashSet<>();
+        while (used.size() < id.N) {
+            final int xt = rnd.nextInt(MAX_X + 1);
+            final int yt = rnd.nextInt(MAX_Y + 1);
+            Pair<Integer,Integer> p = Pair.of(xt, yt);
+            if (used.contains(p)) continue;
+            id.x[used.size()] = xt;
+            id.y[used.size()] = yt;
+            used.add(p);
+        }
+
+        return id;
+    }
+
+    private static InputData type3 (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, 3);
         
         Set<Pair<Integer,Integer>> used = new HashSet<>();
         while (used.size() < id.N) {
