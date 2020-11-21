@@ -2,7 +2,7 @@
 
 CXX="g++"
 CXXFLAGS="-O2 -Wall -std=c++14"
-TESTER="../../build/libs/Tester.jar"
+TESTER="../../../build/libs/Tester.jar"
 TESTNUM=10
 
 $CXX $CXXFLAGS main.cpp -o main
@@ -12,5 +12,5 @@ if [ $? -ne 0 ]; then
 fi
 
 for i in `seq 1 $TESTNUM`; do
-    java -Xss256M -jar $TESTER --exec "./main" --seed $i --type 1
+    java -Xss256M -jar $TESTER --exec "./main" --seed $i --type 3
 done

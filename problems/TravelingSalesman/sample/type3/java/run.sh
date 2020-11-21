@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JAVAC="javac"
-TESTER="../../build/libs/Tester.jar"
+TESTER="../../../build/libs/Tester.jar"
 TESTNUM=10
 
 $JAVAC Main.java
@@ -11,5 +11,5 @@ if [ $? -ne 0 ]; then
 fi
 
 for i in `seq 1 $TESTNUM`; do
-    java -Xss256M -jar $TESTER --exec "java Main" --seed $i --type 1
+    java -Xss256M -jar $TESTER --exec "java Main" --seed $i --type 3
 done

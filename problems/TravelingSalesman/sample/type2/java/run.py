@@ -9,9 +9,9 @@ if proc.returncode != 0:
     print('Compilation failed.')
     sys.exit(1)
 
-TESTER  = '../../build/libs/Tester.jar'
+TESTER  = '../../../build/libs/Tester.jar'
 COMMAND = 'java Main'
-OPTIONS = '--type 3'
+OPTIONS = '--type 2'
 TESTNUM = 10
 
 for i in range(TESTNUM):

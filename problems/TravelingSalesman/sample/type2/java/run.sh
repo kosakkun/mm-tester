@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JAVAC="javac"
-TESTER="../../build/libs/Tester.jar"
+TESTER="../../../build/libs/Tester.jar"
 TESTNUM=10
 
 $JAVAC Main.java

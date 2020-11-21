@@ -2,15 +2,15 @@ import sys
 import subprocess
 from subprocess import PIPE
 
-BUILD_CMD = 'g++ -O2 -Wall -std=c++14 main.cpp -o main'
+BUILD_CMD = 'javac Main.java'
 proc = subprocess.run(BUILD_CMD, shell=True)
 
 if proc.returncode != 0:
     print('Compilation failed.')
     sys.exit(1)
 
-TESTER  = '../../build/libs/Tester.jar'
-COMMAND = './main'
+TESTER  = '../../../build/libs/Tester.jar'
+COMMAND = 'java Main'
 OPTIONS = '--type 3'
 TESTNUM = 10
 

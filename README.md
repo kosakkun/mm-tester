@@ -56,7 +56,7 @@ $ ./gradlew build
 
 ### Sample
 ```
-$ cd problems/TravelingSalesman/sample_type1/java
+$ cd problems/TravelingSalesman/sample/type1/java
 $ chmod +x run.sh
 $ ./run.sh
 ```

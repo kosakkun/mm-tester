@@ -1,17 +1,9 @@
-import sys
 import subprocess
 from subprocess import PIPE
 
-BUILD_CMD = 'g++ -O2 -Wall -std=c++14 main.cpp -o main'
-proc = subprocess.run(BUILD_CMD, shell=True)
-
-if proc.returncode != 0:
-    print('Compilation failed.')
-    sys.exit(1)
-
-TESTER  = '../../build/libs/Tester.jar'
-COMMAND = './main'
-OPTIONS = '--type 1'
+TESTER  = "../../../build/libs/Tester.jar"
+COMMAND = "python3 main.py"
+OPTIONS = "--type 3"
 TESTNUM = 10
 
 for i in range(TESTNUM):

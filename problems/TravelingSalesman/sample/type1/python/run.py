@@ -1,17 +1,9 @@
-import sys
 import subprocess
 from subprocess import PIPE
 
-BUILD_CMD = 'javac Main.java'
-proc = subprocess.run(BUILD_CMD, shell=True)
-
-if proc.returncode != 0:
-    print('Compilation failed.')
-    sys.exit(1)
-
-TESTER  = '../../build/libs/Tester.jar'
-COMMAND = 'java Main'
-OPTIONS = '--type 1'
+TESTER  = "../../../build/libs/Tester.jar"
+COMMAND = "python3 main.py"
+OPTIONS = "--type 1"
 TESTNUM = 10
 
 for i in range(TESTNUM):
