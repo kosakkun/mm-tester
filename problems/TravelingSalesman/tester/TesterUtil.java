@@ -60,6 +60,11 @@ public class TesterUtil
         final InputData id,
         final OutputData od)
     {
+        if (id.type < 1 || id.type > 4) {
+            System.err.println("--save option supports from type1 to type4.");
+            return;
+        }
+
         try {
             View view = new View(id, od);
             BufferedImage bi = view.drawImage();
@@ -75,6 +80,11 @@ public class TesterUtil
         final InputData id,
         final OutputData od)
     {
+        if (id.type < 1 || id.type > 4) {
+            System.err.println("--vis option supports from type1 to type4.");
+            return;
+        }
+
         try {
             Visualizer v = new Visualizer(id, od);
             v.setVisible(true);

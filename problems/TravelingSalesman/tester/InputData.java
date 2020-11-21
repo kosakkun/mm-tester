@@ -9,11 +9,13 @@ public class InputData implements Cloneable
     public static final int MIN_N = 50;
     public static final int MAX_X = 100;
     public static final int MAX_Y = 100;
+    public static final int MIN_C = 1;
+    public static final int MAX_C = 999;
 
     public int N;
     public int[] x;
     public int[] y;
-    public int[][] G;
+    public int[][] c;
     public int type;
 
     public InputData (
@@ -23,7 +25,7 @@ public class InputData implements Cloneable
         this.N = N;
         this.x = new int[N];
         this.y = new int[N];
-        this.G = new int[N][N];
+        this.c = new int[N][N];
         this.type = type;
     }
 
@@ -41,6 +43,16 @@ public class InputData implements Cloneable
                 for (int i = 0; i < N; ++i) {
                     sb.append(x[i]).append(' ');
                     sb.append(y[i]).append('\n');
+                }
+                break;
+            case 5:
+            case 6:
+            case 7:
+                for (int i = 0; i < this.N; i++) {
+                    for (int j = 0; j < this.N; j++) {
+                        sb.append(c[i][j]);
+                        sb.append(j < this.N - 1 ? ' ' : '\n');
+                    }
                 }
                 break;
             default:
@@ -62,7 +74,7 @@ public class InputData implements Cloneable
             id.x = this.x.clone();
             id.y = this.y.clone();
             for (int i = 0; i < this.N; i++) {
-                id.G[i] = this.G[i].clone();
+                id.c[i] = this.c[i].clone();
             }
         }
         catch (Exception e) {
@@ -82,6 +94,9 @@ public class InputData implements Cloneable
             case 2: return type2(seed);
             case 3: return type3(seed);
             case 4: return type4(seed);
+            case 5: return type5(seed);
+            case 6: return type6(seed);
+            case 7: return type7(seed);
             default: return new InputData(1, type);
         }
     }
@@ -177,6 +192,90 @@ public class InputData implements Cloneable
             id.x[used.size()] = xt;
             id.y[used.size()] = yt;
             used.add(p);
+        }
+
+        return id;
+    }
+
+    private static InputData type5 (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, 5);
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    id.c[i][j] = 0;
+                }
+                else {
+                    if (id.c[j][i] > 0) {
+                        id.c[i][j] = id.c[j][i];
+                    }
+                    else {
+                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                    }
+                }
+            }
+        }
+
+        return id;
+    }
+
+    private static InputData type6 (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, 6);
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    id.c[i][j] = 0;
+                }
+                else {
+                    do {
+                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                    } while (id.c[i][j] == id.c[j][i]);
+                }
+            }
+        }
+
+        return id;
+    }
+
+    private static InputData type7 (
+        final long seed)
+        throws Exception
+    {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, 7);
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    id.c[i][j] = 0;
+                }
+                else {
+                    if (id.c[j][i] > 0) {
+                        id.c[i][j] = id.c[j][i];
+                    }
+                    else {
+                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                    }
+                }
+            }
         }
 
         return id;
