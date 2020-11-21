@@ -17,7 +17,7 @@ public class View extends JPanel
     public final int FIELD_SIZE_Y = 1000;
     public final int PADDING      = 10;
     public final int INFO_WIDTH   = 250;
-    public final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 3 + INFO_WIDTH;
+    public final int VIEW_SIZE_X  = FIELD_SIZE_X + PADDING * 2 + INFO_WIDTH;
     public final int VIEW_SIZE_Y  = FIELD_SIZE_Y + PADDING * 2;
     private final InputData id;
     private final OutputData od;
@@ -76,6 +76,19 @@ public class View extends JPanel
            point (x, y) in the current coordinate system.*/
         g2.translate(PADDING, PADDING);
 
+        final int SCALE_X = FIELD_SIZE_X / InputData.MAX_X;
+        final int SCALE_Y = FIELD_SIZE_Y / InputData.MAX_Y;
+
+        /* Draw the grid */
+        g2.setColor(new Color(0xDDDDDD));
+        g2.setStroke(new BasicStroke(1.0f));
+        for (int x = 0; x <= InputData.MAX_X; x++) {
+            for (int y = 0; y <= InputData.MAX_Y; y++) {
+                g2.drawLine(0, y * SCALE_Y, FIELD_SIZE_X, y * SCALE_Y);
+                g2.drawLine(x * SCALE_X, 0, x * SCALE_X, FIELD_SIZE_Y);
+            }
+        }
+
         /* Draw delivery routes */
         g2.setStroke(new BasicStroke(1.0f));
         int[] last_idx = new int[id.M];
@@ -84,15 +97,15 @@ public class View extends JPanel
             Color c = Color.getHSBColor((1.0f / (float)id.M) * (float)od.T[i], 1.0f, 0.80f);
             g2.setColor(c);
             if (last_idx[od.T[i]] >= 0) {
-                g2.drawLine(id.x[last_idx[od.T[i]]], id.y[last_idx[od.T[i]]], 
-                            id.depotX, id.depotY);
+                g2.drawLine(id.x[last_idx[od.T[i]]] * SCALE_X, id.y[last_idx[od.T[i]]] * SCALE_Y, 
+                            id.depotX * SCALE_X, id.depotY * SCALE_Y);
             }
             int cur_x = id.depotX;
             int cur_y = id.depotY;
             for (int j = 0; j < od.L[i]; j++) {
                 int nxt_x = id.x[od.D[i][j]];
                 int nxt_y = id.y[od.D[i][j]];
-                g2.drawLine(cur_x, cur_y, nxt_x, nxt_y);
+                g2.drawLine(cur_x * SCALE_X, cur_y * SCALE_Y, nxt_x * SCALE_X, nxt_y * SCALE_Y);
                 cur_x = nxt_x;
                 cur_y = nxt_y;
             }
@@ -107,33 +120,33 @@ public class View extends JPanel
             for (int j = 0; j < od.L[i]; j++) {
                 int idx = od.D[i][j];
                 g2.setColor(c);
-                g2.fillOval(id.x[idx] - R1 / 2, id.y[idx] - R1 / 2, R1, R1);
+                g2.fillOval(id.x[idx] * SCALE_X - R1 / 2, id.y[idx] * SCALE_Y - R1 / 2, R1, R1);
                 g2.setColor(new Color(0x000000));
-                g2.drawOval(id.x[idx] - R1 / 2, id.y[idx] - R1 / 2, R1, R1);
+                g2.drawOval(id.x[idx] * SCALE_X - R1 / 2, id.y[idx] * SCALE_Y - R1 / 2, R1, R1);
             }
         }
 
         /* Draw the last destination visited by each track. */
-        final int R2 = 10;
+        final int R2 = 8;
         g2.setStroke(new BasicStroke(2.0f));
         for (int i = 0; i < id.M; i++) {
             if (last_idx[i] < 0) continue;
             Color c = Color.getHSBColor((1.0f / (float)id.M) * (float)i, 1.0f, 0.95f);
             g2.setColor(c);
-            g2.fillOval(id.x[last_idx[i]] - R2 / 2, id.y[last_idx[i]] - R2 / 2, R2, R2);
+            g2.fillOval(id.x[last_idx[i]] * SCALE_X - R2 / 2, id.y[last_idx[i]] * SCALE_Y - R2 / 2, R2, R2);
             g2.setColor(new Color(0x000000));
-            g2.drawOval(id.x[last_idx[i]] - R2 / 2, id.y[last_idx[i]] - R2 / 2, R2, R2);
+            g2.drawOval(id.x[last_idx[i]] * SCALE_X - R2 / 2, id.y[last_idx[i]] * SCALE_Y - R2 / 2, R2, R2);
         }
 
         /* Draw the depot */
-        final int R3 = 16;
+        final int R3 = 10;
         g2.setColor(new Color(0x000000));
-        g2.fillOval(id.depotX - R3 / 2, id.depotY - R3 / 2, R3, R3);
+        g2.fillOval(id.depotX * SCALE_X - R3 / 2, id.depotY * SCALE_Y - R3 / 2, R3, R3);
 
 
         /* Converts the origin of the graphics context to a 
            point (x, y) in the current coordinate system. */
-        g2.translate(FIELD_SIZE_X + PADDING * 2, 0);
+        g2.translate(FIELD_SIZE_X + PADDING, 0);
 
 
         /* Draw information of vehicles */

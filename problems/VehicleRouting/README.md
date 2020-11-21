@@ -5,7 +5,7 @@
 
 ### 制約
 - $50 \leqq N \leqq 500$
-- $0 \leqq x_{i},y_{i},depot_{x},depot_{y} \leqq 1000$
+- $0 \leqq x_{i},y_{i},depot_{x},depot_{y} \leqq 100$
 - $When \ i \neq j,(x_{i},y_{i}) \neq (x_{j},y_{j})$
 - $For \ each \ i (1 \leq i \leq N), (x_{i},y_{i}) \neq (depot_{x},depot_{y})$
 - $3 \leqq M \leqq 10$
@@ -13,7 +13,7 @@
 - $1 \leqq speed_{j} \leqq 20$
 
 ### 入力
-$1$行目に目的地の数$N$，トラックの台数$M$，2行目に倉庫の座標 $0 \leqq depot_{x}, depot_{y} \leqq 1000$，続く$N$行に目的地の座標 $0 \leqq x_{i}, y_{i} \leqq 1000$，続く$M$行にトラックの容量 $5 \leqq cap_{j} \leqq 20$，スピード $1 \leqq speed_{j} \leqq 20$ が標準入力で与えられます．  
+$1$行目に目的地の数$N$，トラックの台数$M$，2行目に倉庫の座標 $depot_{x}, depot_{y}$，続く$N$行に目的地の座標 $x_{i}, y_{i}$，続く$M$行にトラックの容量 $cap_{j}$，スピード $speed_{j}$ が標準入力で与えられます．  
 $N \ M$  
 $depot_{x} \ depot_{y}$  
 $x_{0} \ y_{0}$  

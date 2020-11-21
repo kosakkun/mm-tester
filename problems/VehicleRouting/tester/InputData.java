@@ -13,9 +13,9 @@ public class InputData implements Cloneable
     public static final int MIN_CAP = 5;
     public static final int MAX_SPEED = 20;
     public static final int MIN_SPEED = 1;
-    public static final int MAX_X = 1000;
-    public static final int MAX_Y = 1000;
-    public static final int NEAREST = 50;
+    public static final int MAX_X = 100;
+    public static final int MAX_Y = 100;
+    public static final int NEAREST = 5;
 
     public int N;
     public int M;
