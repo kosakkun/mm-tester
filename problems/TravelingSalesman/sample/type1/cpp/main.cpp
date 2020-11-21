@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-class EuclideanTravelingSalesman
+class TravelingSalesman
 {
 public:
     auto solve (
@@ -30,8 +30,8 @@ int main ()
         cin >> x[i] >> y[i];
     }
 
-    EuclideanTravelingSalesman ets;
-    vector<int> v = ets.solve(N, x, y);
+    TravelingSalesman ts;
+    vector<int> v = ts.solve(N, x, y);
     for (auto vt: v) {
         cout << vt << endl;
     }
