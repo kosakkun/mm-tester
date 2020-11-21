@@ -47,6 +47,7 @@ public class Checker
             case 1: return type1(id, od);
             case 2: return type2(id, od);
             case 3: return type3(id, od);
+            case 4: return type4(id, od);
             default:
                 System.err.println("Invalid scoring type: " + id.type);
                 throw new Exception();
@@ -93,6 +94,21 @@ public class Checker
             double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
             double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
             score += Math.max(Math.abs(dx), Math.abs(dy));
+        }
+
+        return score;
+    }
+
+    private static double type4 (
+        final InputData id,
+        final OutputData od)
+        throws Exception
+    {
+        double score = 0.0;
+        for (int i = 0; i < id.N; i++) {
+            double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
+            double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
+            score = Math.max(score, Math.sqrt(dx * dx + dy * dy));
         }
 
         return score;

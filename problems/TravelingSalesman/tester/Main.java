@@ -72,7 +72,7 @@ public class Main
             .hasArg(true)
             .type(Number.class)
             .argName("type")
-            .desc("set the scoring type [1 ~ 3]. (required)")
+            .desc("set the scoring type [1 ~ 4]. (required)")
             .build());
 
         // --exec option
