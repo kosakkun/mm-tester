@@ -1,4 +1,4 @@
-include 'problems:EuclideanTravelingSalesman',
+include 'problems:TravelingSalesman',
         'problems:VehicleRouting',
         'problems:RectanglePacking',
         'problems:GraphColoring',
@@ -10,5 +10,4 @@ include 'problems:EuclideanTravelingSalesman',
         'problems:EuclideanSteinerTree',
         'problems:Hiroimono',
         'problems:EdgeMatching',
-        'problems:PoliticalDistricting',
-        'problems:RectilinearTravelingSalesman'
+        'problems:PoliticalDistricting'
