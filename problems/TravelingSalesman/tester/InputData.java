@@ -36,30 +36,29 @@ public class InputData implements Cloneable
         sb.append(N).append('\n');
 
         switch (this.type) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                for (int i = 0; i < N; ++i) {
-                    sb.append(x[i]).append(' ');
-                    sb.append(y[i]).append('\n');
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            for (int i = 0; i < N; ++i) {
+                sb.append(x[i]).append(' ');
+                sb.append(y[i]).append('\n');
+            }
+            break;
+        case 5:
+        case 6:
+        case 7:
+            for (int i = 0; i < this.N; i++) {
+                for (int j = 0; j < this.N; j++) {
+                    sb.append(c[i][j]);
+                    sb.append(j < this.N - 1 ? ' ' : '\n');
                 }
-                break;
-            case 5:
-            case 6:
-            case 7:
-                for (int i = 0; i < this.N; i++) {
-                    for (int j = 0; j < this.N; j++) {
-                        sb.append(c[i][j]);
-                        sb.append(j < this.N - 1 ? ' ' : '\n');
-                    }
-                }
-                break;
-            default:
-                sb.append("Invalid scoring type.\n");
-                break;
+            }
+            break;
+        default:
+            sb.append("Invalid scoring type.\n");
+            break;
         }
-        
 
         return sb.toString();
     }
@@ -89,193 +88,63 @@ public class InputData implements Cloneable
         final int type)
         throws Exception
     {
+        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+        rnd.setSeed(seed);
+
+        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
+        InputData id = new InputData(N, type);
+
         switch (type) {
-            case 1: return type1(seed);
-            case 2: return type2(seed);
-            case 3: return type3(seed);
-            case 4: return type4(seed);
-            case 5: return type5(seed);
-            case 6: return type6(seed);
-            case 7: return type7(seed);
-            default: return new InputData(1, type);
-        }
-    }
-
-    private static InputData type1 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 1);
-        
-        Set<Pair<Integer,Integer>> used = new HashSet<>();
-        while (used.size() < id.N) {
-            final int xt = rnd.nextInt(MAX_X + 1);
-            final int yt = rnd.nextInt(MAX_Y + 1);
-            Pair<Integer,Integer> p = Pair.of(xt, yt);
-            if (used.contains(p)) continue;
-            id.x[used.size()] = xt;
-            id.y[used.size()] = yt;
-            used.add(p);
-        }
-
-        return id;
-    }
-
-    private static InputData type2 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 2);
-        
-        Set<Pair<Integer,Integer>> used = new HashSet<>();
-        while (used.size() < id.N) {
-            final int xt = rnd.nextInt(MAX_X + 1);
-            final int yt = rnd.nextInt(MAX_Y + 1);
-            Pair<Integer,Integer> p = Pair.of(xt, yt);
-            if (used.contains(p)) continue;
-            id.x[used.size()] = xt;
-            id.y[used.size()] = yt;
-            used.add(p);
-        }
-
-        return id;
-    }
-
-    private static InputData type3 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 3);
-        
-        Set<Pair<Integer,Integer>> used = new HashSet<>();
-        while (used.size() < id.N) {
-            final int xt = rnd.nextInt(MAX_X + 1);
-            final int yt = rnd.nextInt(MAX_Y + 1);
-            Pair<Integer,Integer> p = Pair.of(xt, yt);
-            if (used.contains(p)) continue;
-            id.x[used.size()] = xt;
-            id.y[used.size()] = yt;
-            used.add(p);
-        }
-
-        return id;
-    }
-
-    private static InputData type4 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 4);
-        
-        Set<Pair<Integer,Integer>> used = new HashSet<>();
-        while (used.size() < id.N) {
-            final int xt = rnd.nextInt(MAX_X + 1);
-            final int yt = rnd.nextInt(MAX_Y + 1);
-            Pair<Integer,Integer> p = Pair.of(xt, yt);
-            if (used.contains(p)) continue;
-            id.x[used.size()] = xt;
-            id.y[used.size()] = yt;
-            used.add(p);
-        }
-
-        return id;
-    }
-
-    private static InputData type5 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 5);
-        
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (i == j) {
-                    id.c[i][j] = 0;
-                }
-                else {
-                    if (id.c[j][i] > 0) {
-                        id.c[i][j] = id.c[j][i];
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            Set<Pair<Integer,Integer>> used = new HashSet<>();
+            while (used.size() < id.N) {
+                final int xt = rnd.nextInt(MAX_X + 1);
+                final int yt = rnd.nextInt(MAX_Y + 1);
+                Pair<Integer,Integer> p = Pair.of(xt, yt);
+                if (used.contains(p)) continue;
+                id.x[used.size()] = xt;
+                id.y[used.size()] = yt;
+                used.add(p);
+            }
+            break;
+        case 5:
+        case 7:
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (i == j) {
+                        id.c[i][j] = 0;
                     }
                     else {
-                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                        if (id.c[j][i] > 0) {
+                            id.c[i][j] = id.c[j][i];
+                        }
+                        else {
+                            id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                        }
                     }
                 }
             }
-        }
-
-        return id;
-    }
-
-    private static InputData type6 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 6);
-        
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (i == j) {
-                    id.c[i][j] = 0;
-                }
-                else {
-                    do {
-                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
-                    } while (id.c[i][j] == id.c[j][i]);
-                }
-            }
-        }
-
-        return id;
-    }
-
-    private static InputData type7 (
-        final long seed)
-        throws Exception
-    {
-        SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-        rnd.setSeed(seed);
-
-        final int N = rnd.nextInt(MAX_N - MIN_N + 1) + MIN_N;
-        InputData id = new InputData(N, 7);
-        
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (i == j) {
-                    id.c[i][j] = 0;
-                }
-                else {
-                    if (id.c[j][i] > 0) {
-                        id.c[i][j] = id.c[j][i];
+            break;
+        case 6:
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (i == j) {
+                        id.c[i][j] = 0;
                     }
                     else {
-                        id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                        do {
+                            id.c[i][j] = rnd.nextInt(MAX_C - MIN_C + 1) + MIN_C;
+                        } while (id.c[i][j] == id.c[j][i]);
                     }
                 }
             }
+            break;
+        default:
+            System.err.println("Invalid scoring type: " + id.type);
+            throw new Exception();
         }
 
         return id;

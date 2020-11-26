@@ -43,114 +43,55 @@ public class Checker
             return -1.0;
         }
 
+        double score = 0.0;
+
         switch (id.type) {
-            case 1: return type1(id, od);
-            case 2: return type2(id, od);
-            case 3: return type3(id, od);
-            case 4: return type4(id, od);
-            case 5: return type5(id, od);
-            case 6: return type6(id, od);
-            case 7: return type7(id, od);
-            default:
-                System.err.println("Invalid scoring type: " + id.type);
-                throw new Exception();
-        }
-    }
-
-    private static double type1 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
-            double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
-            score += Math.sqrt(dx * dx + dy * dy);
-        }
-
-        return score;
-    }
-
-    private static double type2 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
-            double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
-            score += Math.abs(dx) + Math.abs(dy);
-        }
-
-        return score;
-    }
-
-    private static double type3 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
-            double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
-            score += Math.max(Math.abs(dx), Math.abs(dy));
-        }
-
-        return score;
-    }
-
-    private static double type4 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
-            double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
-            score = Math.max(score, Math.sqrt(dx * dx + dy * dy));
-        }
-
-        return score;
-    }
-
-    private static double type5 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            score += id.c[od.v[i]][od.v[(i + 1) % id.N]];
-        }
-
-        return score;
-    }
-
-    private static double type6 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            score += id.c[od.v[i]][od.v[(i + 1) % id.N]];
-        }
-
-        return score;
-    }
-
-    private static double type7 (
-        final InputData id,
-        final OutputData od)
-        throws Exception
-    {
-        double score = 0.0;
-        for (int i = 0; i < id.N; i++) {
-            score = Math.max(score, id.c[od.v[i]][od.v[(i + 1) % id.N]]);
+        case 1:
+            for (int i = 0; i < id.N; i++) {
+                double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
+                double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
+                score += Math.sqrt(dx * dx + dy * dy);
+            }
+            break;
+        case 2:
+            for (int i = 0; i < id.N; i++) {
+                double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
+                double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
+                score += Math.abs(dx) + Math.abs(dy);
+            }
+            break;
+        case 3:
+            for (int i = 0; i < id.N; i++) {
+                double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
+                double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
+                score += Math.max(Math.abs(dx), Math.abs(dy));
+            }
+            break;
+        case 4:
+            for (int i = 0; i < id.N; i++) {
+                double dx = id.x[od.v[i]] - id.x[od.v[(i + 1) % id.N]];
+                double dy = id.y[od.v[i]] - id.y[od.v[(i + 1) % id.N]];
+                score = Math.max(score, Math.sqrt(dx * dx + dy * dy));
+            }
+            break;
+        case 5:
+            for (int i = 0; i < id.N; i++) {
+                score += id.c[od.v[i]][od.v[(i + 1) % id.N]];
+            }
+            break;
+        case 6:
+            for (int i = 0; i < id.N; i++) {
+                score += id.c[od.v[i]][od.v[(i + 1) % id.N]];
+            }
+            break;
+        case 7:
+            for (int i = 0; i < id.N; i++) {
+                score = Math.max(score, id.c[od.v[i]][od.v[(i + 1) % id.N]]);
+            }
+            break;
+        default:
+            System.err.println("Invalid scoring type: " + id.type);
+            throw new Exception();
         }
 
         return score;
